@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <title> Sign Up </title>
+</head>
+<body>
+    
+    <form method="post" enctype="multipart/form-data" style="text-align: center;">
+        {% csrf_token %}
+
+        <h2> Crear Perfil </h2>
+
+        <div class="form-columns">
+            <!-- Columna 1 -->
+            <div class="form-group">
+                <label for="id_first_name">Nombres:</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_last_name">Apellidos:</label>
+                {{ form.last_name }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_fecha_nacimiento">Fecha de Nacimiento:</label>
+                {{ form.fecha_nacimiento }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_documento">Tipo de Documento:</label>
+                {{ form.documento }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_num_document">Número de Documento:</label>
+                {{ form.num_document }}
+            </div>
+            
+            <!-- Columna 2 -->
+            <div class="form-group">
+                <label for="id_celular">Celular:</label>
+                {{ form.celular }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_username">Nombre de Usuario:</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_email">Correo Electrónico:</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password1">Contraseña:</label>
+                {{ form.password1 }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password2">Confirmar Contraseña:</label>
+                {{ form.password2 }}
+            </div>
+            
+            <!-- Campo de foto ocupa ambas columnas -->
+            <div class="form-group form-full-width">
+                <label for="id_foto">Foto de Perfil:</label>
+                {{ form.foto }}
+            </div>
+        </div>
+        
+        <button type="submit">Registrarse</button>
+        
+        <a href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
+
+    </form>
+
+</body>
+</html>

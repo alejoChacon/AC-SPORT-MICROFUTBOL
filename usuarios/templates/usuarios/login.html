@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title> Login </title>
+</head>
+<body>
+    
+    <form method="post" style="text-align: center;">
+        {% csrf_token %}
+
+        <h1> Login </h1>
+
+        {{form.as_p}}
+
+        <button type="submit"> Iniciar Sesion </button> <br>
+
+        <a href="{% url 'usuario:signup' %}"> No tienes un perfil registrado </a>
+    </form>
+
+</body>
+</html>

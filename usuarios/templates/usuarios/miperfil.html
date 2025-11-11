@@ -1,0 +1,75 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
+
+<main class="app-main">
+    <!-- PERFIL PRINCIPAL -->
+    <section class="perfil-header">
+        <div class="perfil-avatar">
+            {% if usuario.foto %}
+                <img src="{{ usuario.foto.url }}" alt="Foto de perfil">
+            {% else %}
+                <div class="no-avatar">⚽</div>
+            {% endif %}
+        </div>
+
+        <div class="perfil-info">
+            <h1>{{ user.first_name|default:"Jugador" }} {{ user.last_name }}</h1>
+            <p class="perfil-meta">
+                {{ usuario.localidad|default:"Charalá" }} · {{ user.profile.rol|default:"Jugador" }}
+            </p>
+
+            <div class="perfil-actions">
+                <button class="btn-main">Editar perfil</button>
+                <button class="btn-secondary">Cerrar sesión</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ESTADÍSTICAS PERSONALES -->
+    <section class="perfil-stats">
+        <h2>Estadísticas personales</h2>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Goles</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Asistencias</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Partidos jugados</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Tarjetas</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- INFORMACIÓN DE JUGADOR -->
+    <section class="perfil-detalle">
+        <h2>Detalles del jugador</h2>
+        <ul class="perfil-datos">
+            <li><strong>Posición:</strong> {{ usuario.get_posicion_display|default:"Sin definir" }}</li>
+            <li><strong>Número:</strong> {{ usuario.numero_camisa|default:"—" }}</li>
+            <li><strong>Equipo:</strong> {{ usuario.equipo|default:"Sin equipo" }}</li>
+            <li><strong>Documento:</strong> {{usuario.get_documento_display}} </li>
+            <li><strong>Numero del Documento:</strong> {{usuario.num_document}} </li>
+            <li><strong>Celular:</strong> {{usuario.celular}} </li>
+            <li><strong>Correo:</strong> {{ user.email }}</li>
+        </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="inicio-footer">
+        © 2025 Torneo Cuna de la Libertad · Desarrollado por <strong>Chacón</strong> ⚽
+    </footer>
+</main>
+
+{% endblock %}

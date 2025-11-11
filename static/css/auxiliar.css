@@ -1,0 +1,179 @@
+.torneo-detalle-container {
+  padding: 20px;
+  color: #f1f1f1;
+}
+
+.torneo-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #0d1f1c;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  box-shadow: 0 0 15px rgba(0, 255, 140, 0.2);
+}
+
+.torneo-banner {
+  width: 40%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.torneo-info h1 {
+  color: #ffe47a;
+  font-size: 1.8em;
+}
+
+.torneo-datos {
+  display: flex;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.dato {
+  background: #132822;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.9em;
+}
+
+.torneo-submenu {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.submenu-btn {
+  background: #0e1c19;
+  color: #f1f1f1;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submenu-btn.active {
+  background: linear-gradient(90deg, #00ff9d, #00c9ff);
+  color: #0a0a0a;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+  background: #0f1f1d;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 10px rgba(0,255,150,0.15);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.grupo-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.grupo-btn {
+  background: #0b1a16;
+  color: #ddd;
+  border: 1px solid #00c28a;
+  border-radius: 10px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.grupo-btn.active {
+  background: #00ff9d;
+  color: #0b1a16;
+  font-weight: bold;
+}
+
+.tabla-posiciones {
+  display: none;
+}
+
+.tabla-posiciones.active {
+  display: block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+th, td {
+  text-align: center;
+  padding: 10px;
+}
+
+thead {
+  background: #132822;
+  color: #ffe47a;
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+
+tbody tr:hover {
+  background: rgba(0,255,150,0.1);
+}
+
+/* === PARTIDOS === */
+.partidos-grid, .resultados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.resultados-grid.active {
+  display: block;
+}
+
+.partido-card, .resultado-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  color: #fff;
+  transition: 0.25s;
+}
+
+.equipos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.equipo img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.vs {
+  color: #FFD54F;
+  font-weight: 700;
+}
+
+.marcador {
+  color: #FFD54F;
+  font-weight: bold;
+  margin: 0 0.4rem;
+}
+
+.info p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}

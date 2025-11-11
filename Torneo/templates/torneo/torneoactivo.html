@@ -1,0 +1,210 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/torneoactivo.css' %}">
+
+<div class="torneo-detalle">
+
+  <!-- HEADER DEL TORNEO -->
+  <div class="torneo-header activo">
+    <div class="torneo-banner" style="background-image: url('{{ torneo.logo_torneo.url }}');">
+      <div class="torneo-overlay"></div>
+      <div class="torneo-banner-content">
+        <div class="estado-badge">🏆 {{ torneo.nombre }}</div>
+        <h1 class="titulo-torneo">Torneo en curso</h1>
+        <p class="subtitulo">Organizado por <strong>Chacón</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFORMACIÓN GENERAL -->
+  <div class="torneo-info-cards">
+    <div class="info-card">
+      <div class="icon">📅</div>
+      <div class="text">
+        <h4>Inicio</h4>
+        <p>{{ torneo.fecha_inicio_torneo|date:"d/m/Y" }}</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="icon">📍</div>
+      <div class="text">
+        <h4>Municipio</h4>
+        <p>{{ torneo.municipio|default:"Charalá" }}</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="icon">👥</div>
+      <div class="text">
+        <h4>Equipos participantes</h4>
+        <p>{{ torneo.equipos_inscritos }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📊 TABLAS DE POSICIONES -->
+  <section class="bloque tablas">
+    <h2>📊 Tablas de posiciones</h2>
+    <div class="grupos-grid">
+      <div class="grupo-card">
+        <h3>Grupo {{ grupo.nombre }}</h3>
+        <table class="tabla-posiciones">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Equipo</th>
+              <th>PTS</th>
+              <th>PJ</th>
+              <th>PG</th>
+              <th>PE</th>
+              <th>PP</th>
+              <th>GF</th>
+              <th>GC</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for grupo in grupoa %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>
+                <img src="{{ grupo.equipo.escudo.url }}" alt="{{ grupo.equipo.nombre }}" />
+                {{ grupo.equipo.nombre }}
+              </td>
+              <td>{{ grupo.puntos }}</td>
+              <td>{{ grupo.partidos_jugados }}</td>
+              <td>{{ grupo.partidos_ganados }}</td>
+              <td>{{ grupo.partidos_empatados }}</td>
+              <td>{{ grupo.partidos_perdidos }}</td>
+              <td>{{ grupo.goles_favor }}</td>
+              <td>{{ grupo.goles_contra }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="panel tabla-posiciones">
+    <h3>📊 Tabla de posiciones Grupo B</h3>
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Equipo</th>
+          <th>PTS</th>
+          <th>PJ</th>
+          <th>PG</th>
+          <th>PE</th>
+          <th>PP</th>
+          <th>GF</th>
+          <th>GC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for grupo in grupob %}
+        <tr>
+          <td> <!-- {{grupo.equipo.nombre}} | --> {{ forloop.counter }}</td>
+          <td>
+            <div class="equipo-cell">
+              <img src="{{ grupo.equipo.escudo.url }}" alt="{{grupo.equipo.nombre}}">
+              <span>{{grupo.equipo.nombre}}</span>
+            </div>
+          </td>
+          <td>{{ grupo.puntos }}</td>
+          <td>{{ grupo.partidos_jugados }}</td>
+          <td>{{ grupo.partidos_ganados }}</td>
+          <td>{{ grupo.partidos_empatados }}</td>
+          <td>{{ grupo.partidos_perdidos }}</td>
+          <td>{{ grupo.goles_favor }}</td>
+          <td>{{ grupo.goles_contra }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🕒 PRÓXIMOS PARTIDOS -->
+  <section class="bloque proximos">
+    <h2>📅 Próximos partidos</h2>
+    <div class="partidos-grid">
+      {% for partido in proximos %}
+      <div class="partido-card">
+        <div class="equipos">
+          <div class="equipo">
+            <img src="{{ partido.equipo_local.escudo.url }}" alt="{{ partido.equipo_local.nombre }}">
+            <span>{{ partido.equipo_local.nombre }}</span>
+          </div>
+          <span class="vs">VS</span>
+          <div class="equipo">
+            <img src="{{ partido.equipo_visitante.escudo.url }}" alt="{{ partido.equipo_visitante.nombre }}">
+            <span>{{ partido.equipo_visitante.nombre }}</span>
+          </div>
+        </div>
+        <div class="info">
+          <p><i class="fas fa-calendar-day"></i> {{ partido.fecha_hora|date:"d/m/Y H:i" }}</p>
+          <p><i class="fas fa-map-marker-alt"></i> {{ partido.cancha }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <p class="sin-datos">No hay próximos partidos programados.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ⚽ RESULTADOS RECIENTES -->
+  <section class="bloque recientes">
+    <h2>⚽ Resultados recientes</h2>
+    <div class="resultados-grid">
+      {% for partido in recientes %}
+      <div class="resultado-card">
+        <div class="equipo">
+          <img src="{{ partido.equipo_local.escudo.url }}" alt="{{ partido.equipo_local.nombre }}">
+          <span>{{ partido.equipo_local.nombre }}</span>
+        </div>
+        <span class="marcador">{{ partido.goles_local }} - {{ partido.goles_visitante }}</span>
+        <div class="equipo">
+          <img src="{{ partido.equipo_visitante.escudo.url }}" alt="{{ partido.equipo_visitante.nombre }}">
+          <span>{{ partido.equipo_visitante.nombre }}</span>
+        </div>
+      </div>
+      {% empty %}
+      <p class="sin-datos">No hay resultados disponibles aún.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 🥇 GOLEADORES DESTACADOS -->
+  <section class="bloque goleadores">
+    <h2>🥇 Goleadores destacados</h2>
+    <table class="tabla-goleadores">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Jugador</th>
+          <th>Equipo</th>
+          <th>Goles</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for jugador in goleadores %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ jugador.get_full_name }}</td>
+          <td>{{ jugador.equipos }}</td>
+          <td>{{ jugador.goles_totales }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="sin-datos">No hay goleadores registrados aún.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/miequipo.css' %}">
+
+<main class="app-main">
+    <!-- ENCABEZADO -->
+    <section class="equipo-header">
+        <div class="equipo-info">
+            <img src="{{equipo.escudo.url}}" alt="Logo equipo" class="equipo-logo">
+            <div>
+                <h1 class="equipo-nombre"> {{equipo.nombre}} </h1> <!-- Torneo Cuna de la Libertad 2025 -->
+                <p class="equipo-torneo">Participando en: <strong> {{request.user.inscripcion.torneo.nombre|default:"No estas participando en ningun torneo"}} </strong></p>
+            </div>
+        </div>
+        <button class="btn-accion">Editar equipo</button>
+    </section>
+
+    <!-- ESTADÍSTICAS DEL EQUIPO -->
+    <section class="equipo-stats">
+        <div class="stat-card">
+            <h3>Partidos Jugados</h3>
+            <p>0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Victorias</h3>
+            <p>0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Derrotas</h3>
+            <p>0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Empates</h3>
+            <p>0</p>
+        </div>
+    </section>
+
+    <!-- INTEGRANTES DEL EQUIPO -->
+    <section class="equipo-integrantes">
+        <div class="integrantes-header">
+            <h2>Integrantes del Equipo</h2>
+            {% if request.user == equipo.capitan %}
+            <button class="btn-accion">Agregar jugador</button>
+            {% endif %}
+        </div>
+
+        <div class="integrantes-grid">
+
+            {% for jugador in equipo.jugadores.all %}
+            <div class="jugador-card">
+                <img src="{{jugador.foto.url}}" alt="Jugador" class="jugador-foto">
+                <h3 class="jugador-nombre"> {{jugador.get_full_name}} </h3>
+                <p class="jugador-posicion"> {{jugador.get_posicion_display}} </p>
+            </div>
+            {% empty %}
+            <p class="sin-jugadores">Aún no hay jugadores registrados en el equipo.</p>
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- LISTA DE PARTIDOS -->
+    <section class="equipo-partidos">
+        <div class="partidos-header">
+            <h2>Calendario de Partidos</h2>
+            <div class="filtros">
+                <button class="filtro activo" data-filter="proximos">Próximos</button>
+                <button class="filtro" data-filter="anteriores">Anteriores</button>
+            </div>
+        </div>
+
+        <table class="tabla-partidos">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Rival</th>
+                    <th>Resultado</th>
+                    <th>Cancha</th>
+                    <th>Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>—</td>
+                    <td>No hay partidos registrados.</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- BLOQUE LATERAL DE INFORMACIÓN -->
+    <section class="equipo-lateral">
+        <h2>Datos del Equipo</h2>
+        <ul>
+            <li><strong>Capitán:</strong> {{ equipo.capitan|default:"Sin asignar" }}</li>
+            <li><strong>Jugadores:</strong> {{jugadores}} </li>
+            <li><strong>Ubicación:</strong> {{equipo.municipio|default:"You are not inscribed in any team"}} </li>
+        </ul>
+    </section>
+
+    <footer class="inicio-footer">
+        © 2025 Torneo Cuna de la Libertad · Plataforma de <strong>Chacón</strong> ⚽
+    </footer>
+</main>
+{% endblock %}

@@ -1,0 +1,220 @@
+/* =====================================================
+   ESTILOS ESPECÍFICOS — INICIO
+   ===================================================== */
+
+.inicio-welcome {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcome-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.welcome-subtitle {
+    color: var(--muted);
+    margin: 10px 0 20px;
+    line-height: 1.6;
+}
+
+.btn-main {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-main:hover {
+    background: var(--accent);
+    color: #07120c;
+}
+
+/* PANEL DE RESUMEN */
+.inicio-panels {
+    margin-top: 20px;
+}
+
+.inicio-panels h2 {
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 18px;
+}
+
+.inicio-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.inicio-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: var(--transition);
+}
+
+.inicio-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+}
+
+.inicio-card .icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+
+/* ANUNCIOS */
+.inicio-anuncios {
+    margin-top: 40px;
+}
+
+.inicio-anuncios h2 {
+    color: var(--accent);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.anuncio-box {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.anuncio-box strong {
+    color: var(--accent);
+}
+
+/* FOOTER */
+.inicio-footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ---------- CARD DE EQUIPO ---------- */
+.equipo-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.equipo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* HEADER */
+.equipo-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.4rem;
+}
+
+.escudo-equipo {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
+
+.equipo-info h3 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    font-weight: 800;
+}
+.equipo-info p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* DETALLE */
+.equipo-detalle {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: .8rem;
+    border-radius: 10px;
+}
+
+.dato {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+}
+
+.label {
+    color: var(--muted);
+}
+.valor {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.valor.activo {
+    color: #00e676;
+}
+.valor.inactivo {
+    color: #ff5252;
+}
+
+/* ACCIONES */
+.equipo-actions {
+    margin-top: 1.4rem;
+    text-align: center;
+}
+
+.equipo-actions .btn-primary {
+    background: var(--accent);
+    color: #07120c;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.equipo-actions .btn-primary:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* SIN EQUIPO */
+.sin-equipo {
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.sin-equipo .icono {
+    font-size: 2rem;
+    margin-bottom: .5rem;
+    color: var(--muted);
+}
+
+.torneos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}

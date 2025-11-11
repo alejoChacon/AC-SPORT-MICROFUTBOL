@@ -1,0 +1,96 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/auxiliar.css' %}">
+
+<div class="torneo-detalle-container">
+
+    <!-- 🏆 Encabezado del Torneo -->
+    <div class="torneo-header">
+        <div class="torneo-banner" style="background-image: url('{{ torneo.logo_torneo.url }}');"></div>
+        <div class="torneo-info">
+            <h1>{{ torneo.nombre }}</h1>
+            <p class="organizador">Organizado por <strong>{{ torneo.representante }}</strong></p>
+            <div class="torneo-datos">
+                <div class="dato"><i class="fa-solid fa-calendar-day"></i> Inicio: {{ torneo.fecha_inicio_torneo|date:"d/M/Y"}} </div>
+                <div class="dato"><i class="fa-solid fa-map-marker-alt"></i> Municipio: {{ torneo.municipio|default:'Charalá' }}</div>
+                <div class="dato"><i class="fa-solid fa-users"></i> Equipos: {{ torneo.equipos_inscritos }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔹 Submenú -->
+    <div class="torneo-submenu">
+        <button class="submenu-btn active" data-tab="posiciones">🏅 Posiciones</button>
+        <button class="submenu-btn" data-tab="resultados">⚽ Resultados</button>
+        <button class="submenu-btn" data-tab="partidos">📅 Partidos</button>
+        <button class="submenu-btn" data-tab="goleadores">🎯 Máx. goleadores</button>
+    </div>
+
+    <!-- 🧾 Contenido de pestañas -->
+    <div class="tab-content active" id="posiciones">
+
+        <!-- Selector de Grupo -->
+        <div class="grupo-selector">
+            {% for grupo in grupos %}
+            <button class="grupo-btn {% if forloop.first %}active{% endif %}" data-grupo="{{grupo.nombre}}">
+                Grupo {{grupo.nombre}}
+            </button>
+            {% endfor %}
+        </div>
+
+        <!-- Tabla por medio de Ajax -->
+        <div id="tabla-ajax" class="tabla-posiciones active"></div>
+
+    </div>
+
+    <!-- Otras pestañas (vacías por ahora) -->
+    <div class="tab-content" id="resultados">
+
+        <!-- Selector de Grupo -->
+        <div class="grupo-selector">
+            {% for grupo in grupos %}
+            <button class="grupo-btn {% if forloop.first %}active{% endif %}" data-grupo="{{grupo.nombre}}">
+                Grupo {{grupo.nombre}}
+            </button>
+            {% endfor %}
+        </div>
+
+        <!-- Resultado por medio de Ajax -->
+        <div id="ajax-resultados" class="resultados-grid"></div>
+
+    </div>
+
+
+    <div class="tab-content" id="partidos">
+
+        <!-- Selector de Grupo -->
+        <div class="grupo-selector">
+            {% for grupo in grupos %}
+            <button class="grupo-btn {% if forloop.first %}active{% endif %}" data-grupo="{{grupo.nombre}}">
+                Grupo {{grupo.nombre}}
+            </button>
+            {% endfor %}
+        </div>
+
+        <div id="ajax-partidos" class="partidos-grid"></div>
+
+    </div>
+
+
+    <div class="tab-content" id="goleadores">
+        <p>Aquí se mostrará el ranking de goleadores.</p>
+    </div>
+
+</div>
+
+<script> 
+    torneo_pk = {{torneo.pk}} 
+</script>
+
+<script src="{% static 'js/auxiliar.js' %}"></script>
+
+{% endblock %}

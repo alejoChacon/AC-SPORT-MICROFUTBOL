@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AC Sport — Plataforma</title>
+    <link rel="stylesheet" href="{% static 'css/plataforma.css' %}">
+</head>
+
+<body>
+    <div id="app">
+        <div class="card" role="application" aria-label="Plataforma Torneo Charalá">
+            <!-- HEADER -->
+            {% include 'header.html' %}
+            
+            <div class="layout">
+                <!-- SIDEBAR -->
+                {% include 'sidebar.html' %}
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

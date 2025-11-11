@@ -1,0 +1,77 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/torneo2.css' %}">
+
+<main class="app-main">
+    <div class="main-top">
+        <h1 class="page-title">Torneos Organizados</h1>
+        <div class="filter-row">
+            <select class="year-select">
+                <option selected>Todos los años</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- TORNEOS GRID -->
+    <section class="torneos-section">
+        <div class="torneos-grid">
+            {% for torneo in torneos %}
+            <div class="torneo-card">
+               <div class="torneo-cover" style="background-image: url('{{torneo.logo_torneo.url}}')"></div>
+                <div class="torneo-body">
+                    <h3> {{torneo.nombre}} </h3>
+                    <p> Organizador {{torneo.representante}} · Charalá, Santander </p>
+                    
+                    {% if torneo.estado == "finalizado" %}
+                    <div class="torneo-info">
+                        <span class="estado cerrado">Finalizado</span>
+                        <span class="fecha">Jun - Oct 2023</span>
+                    </div>
+                    <p>Participaron {{torneo.equipos_inscritos}} equipos · Charalá</p>
+                    <div class="torneo-actions">
+                        <button class="btn-primary">Ver Resultados</button>
+                        <button class="btn-secondary">Estadísticas</button>
+                    </div>
+                    {% elif torneo.estado == "en_curso" %}
+                    <div class="torneo-info">
+                        <span class="estado activo">Activo</span>
+                        <span class="fecha">Inicio: {{torneo.fecha_inicio_torneo|date:'d/M/Y'}} </span>
+                    </div>
+                    <div class="torneo-actions">
+                        <button class="btn-primary"> <a href="{% url 'torneo:torneoactivo' torneo.pk %}"> Ver Detalles </a> </button>
+                        <button class="btn-secondary">Tabla</button>
+                    </div>
+                    {% elif torneo.estado == "programado" %}
+                    <div class="torneo-info">
+                        <span class="estado activo"> Programado </span>
+                        <span class="fecha"> Inicio: {{torneo.fecha_inicio_torneo|date:'d/M/Y'}} </span>
+                    </div>
+                    <div class="torneo-actions">
+                        <button class="btn-primary">Ver Detalles</button>
+                        <button class="btn-secondary">Estadísticas</button>
+                    </div>
+                    {% elif torneo.estado == "inscripcion" %}
+                    <div class="torneo-info">
+                        <span class="estado activo"> Inscripcion </span>
+                        <span class="fecha">Inicio: {{torneo.fecha_inicio_torneo|date:'d/M/Y'}} </span>
+                    </div>
+                    <div class="torneo-actions">
+                        <button class="btn-primary"> <a href="{% url 'torneo:detalletorneo' torneo.pk %}"> Ver Detalles </a> </button>
+                        <button class="btn-secondary">Tabla</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}            
+        </div>
+    </section>
+
+</main>
+
+{% endblock %}

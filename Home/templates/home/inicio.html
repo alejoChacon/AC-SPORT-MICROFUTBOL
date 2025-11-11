@@ -1,0 +1,99 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+
+<main class="app-main">
+  <!-- SECCIÓN DE BIENVENIDA -->
+  <section class="inicio-welcome">
+    <h1 class="welcome-title">¡Bienvenido, {{ usuario.first_name|default:"Jugador" }}!</h1>
+    <p class="welcome-subtitle">
+      Plataforma oficial del <strong>Torneo Cuna de la Libertad</strong><br>
+      Organizado por <strong>Chacón</strong>
+    </p>
+    <button class="btn-main">Explorar torneos</button>
+  </section>
+
+  <!-- SECCIÓN DE RESUMEN -->
+  <section class="inicio-panels">
+    <h2>Resumen de tu cuenta</h2>
+    <div class="inicio-cards">
+      <div class="inicio-card">
+        <div class="icon">🏆</div>
+        <h3>Torneos</h3>
+        <div class="torneos-grid">
+          {% for torneo in torneos %}
+          <div class="info-block">
+            <h3>{{ torneo.nombre }}</h3>
+            <p>📅 {{ torneo.fecha_inicio_torneo|date:"d/m/Y" }}</p>
+            <p class="torneo-estado {% if torneo.estado == 'inscripcion' %}inscripcion{% endif %}">
+              {{ torneo.estado }}
+            </p>
+          </div>
+          {% empty %}
+          <p>No estás inscrito en ningún torneo actualmente.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="inicio-card equipo-card">
+        {% if usuario.equipos %}
+        <div class="equipo-header">
+          <img src="{{ usuario.equipos.escudo.url }}" alt="Escudo del equipo" class="escudo-equipo">
+          <div class="equipo-info">
+            <h3 class="equipo-nombre">{{ usuario.equipos.nombre }}</h3>
+            <p class="equipo-municipio">🏙️ {{ usuario.equipos.municipio }}</p>
+            <p class="equipo-fecha">Fundado: {{ usuario.equipos.fecha_creacion|date:'d/m/Y' }}</p>
+          </div>
+        </div>
+
+        <div class="equipo-detalle">
+          <div class="dato">
+            <span class="label">Jugadores registrados:</span>
+            <span class="valor">{{ usuario.equipos.jugadores.count }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Estado del equipo:</span>
+            <span class="valor {% if usuario.equipos.activo %}activo{% else %}inactivo{% endif %}">
+              {% if usuario.equipos.activo %}Activo{% else %}Inactivo{% endif %}
+            </span>
+          </div>
+        </div>
+
+        <div class="equipo-actions">
+          <a href="{% url 'miequipo:miequipo' %}" class="btn-primary">Ver detalles</a>
+        </div>
+
+        {% else %}
+        <div class="sin-equipo">
+          <div class="icono">⚠️</div>
+          <p>No perteneces a ningún equipo todavía.</p> <br> <!--
+          <a href="{#}" class="btn-primary">Crear o unirse a un equipo</a> -->
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="inicio-card">
+        <div class="icon">📈</div>
+        <h3>Estadísticas</h3>
+        <p>Aún no tienes registros de participación.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN DE ANUNCIOS -->
+  <section class="inicio-anuncios">
+    <h2>Anuncios del Torneo</h2>
+    <div class="anuncio-box">
+      <p><strong>No hay anuncios disponibles.</strong></p>
+      <span>Pronto se publicarán las fechas oficiales del Torneo Cuna de la Libertad.</span>
+    </div>
+  </section>
+
+  <footer class="inicio-footer">
+    © 2025 Torneo Cuna de la Libertad · Desarrollado por <strong>Chacón</strong> ⚽
+  </footer>
+</main>
+{% endblock %}

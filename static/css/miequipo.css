@@ -1,0 +1,226 @@
+/* ===========================================
+   SECCIÓN MI EQUIPO
+   =========================================== */
+
+.equipo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.equipo-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.equipo-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+}
+
+.equipo-nombre {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.equipo-torneo {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.btn-accion {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-accion:hover {
+    background: var(--accent);
+    color: #07120c;
+}
+
+/* ESTADÍSTICAS */
+.equipo-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: var(--radius);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.stat-card h3 {
+    color: var(--accent);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* TABLA DE PARTIDOS */
+.equipo-partidos {
+    margin-bottom: 40px;
+}
+
+.partidos-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.filtros {
+    display: flex;
+    gap: 10px;
+}
+
+.filtro {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filtro.activo, .filtro:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.tabla-partidos {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.tabla-partidos th, .tabla-partidos td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.tabla-partidos th {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* BLOQUE LATERAL */
+.equipo-lateral {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.equipo-lateral h2 {
+    color: var(--accent);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.equipo-lateral ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--muted);
+}
+
+.equipo-lateral li {
+    margin-bottom: 6px;
+}
+
+/* ===========================================
+   INTEGRANTES DEL EQUIPO
+   =========================================== */
+
+.equipo-integrantes {
+    margin-bottom: 40px;
+}
+
+.integrantes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.integrantes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.jugador-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: var(--radius);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: var(--transition);
+}
+
+.jugador-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.jugador-foto {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid var(--accent);
+}
+
+.jugador-nombre {
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.jugador-posicion {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.sin-jugadores {
+    color: var(--muted);
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 20px 0;
+}

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'img/escudocharala.jpg' %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> AC Micro Charalá </title>
+    <link rel="stylesheet" href="{% static 'css/pagina_inicio.css' %}">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">A.C (Chacon)</div>
+                <nav>
+                    <ul>
+                        <li><a href="#inicio">INICIO</a></li>
+                        <li><a href="#torneo">TORNEO</a></li>
+                        <li><a href="#noticias">NOTICIAS</a></li>
+                        <li><a href="#premios">PREMIOS</a></li>
+                        <li><a href="#inscripciones">INSCRIPCIONES</a></li>
+                        <li><a href="{% url 'login' %}">LOGIN PARA JUGADORES</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>TORNEO CUNA DE LA LIBERTAD</h1>
+            <p>La competencia más esperada del año está por comenzar. Prepárate para vivir la emoción del microfútbol.</p>
+            <div class="hero-buttons">
+                <a href="#inscripciones" class="btn btn-primary">Información de Inscripciones</a>
+                <a href="#torneo" class="btn btn-secondary">Conoce el Torneo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="countdown" id="countdown">
+        <div class="container">
+            <h3>LAS INSCRIPCIONES INICIAN EN:</h3>
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <span class="countdown-number">15</span>
+                    <span class="countdown-label">DÍAS</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">08</span>
+                    <span class="countdown-label">HORAS</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number">30</span>
+                    <span class="countdown-label">MINUTOS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOURNAMENT INFO -->
+    <section id="torneo">
+        <div class="container">
+            <h2 style="color: aliceblue;">SOBRE EL TORNEO</h2>
+            <p class="section-subtitle">Una competencia diseñada para jugadores apasionados</p>
+            
+            <div class="info-cards">
+                <div class="info-card">
+                    <!-- <div>🎯</div> -->
+                    <h3>Formato Competitivo</h3>
+                    <p>Sistema de liga + eliminatorias. Mínimo 8 partidos por equipo garantizados.</p>
+                </div>
+                <div class="info-card">
+                    <!-- <div>⚽</div> --> 
+                    <h3>Canchas Disponibles</h3>
+                    <!--<p>Instalaciones de primer nivel con superficie sintética e iluminación profesional.</p> -->
+                    <p> 1) Polideportivo Central </p>
+                    <p> 2) Coliseo Principal, instalaciones deportivas Apicola </p>
+                </div>
+                <div class="info-card">
+                    <!-- <div>🏅</div> -->
+                    <h3>Árbitros Certificados y no Certificados</h3>
+                    <p> 1) Cuerpo arbitral profesional para garantizar fair play en todos los encuentros</p>
+                    <p> 2) Arbitro local para equipos que lo deseen </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWS SECTION -->
+    <section id="noticias">
+        <div class="container">
+            <h2>ÚLTIMAS NOTICIAS</h2>
+            <p class="section-subtitle">Mantente informado sobre el torneo</p>
+            
+            <div class="news-grid">
+                <div class="news-card">
+                    <span class="news-date">15 DICIEMBRE 2024</span>
+                    <h3>Inscripciones Abiertas Próximamente</h3>
+                    <p>Estamos ultimando los detalles para el proceso de inscripciones. En los próximos días anunciaremos fechas y requisitos.</p>
+                    <a href="#" class="read-more">Leer más →</a>
+                </div>
+                
+                <div class="news-card">
+                    <span class="news-date">10 DICIEMBRE 2024</span>
+                    <h3>Nuevas Instalaciones Confirmadas</h3>
+                    <p>El torneo se llevará a cabo en el renovado Centro Deportivo Municipal con canchas de última generación.</p>
+                    <a href="#" class="read-more">Leer más →</a>
+                </div>
+                
+                <div class="news-card">
+                    <span class="news-date">5 DICIEMBRE 2024</span>
+                    <h3>Sistema de Premios Anunciado</h3>
+                    <p>La premiación se determinará según el número de equipos participantes. Más equipos = mayor premio total.</p>
+                    <a href="#" class="read-more">Leer más →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRIZE SYSTEM -->
+    <section class="prize-system" id="premios">
+        <div class="container">
+            <h2>SISTEMA DE PREMIOS</h2>
+            <p class="section-subtitle">La premiación se define según la cantidad de equipos inscritos</p>
+            
+            <div class="prize-cards">
+                <div class="prize-card">
+                    <h3>20-25 Equipos</h3>
+                    <p>Pozo de Premio: $10,000,000</p>
+                    <p>1° Lugar: $6,000,000</p>
+                    <p>2° Lugar: $3,500,000</p>
+                    <p>3° Lugar: $1,500,000</p>
+                </div>
+                
+                <div class="prize-card">
+                    <h3>15-20 Equipos</h3>
+                    <p>Pozo de Premio: $8,000,000</p>
+                    <p>1° Lugar: $5,000,000</p>
+                    <p>2° Lugar: $2,000,000</p>
+                    <p>3° Lugar: $1,000,000</p>
+                </div>
+                
+                <div class="prize-card">
+                    <h3>15 Equipos</h3>
+                    <p>Pozo de Premio: $6,000,000</p>
+                    <p>1° Lugar: $4,000,000</p>
+                    <p>2° Lugar: $1,500,000</p>
+                    <p>3° Lugar: $500,000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGISTRATION STEPS -->
+    <section id="inscripciones">
+        <div class="container">
+            <h2>¿CÓMO PARTICIPAR?</h2>
+            <p class="section-subtitle">El proceso de inscripción es simple y rápido</p>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Espera Anuncio</h3>
+                    <p>Las inscripciones se anunciarán próximamente</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Forma tu Equipo</h3>
+                    <p>Reúne entre 5-10 jugadores por equipo</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Completa Registro</h3>
+                    <p>Llena el formulario online con datos del equipo</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Confirma Pago</h3>
+                    <p>Realiza el pago de inscripción para asegurar tu cupo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPONSORS -->
+    <section class="sponsors">
+        <div class="container">
+            <h2>PATROCINADORES OFICIALES</h2>
+            <p class="section-subtitle">Empresas que apoyan el deporte local</p>
+            
+            <div class="sponsor-grid">
+                <div class="sponsor-item">DEPORTES XYZ</div>
+                <div class="sponsor-item">ENERGY DRINK</div>
+                <div class="sponsor-item">MARCA LOCAL</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta">
+        <div class="container">
+            <h2>¿TE GUSTARÍA PARTICIPAR?</h2>
+            <p>Mantente atento a nuestras redes sociales para el anuncio oficial de inscripciones.</p>
+            <a href="#contacto" class="btn" style="background: white; color: var(--primary); font-size: 1.1em; padding: 16px 40px;">
+                CONTACTARNOS
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">Micro Stars</div>
+                    <p>Organizadores del torneo de microfútbol más emocionante de la región.</p>
+                    <div class="social-links">
+                        <a href="#">📷 Instagram</a>
+                        <a href="#">👤 Facebook</a>
+                        <a href="#">💬 WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#torneo">Formato del Torneo</a></li>
+                        <li><a href="#premios">Sistema de Premios</a></li>
+                        <li><a href="#reglamento">Reglamento</a></li>
+                        <li><a href="#faq">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contacto</h4>
+                    <p>📧 agudelochacon@gmail.com</p>
+                    <p>📞 +57 311 207 4743</p>
+                    <p>📍 Por confirmar</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Torneo Micro. Próximamente.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

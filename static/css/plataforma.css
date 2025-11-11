@@ -1,0 +1,418 @@
+/* =====================================================
+   PLATAFORMA CHARALÁ · MICROFÚTBOL — FASE 1 UI PRO
+   ===================================================== */
+
+/* ---------------------------
+   VARIABLES Y RESET
+   --------------------------- */
+:root {
+    --bg: #081816;
+    --panel: #0f2320;
+    --panel-2: #0b201d;
+    --accent: #cba241; /* dorado refinado */
+    --text: #f6f3ea;
+    --muted: #9fb39e;
+    --card-bg: linear-gradient(180deg, rgba(10, 36, 30, 0.95), rgba(6, 24, 20, 0.95));
+    --glass: rgba(255, 255, 255, 0.03);
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(3, 8, 6, 0.6);
+    --transition: all 0.25s ease;
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+}
+
+body {
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(4, 18, 15, 0.7), transparent 10%),
+        radial-gradient(900px 400px at 90% 90%, rgba(6, 28, 23, 0.6), transparent 10%),
+        var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.4;
+    padding: 28px;
+}
+
+/* ---------------------------
+   CONTENEDOR PRINCIPAL
+   --------------------------- */
+.card {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(9, 24, 20, 0.65), rgba(6, 18, 14, 0.65));
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: var(--transition);
+}
+
+/* ---------------------------
+   HEADER
+   --------------------------- */
+header.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 26px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background: linear-gradient(180deg, rgba(16, 40, 35, 0.35), rgba(11, 30, 26, 0.06));
+    backdrop-filter: blur(10px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--accent);
+    box-shadow: inset 0 -6px 18px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.brand .logo:hover {
+    transform: rotate(6deg) scale(1.05);
+    box-shadow: 0 0 12px rgba(203, 162, 65, 0.4);
+}
+
+.brand .title {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+}
+
+.brand .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.4px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.year-badge {
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.role-btn {
+    padding: 7px 12px;
+    border-radius: 10px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    cursor: default;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ---------------------------
+   LAYOUT (SIDEBAR + MAIN)
+   --------------------------- */
+.layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    padding: 22px;
+}
+
+/* SIDEBAR */
+nav.sidebar {
+    background: linear-gradient(180deg, rgba(14, 42, 34, 0.65), rgba(8, 28, 22, 0.65));
+    border-radius: var(--radius);
+    padding: 18px;
+    min-height: 520px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.25);
+    transition: var(--transition);
+}
+
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #163a2f, #0b301f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--text);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.user-info {
+    font-size: 14px;
+}
+
+.user-info .name {
+    font-weight: 700;
+}
+
+.user-info .meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.menu {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.menu button:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    transform: translateX(4px);
+}
+
+.menu button.active {
+    background: linear-gradient(90deg, rgba(22, 58, 47, 0.85), rgba(8, 30, 24, 0.3));
+    color: var(--accent);
+    box-shadow: inset 0 -6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------------------------
+   MAIN CONTENT
+   --------------------------- */
+main.app-main {
+    padding: 8px 6px 36px 6px;
+}
+
+.main-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px 18px 10px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-shadow: 0 0 6px rgba(203, 162, 65, 0.2);
+}
+
+.filter-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.year-select {
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.year-select:hover {
+    background: var(--panel-2);
+}
+
+/* TORNEOS GRID */
+.cards {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.tcard {
+    background: var(--card-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.tcard:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(2, 6, 4, 0.6);
+}
+
+.tcard .cover {
+    height: 170px;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.7);
+    transition: var(--transition);
+}
+
+.tcard:hover .cover {
+    filter: brightness(0.9);
+}
+
+.tcard .body {
+    padding: 14px 16px;
+}
+
+.tcard h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-weight: 800;
+}
+
+.tcard p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.tcard .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #07120c;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background: #d4ad52;
+    box-shadow: 0 0 10px rgba(203, 162, 65, 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* INFO GRID */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.panel {
+    background: var(--panel-2);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: var(--transition);
+}
+
+.panel:hover {
+    border-color: rgba(203, 162, 65, 0.2);
+}
+
+.panel h4 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.mini-list li {
+    list-style: none;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    color: var(--muted);
+    font-weight: 600;
+}
+
+/* ---------------------------
+   RESPONSIVE
+   --------------------------- */
+@media (max-width: 980px) {
+    .layout {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    nav.sidebar {
+        order: 2;
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        overflow: auto;
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    main.app-main {
+        order: 1;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

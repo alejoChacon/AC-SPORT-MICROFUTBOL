@@ -1,0 +1,91 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/detalletorneo.css' %}">
+
+<div class="torneo-detalle">
+
+  <!-- HEADER DEL TORNEO -->
+  <div class="torneo-header">
+    <div class="torneo-cover" style="background-image: url('{{ torneo.logo_torneo.url }}');">
+      <div class="overlay"></div>
+      <div class="header-content">
+        <h1 class="torneo-nombre">{{ torneo.nombre }}</h1>
+        <span class="torneo-estado {% if torneo.estado == 'inscripcion' %}inscripcion{% endif %}">
+          {{ torneo.estado }}
+        </span> 
+        {% if torneo.estado == "inscripcion" %}
+            {% if esta_inscrito == False %}
+                {% if request.user.equipos %}
+                <a href="{#}" class="btn-primary">Inscribirse</a>
+                {% else %}
+                <p> Nota: Recuerda estar inscrito en un equipo antes de unirte a un Torneo </p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- INFORMACIÓN GENERAL -->
+  <div class="torneo-info">
+    <div class="info-block">
+      <h3>📅 Inicio del torneo</h3>
+      <p>{{ torneo.fecha_inicio_torneo|date:"d/m/Y" }}</p>
+    </div>
+    <div class="info-block">
+      <h3>📍 Municipio</h3>
+      <p>{{ torneo.municipio|default:"Charalá" }}</p>
+    </div>
+    <div class="info-block">
+      <h3>👥 Equipos inscritos</h3>
+      <p>{{ torneo.equipos_inscritos }} / {{ torneo.max_equipos }}</p>
+    </div>
+  </div>
+
+  <!-- DESCRIPCIÓN -->
+  <div class="torneo-descripcion panel">
+    <h3>📝 Descripción del torneo</h3>
+    <p>{{ torneo.descripcion|default:"Aún no se ha añadido una descripción detallada." }}</p>
+  </div>
+
+  <!-- BLOQUES EXTRA -->
+  <div class="torneo-extra">
+    <div class="panel">
+      <h4>🏁 Formato / Reglamento</h4>
+      <p>{{ torneo.reglamento|default:"El reglamento será publicado próximamente." }}</p>
+    </div>
+
+    <div class="panel">
+      <h4>🎖️ Premiación</h4>
+      <p>{{ torneo.premiacion|default:"Próximamente se anunciarán los premios." }}</p>
+    </div>
+
+    <div class="panel">
+      <h4>👤 Organizador</h4>
+      <p><strong> {{torneo.representante}} </strong> — {{torneo.nombre}} </p>
+    </div>
+  </div>
+
+  <!-- EQUIPOS INSCRITOS -->
+  {% if torneo.inscripciones %}
+  <div class="equipos-inscritos">
+    <h3>⚽ Equipos inscritos</h3>
+    <div class="equipos-grid">
+      {% for inscripcion in torneo.inscripciones.all %}
+        {% if inscripcion.estado == "aceptado" %}  
+            <div class="equipo-mini">
+                <img src="{{ inscripcion.equipo.escudo.url }}" alt="{{ inscripcion.equipo.nombre }}">
+                <p>{{ inscripcion.equipo.nombre }}</p>
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

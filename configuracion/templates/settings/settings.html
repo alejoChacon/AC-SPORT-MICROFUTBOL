@@ -1,0 +1,72 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+
+<main class="main-content configuracion">
+    <h1 class="section-title">⚙️ Configuración de la cuenta</h1>
+
+    <!-- Información del perfil -->
+    <section class="config-card">
+        <h2><i class="icon">👤</i> Información del perfil</h2>
+        <div class="config-group">
+            <label>Nombre de usuario</label>
+            <input type="text" value="Alejandro" readonly>
+        </div>
+        <div class="config-group">
+            <label>Correo electrónico</label>
+            <input type="email" value="alejandro@ejemplo.com" readonly>
+        </div>
+        <div class="config-actions">
+            <button class="btn-primary">Cambiar contraseña</button>
+        </div>
+    </section>
+
+    <!-- Preferencias de la plataforma -->
+    <section class="config-card">
+        <h2><i class="icon">🎨</i> Preferencias de la plataforma</h2>
+        <div class="config-group toggle">
+            <label>Modo oscuro</label>
+            <input type="checkbox" checked>
+        </div>
+        <div class="config-group toggle">
+            <label>Notificaciones por correo</label>
+            <input type="checkbox" checked>
+        </div>
+        <div class="config-group">
+            <label>Idioma</label>
+            <select>
+                <option>Español</option>
+                <option>Inglés</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Preferencias del jugador -->
+    <section class="config-card">
+        <h2><i class="icon">⚽</i> Preferencias de jugador</h2>
+        <div class="config-group">
+            <label>Posición favorita</label>
+            <select>
+                <option>Delantero</option>
+                <option>Defensa</option>
+                <option>Portero</option>
+                <option>Medio campo</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label>Equipo actual</label>
+            <input type="text" value="Cuna FC" readonly>
+        </div>
+    </section>
+
+    <!-- Opciones avanzadas -->
+    <section class="config-card danger-zone">
+        <h2><i class="icon">🧹</i> Opciones avanzadas</h2>
+        <button class="btn-danger">Eliminar mi cuenta</button>
+    </section>
+</main>
+{% endblock %}
