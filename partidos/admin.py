@@ -6,6 +6,8 @@ from Torneo.models import Torneo as Charala
 
 class EditarAdminPartido(admin.ModelAdmin):
 
+    list_display = ("grupo","jornada","equipo_local","equipo_visitante", "fecha_hora")
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "torneo":
             kwargs["queryset"] = Charala.objects.filter(estado="en_curso")
