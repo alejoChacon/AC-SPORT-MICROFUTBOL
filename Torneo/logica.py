@@ -87,7 +87,9 @@ class Goleador(LoginRequiredMixin,View):
             for jugador in anotadores_max:
                 anotadores.append({
                     "nombre": jugador.get_full_name(),
+                    "foto": jugador.foto.url if jugador.foto else "",
                     "equipo": jugador.equipos.nombre,
+                    "escudo": jugador.equipos.escudo.url if jugador.equipos.escudo else "",
                     "goles": jugador.total_goles
                 })
             print(anotadores)

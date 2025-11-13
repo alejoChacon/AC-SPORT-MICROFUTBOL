@@ -14,34 +14,67 @@
       <div class="overlay"></div>
       <div class="header-content">
         <h1 class="torneo-nombre">{{ torneo.nombre }}</h1>
-        <span class="torneo-estado {% if torneo.estado == 'inscripcion' %}inscripcion{% endif %}">
-          {{ torneo.estado }}
-        </span> 
         {% if torneo.estado == "inscripcion" %}
             {% if esta_inscrito == False %}
-                {% if request.user.equipos %}
-                <a href="{#}" class="btn-primary">Inscribirse</a>
-                {% else %}
-                <p> Nota: Recuerda estar inscrito en un equipo antes de unirte a un Torneo </p>
-                {% endif %}
+              {% if request.user.equipos %}
+                <!-- <a href="{#}" class="btn-inscribirse">Inscribirse</a> -->
+                <button type="button" class="btn-inscribirse"> Inscribirse </button>
+                
+              {% else %}
+                <div class="alert-info">
+                  ⚠️ Para inscribirte al torneo, primero debes estar vinculado a un equipo.
+                </div>
+              {% endif %}
+            {% else %}
+                <div class="alert-confirmado">
+                  Tu equipo ya está inscrito en este torneo.
+                </div>
             {% endif %}
         {% endif %}
       </div>
     </div>
   </div>
 
+<form method="post" enctype="multipart/form-data" onclick="" id="inscribir" style="display: none;"
+  onsubmit="Inscribir(event)" class="form-inscripcion">
+    {% csrf_token %}
+
+    <h2> Inscribir Equipo </h2>
+
+    <label for="torneo"> Torneo </label>
+    <input type="text" id="torneo" value="{{torneo.nombre}}" name="torneo" readonly> <br>
+
+    <label for="equipo"> Equipo </label>
+    <input type="text" id="equipo" value="{{request.user.equipos.nombre}}" name="equipo" readonly> <br>
+
+    <label for="observacion"> Observacion </label>
+    <input type="text" name="observacion" id="observacion" placeholder="(Opcional)"> <br>
+
+    <label for="pago_comprobante"> Comprobante de pago </label>
+    <input type="file" accept="image/*" name="pago_comprobante" id="pago_comprobante" required> <br>
+
+    <label for="documento_identidad"> Documento de Identidad </label>
+    <input type="file" name="documento_identidad" id="documento_identidad" placeholder="Subirlo en PDF" required>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-inscribirse"> Registrar Equipo </button> 
+      <button type="button" onclick="cancelar()" class="btn-cancelar"> Cancelar </button>
+    </div>
+
+</form>
+
   <!-- INFORMACIÓN GENERAL -->
   <div class="torneo-info">
     <div class="info-block">
-      <h3>📅 Inicio del torneo</h3>
-      <p>{{ torneo.fecha_inicio_torneo|date:"d/m/Y" }}</p>
+      <h3> Inicio del torneo</h3>
+      <p>{{ torneo.fecha_inicio_torneo|date:"d/M/Y" }}</p>
     </div>
     <div class="info-block">
-      <h3>📍 Municipio</h3>
+      <h3> Municipio</h3>
       <p>{{ torneo.municipio|default:"Charalá" }}</p>
     </div>
     <div class="info-block">
-      <h3>👥 Equipos inscritos</h3>
+      <h3> Equipos inscritos</h3>
       <p>{{ torneo.equipos_inscritos }} / {{ torneo.max_equipos }}</p>
     </div>
   </div>
@@ -88,4 +121,6 @@
   {% endif %}
 
 </div>
+
+<script src="{% static 'js/detalletorneo.js' %}"></script>
 {% endblock %}

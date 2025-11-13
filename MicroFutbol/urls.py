@@ -28,7 +28,8 @@ urlpatterns = [
     path("",include(("Home.urls","Home"))),
     path("torneo/",include(("Torneo.urls","torneo"))),
     path("mi-equipo/",include(("miequipo.urls","miequipo"))),
-    path("",include(("configuracion.urls","configuracion")))
+    path("",include(("configuracion.urls","configuracion"))),
+    path("",include(("inscripcion.urls","inscripcion")))
 ]
 
 if settings.DEBUG:

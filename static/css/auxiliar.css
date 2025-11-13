@@ -1,13 +1,32 @@
+/* ================================
+   🎨 Variables globales
+================================ */
+:root {
+  --color-fondo: #0d1f1c;
+  --color-secundario: #132822;
+  --color-acento: #00ff9d;
+  --color-acento-secundario: #00c9ff;
+  --color-texto: #f1f1f1;
+  --color-amarillo: #ffe47a;
+  --color-hover: rgba(0, 255, 150, 0.1);
+  --color-borde: #00c28a;
+  --color-tabla-par: rgba(255, 255, 255, 0.05);
+  --color-tabla-hover: rgba(0, 255, 150, 0.1);
+}
+
+/* ================================
+   🧱 Layout general
+================================ */
 .torneo-detalle-container {
   padding: 20px;
-  color: #f1f1f1;
+  color: var(--color-texto);
 }
 
 .torneo-header {
   display: flex;
   align-items: center;
   gap: 20px;
-  background: #0d1f1c;
+  background: var(--color-fondo);
   border-radius: 16px;
   overflow: hidden;
   margin-bottom: 25px;
@@ -22,7 +41,7 @@
 }
 
 .torneo-info h1 {
-  color: #ffe47a;
+  color: var(--color-amarillo);
   font-size: 1.8em;
 }
 
@@ -33,12 +52,15 @@
 }
 
 .dato {
-  background: #132822;
+  background: var(--color-secundario);
   padding: 6px 12px;
   border-radius: 10px;
   font-size: 0.9em;
 }
 
+/* ================================
+   📁 Submenú y pestañas
+================================ */
 .torneo-submenu {
   display: flex;
   gap: 12px;
@@ -47,7 +69,7 @@
 
 .submenu-btn {
   background: #0e1c19;
-  color: #f1f1f1;
+  color: var(--color-texto);
   padding: 10px 20px;
   border: none;
   border-radius: 12px;
@@ -56,7 +78,7 @@
 }
 
 .submenu-btn.active {
-  background: linear-gradient(90deg, #00ff9d, #00c9ff);
+  background: linear-gradient(90deg, var(--color-acento), var(--color-acento-secundario));
   color: #0a0a0a;
   font-weight: bold;
 }
@@ -76,6 +98,9 @@
   opacity: 1;
 }
 
+/* ================================
+   🧮 Selector de grupo
+================================ */
 .grupo-selector {
   display: flex;
   gap: 10px;
@@ -85,7 +110,7 @@
 .grupo-btn {
   background: #0b1a16;
   color: #ddd;
-  border: 1px solid #00c28a;
+  border: 1px solid var(--color-borde);
   border-radius: 10px;
   padding: 6px 14px;
   cursor: pointer;
@@ -93,45 +118,48 @@
 }
 
 .grupo-btn.active {
-  background: #00ff9d;
+  background: var(--color-acento);
   color: #0b1a16;
   font-weight: bold;
 }
 
-.tabla-posiciones {
-  display: none;
-}
-
-.tabla-posiciones.active {
-  display: block;
-}
-
+/* ================================
+   📊 Tabla de posiciones y goleadores
+================================ */
 table {
   width: 100%;
   border-collapse: collapse;
   color: #fff;
 }
 
-th,
-td {
+th, td {
   text-align: center;
   padding: 10px;
 }
 
 thead {
-  background: #132822;
-  color: #ffe47a;
+  background: var(--color-secundario);
+  color: var(--color-amarillo);
 }
 
 tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-tabla-par);
 }
 
 tbody tr:hover {
-  background: rgba(0, 255, 150, 0.1);
+  background: var(--color-tabla-hover);
 }
 
-/* === PARTIDOS === */
+.tabla-posiciones,
+.tabla-goleadores {
+  width: 100%;
+  border-collapse: collapse;
+  color: #e0e0e0;
+}
+
+/* ================================
+   ⚽ Partidos y resultados
+================================ */
 .partidos-grid,
 .resultados-grid {
   display: grid;
@@ -139,35 +167,19 @@ tbody tr:hover {
   gap: 1rem;
 }
 
-/*
-.resultados-grid.active {
-  display: block;
-}*/
-
 .partido-card,
 .resultado-card {
-  background: #132822;
+  background: var(--color-secundario);
   border-radius: 14px;
   padding: 1rem 1.2rem;
   text-align: center;
-  color: #f1f1f1;
+  color: var(--color-texto);
   transition: transform 0.3s ease;
   margin-bottom: 1rem;
 }
 
+.partido-card:hover,
 .resultado-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 12px rgba(0, 255, 150, 0.2);
-}
-
-.resultado-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.partido-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 0 12px rgba(0, 255, 150, 0.2);
 }
@@ -180,18 +192,12 @@ tbody tr:hover {
   color: #ccc;
 }
 
-.partido-body {
+.partido-body,
+.resultado-body {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-}
-
-.equipos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
 }
 
 .equipo {
@@ -205,14 +211,14 @@ tbody tr:hover {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid #00ff9d;
+  border: 2px solid var(--color-acento);
   object-fit: cover;
 }
 
 .equipo span {
   font-size: 0.95rem;
   font-weight: 500;
-  color: #ffe47a;
+  color: var(--color-amarillo);
 }
 
 .vs {
@@ -233,19 +239,46 @@ tbody tr:hover {
   color: #ccc;
 }
 
-.tabla-goleadores {
-  width: 100%;
-  border-collapse: collapse;
-  color: #e0e0e0;
-}
-
+/* ================================
+   📱 Responsive
+================================ */
 @media (max-width: 768px) {
   .torneo-header {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .torneo-banner {
     width: 100%;
     height: 140px;
   }
+}
+
+
+.titulo-goleadores {
+  font-size: 1.6rem;
+  color: var(--color-amarillo);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.tabla-goleadores td {
+  vertical-align: middle;
+}
+
+.jugador-info,
+.equipo-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.jugador-foto,
+.equipo-escudo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-acento);
 }

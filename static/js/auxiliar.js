@@ -226,7 +226,7 @@ async function CargarJugadores(torneo_pk) {
         }
 
         let html = `
-            <h2>🥇 Goleadores destacados</h2>
+            <h2 class="titulo-goleadores"> Goleadores destacados</h2>
                 <table class="tabla-goleadores">
                     <thead>
                         <tr>
@@ -242,9 +242,15 @@ async function CargarJugadores(torneo_pk) {
             html += `
                 <tr>
                     <td>${i+1}</td>
-                    <td>${jugador.nombre}</td>
-                    <td>${jugador.equipo}</td>
-                    <td>${jugador.goles}</td>
+                    <td class="jugador-info">
+                        <img src="${jugador.foto}" alt="${jugador.nombre}" class="jugador-foto">
+                        <span>${jugador.nombre}</span>
+                    </td>
+                    <td class="equipo-info>
+                        <img src="${jugador.escudo}" alt="${jugador.equipo}" class="equipo-escudo">
+                        <span>${jugador.equipo}</span>
+                    </td>
+                    <td><strong>${jugador.goles}</strong></td>
                 </tr>
             `;
         })

@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from Torneo.models import Equipo
+from django.views import View
+from fase_de_grupos.models import EquipoGrupo
+from django.http import JsonResponse
+from partidos.models import Partido
+from django.db.models import Q
 
 # Create your views here.
 
@@ -9,9 +14,9 @@ class MiEquipo(LoginRequiredMixin,TemplateView):
     template_name = "miequipo/miequipo.html"
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         try:
-            context = super().get_context_data(**kwargs)
-            if self.request.user.equipo:
+            if self.request.user.equipos:
                 equipo = Equipo.objects.filter(jugadores__pk = self.request.user.pk).first()
                 context["equipo"] = equipo
                 context["jugadores"] = equipo.jugadores.count()
@@ -20,3 +25,44 @@ class MiEquipo(LoginRequiredMixin,TemplateView):
         except Equipo.DoesNotExist:
             context["jugadores"] = 0
         return context
+    
+class MiEquipoInfo(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        try:
+            equipo = EquipoGrupo.objects.get(equipo__pk=self.kwargs["equipo_pk"])
+            equipo_info = {
+                "partidos_jugados": equipo.partidos_jugados,
+                "partidos_ganados": equipo.partidos_ganados,
+                "partidos_empatados": equipo.partidos_empatados,
+                "partidos_perdidos": equipo.partidos_perdidos
+            }
+            return JsonResponse({"equipo_info":equipo_info})
+        except Exception as e:
+            return JsonResponse({"error":str(e)})
+        
+from django.utils import timezone
+
+class CalendarioPartidos(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        try:
+            equipo = Equipo.objects.get(pk=self.kwargs["equipo_pk"])
+            if self.kwargs["jornada"]:
+                estado = self.kwargs["jornada"]
+                calendario_partidos = Partido.objects.filter(Q(equipo_local=equipo) | Q(equipo_visitante=equipo),
+                                    estado=estado,torneo=equipo.inscripciones_torneo.first().torneo).order_by('jornada')                
+            else:
+                calendario_partidos = Partido.objects.filter(Q(equipo_local=equipo) | Q(equipo_visitante=equipo),
+                                    estado="programado",torneo=equipo.inscripciones_torneo.first().torneo).order_by('jornada')
+            data_calendar = []
+            for partido in calendario_partidos:
+                local_hora = timezone.localtime(partido.fecha_hora)
+                data_calendar.append({
+                    "fecha": partido.fecha_hora.strftime("%d/%m/%Y"),
+                    "rival": partido.equipo_local.nombre if partido.equipo_visitante.nombre == equipo.nombre else partido.equipo_visitante.nombre,
+                    "resultado": partido.get_estado_display() if partido.estado in ["programado","en_juego"] else f"{partido.goles_local} : {partido.goles_visitante}",
+                    "cancha": partido.cancha,
+                    "hora": local_hora.strftime("%H:%M")
+                })
+            return JsonResponse({"calendario_partidos":data_calendar})
+        except Exception as e:
+            return JsonResponse({"error":str(e)})

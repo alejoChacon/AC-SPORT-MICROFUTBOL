@@ -12,31 +12,14 @@
             <img src="{{equipo.escudo.url}}" alt="Logo equipo" class="equipo-logo">
             <div>
                 <h1 class="equipo-nombre"> {{equipo.nombre}} </h1> <!-- Torneo Cuna de la Libertad 2025 -->
-                <p class="equipo-torneo">Participando en: <strong> {{request.user.inscripcion.torneo.nombre|default:"No estas participando en ningun torneo"}} </strong></p>
+                <p class="equipo-torneo">Participando en torneo <strong> {{request.user.equipos.inscripciones_torneo.first.torneo.nombre|default:"No estas participando en ningun torneo"}} </strong></p>
             </div>
         </div>
         <button class="btn-accion">Editar equipo</button>
     </section>
 
     <!-- ESTADÍSTICAS DEL EQUIPO -->
-    <section class="equipo-stats">
-        <div class="stat-card">
-            <h3>Partidos Jugados</h3>
-            <p>0</p>
-        </div>
-        <div class="stat-card">
-            <h3>Victorias</h3>
-            <p>0</p>
-        </div>
-        <div class="stat-card">
-            <h3>Derrotas</h3>
-            <p>0</p>
-        </div>
-        <div class="stat-card">
-            <h3>Empates</h3>
-            <p>0</p>
-        </div>
-    </section>
+    <section class="equipo-stats"></section>
 
     <!-- INTEGRANTES DEL EQUIPO -->
     <section class="equipo-integrantes">
@@ -67,8 +50,8 @@
         <div class="partidos-header">
             <h2>Calendario de Partidos</h2>
             <div class="filtros">
-                <button class="filtro activo" data-filter="proximos">Próximos</button>
-                <button class="filtro" data-filter="anteriores">Anteriores</button>
+                <button class="filtro activo" data-filter="programado"> Próximos </button>
+                <button class="filtro" data-filter="finalizado"> Finalizados </button>
             </div>
         </div>
 
@@ -108,4 +91,8 @@
         © 2025 Torneo Cuna de la Libertad · Plataforma de <strong>Chacón</strong> ⚽
     </footer>
 </main>
+
+<script> equipo_pk = {{equipo.pk}} </script>
+<script src="{% static 'js/miequipo.js' %}"></script>
+
 {% endblock %}

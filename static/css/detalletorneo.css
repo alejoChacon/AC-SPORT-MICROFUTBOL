@@ -1,121 +1,238 @@
-/* ---------- DETALLE DE TORNEO ---------- */
+/* ================================
+🎨 Variables globales (si usas :root en otro archivo, omite esto aquí)
+================================ */
+
+/* ================================
+📦 Contenedor principal
+================================ */
 .torneo-detalle {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
 }
 
-/* HEADER */
+/* ================================
+🖼️ Header del torneo
+================================ */
 .torneo-cover {
-    position: relative;
-    height: 240px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  position: relative;
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 .torneo-cover .overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
 }
 
 .header-content {
-    position: absolute;
-    bottom: 20px;
-    left: 24px;
-    color: var(--text);
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  color: var(--text);
 }
 
 .torneo-nombre {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 6px;
-    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(0,0,0,0.8);
 }
 
 .torneo-estado {
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
 }
 
 .torneo-estado.inscripcion {
-    background: linear-gradient(90deg, #00c853, #64dd17);
-    color: #0a0a0a;
+  background: linear-gradient(90deg, #00c853, #64dd17);
+  color: #0a0a0a;
 }
 
-/* INFO GENERAL */
+/* ================================
+📋 Información general
+================================ */
 .torneo-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
 }
 
 .info-block {
-    background: var(--panel);
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    text-align: center;
-}
-.info-block h3 {
-    font-size: 1rem;
-    color: var(--accent);
-    margin-bottom: 4px;
+  background: var(--panel);
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
 }
 
-/* DESCRIPCIÓN Y EXTRAS */
-.torneo-descripcion {
-    background: var(--panel-2);
-    padding: 18px;
-    border-radius: 12px;
+.info-block h3 {
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 4px;
 }
+
+/* ================================
+📝 Descripción y extras
+================================ */
+.torneo-descripcion {
+  background: var(--panel-2);
+  padding: 18px;
+  border-radius: 12px;
+}
+
 .torneo-descripcion p {
-    color: var(--muted);
-    line-height: 1.5;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
 .torneo-extra {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
 }
 
-/* EQUIPOS INSCRITOS */
+/* ================================
+⚽ Equipos inscritos
+================================ */
 .equipos-inscritos h3 {
-    margin-bottom: 10px;
-    color: var(--accent);
+  margin-bottom: 10px;
+  color: var(--accent);
 }
+
 .equipos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
 }
+
 .equipo-mini {
-    background: var(--panel-2);
-    border-radius: 10px;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: transform .2s ease;
+  background: var(--panel-2);
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.2s ease;
 }
+
 .equipo-mini:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
+
 .equipo-mini img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 6px;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 6px;
 }
+
 .equipo-mini p {
-    font-weight: 600;
-    color: var(--text);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ================================
+🟢 Botón de inscripción
+================================ */
+.btn-inscribirse {
+  display: inline-block;
+  background: linear-gradient(90deg, #00c853, #64dd17);
+  color: #0a0a0a;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 140, 0.3);
+}
+
+.btn-inscribirse:hover {
+  transform: scale(1.05);
+}
+
+/* ================================
+⚠️ Mensaje informativo
+================================ */
+.alert-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid #ffe47a;
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+
+.form-inscripcion {
+  background: var(--panel-2);
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0, 255, 140, 0.2);
+  margin-top: 20px;
+  max-width: 600px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.form-inscripcion h2 {
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.form-inscripcion label {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.form-inscripcion input[type="text"],
+.form-inscripcion input[type="file"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-cancelar {
+  background: #ff5252;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

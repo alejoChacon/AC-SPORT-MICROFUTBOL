@@ -21,17 +21,20 @@ class Torneo(LoginRequiredMixin,TemplateView):
         context["torneos"] = Charala.objects.all()
         return context
 
-class TorneoDetalleView(LoginRequiredMixin,DetailView):
+class TorneoEtapaInscripcion(LoginRequiredMixin,DetailView):
     model = Charala
     template_name = 'torneo/detalletorneo.html'
     context_object_name = 'torneo'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.equipos:
-            resultado = self.get_object().inscripciones.filter(equipo=self.request.user.equipos)
-            context["esta_inscrito"] = True if resultado.exists() else False
-        context["esta_inscrito"] = False
+        torneo = self.get_object()
+        user_equipo = getattr(self.request.user, 'equipos', None)
+        if user_equipo:
+            esta_inscrito = torneo.inscripciones.filter(equipo=user_equipo).exists()
+            context["esta_inscrito"] = esta_inscrito
+        else:
+            context["esta_inscrito"] = False
         return context
     
 class TorneoActivo(LoginRequiredMixin,DetailView):
@@ -42,9 +45,4 @@ class TorneoActivo(LoginRequiredMixin,DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["grupos"] = self.get_object().grupo_set.all()
-        context["proximos"] = self.get_object().partidos.filter(fecha_hora__gte=hoy)
-        context["recientes"] = self.get_object().partidos.filter(estado="finalizado")
-        goleadores = Usuario.objects.filter(goles__partido__torneo=self.get_object(),
-                    goles__es_autogol=False).annotate(goles_totales=Count('goles')).order_by("-goles_totales")
-        context["goleadores"] = goleadores
         return context
