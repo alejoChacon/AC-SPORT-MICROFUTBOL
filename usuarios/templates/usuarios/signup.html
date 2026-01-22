@@ -1,83 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-    <title> Sign Up </title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <title> Crear Perfil | AC SPORT </title>
 </head>
 <body>
     
-    <form method="post" enctype="multipart/form-data" style="text-align: center;">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         <h2> Crear Perfil </h2>
 
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
         <div class="form-columns">
-            <!-- Columna 1 -->
             <div class="form-group">
-                <label for="id_first_name">Nombres:</label>
+                <label for="id_first_name">Nombres</label>
                 {{ form.first_name }}
+                {{ form.first_name.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_last_name">Apellidos:</label>
+                <label for="id_last_name">Apellidos</label>
                 {{ form.last_name }}
+                {{ form.last_name.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_fecha_nacimiento">Fecha de Nacimiento:</label>
+                <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
                 {{ form.fecha_nacimiento }}
+                {{ form.fecha_nacimiento.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_documento">Tipo de Documento:</label>
+                <label for="id_documento">Tipo de Documento</label>
                 {{ form.documento }}
+                {{ form.documento.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_num_document">Número de Documento:</label>
+                <label for="id_num_document">Número de Documento</label>
                 {{ form.num_document }}
+                {{ form.num_document.erros }}
             </div>
-            
-            <!-- Columna 2 -->
+
             <div class="form-group">
-                <label for="id_celular">Celular:</label>
+                <label for="id_celular">Celular / WhatsApp</label>
                 {{ form.celular }}
+                {{ form.celular.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_celular"> Numero de Camisa </label>
+                {{ form.numero_camisa }}
+                {{ form.numero_camisa.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_celular"> Posicion </label>
+                {{ form.posicion }}
+                {{ form.posicion.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_username">Nombre de Usuario:</label>
+                <label for="id_username">Nombre de Usuario</label>
                 {{ form.username }}
+                {{ form.username.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_email">Correo Electrónico:</label>
+                <label for="id_email">Correo Electrónico</label>
                 {{ form.email }}
+                {{ form.email.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_password1">Contraseña:</label>
+                <label for="id_password1">Contraseña</label>
                 {{ form.password1 }}
+                {{ form.password1.errors }}
             </div>
             
             <div class="form-group">
-                <label for="id_password2">Confirmar Contraseña:</label>
+                <label for="id_password2">Confirmar Contraseña</label>
                 {{ form.password2 }}
+                {{ form.password2.errors }}
             </div>
             
-            <!-- Campo de foto ocupa ambas columnas -->
             <div class="form-group form-full-width">
-                <label for="id_foto">Foto de Perfil:</label>
+                <label for="id_foto">📸 Foto de Perfil (Opcional)</label>
                 {{ form.foto }}
+                {{ form.foto.errors }}
             </div>
         </div>
         
-        <button type="submit">Registrarse</button>
+        <button type="submit">¡Saltar a la cancha!</button>
         
         <a href="{% url 'login' %}">¿Ya tienes cuenta? Inicia Sesión</a>
-
     </form>
 
 </body>

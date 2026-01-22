@@ -58,7 +58,6 @@ class CargarPartidos(LoginRequiredMixin,View):
         try:
             print("Torneo pk:",self.kwargs["torneo_pk"],"Grupo",self.kwargs["grupo"])
             partidos = Partido.objects.filter(torneo__pk=self.kwargs["torneo_pk"],grupo__nombre=self.kwargs["grupo"],estado="programado")
-            print(partidos)
             data_partidos = []
             if partidos.exists():
                 for partido in partidos:
@@ -92,7 +91,6 @@ class Goleador(LoginRequiredMixin,View):
                     "escudo": jugador.equipos.escudo.url if jugador.equipos.escudo else "",
                     "goles": jugador.total_goles
                 })
-            print(anotadores)
             return JsonResponse({"goleadores":anotadores})
         except Exception as e:
             return JsonResponse({"error":str(e)})

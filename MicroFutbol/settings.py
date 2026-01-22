@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,6 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MicroFutbol.wsgi.application'
+ASGI_APPLICATION = 'MicroFutbol.asgi.application'
 
 
 # Database
@@ -138,3 +141,9 @@ AUTH_USER_MODEL = 'usuarios.Usuario'
 LOGIN_URL = "login/"
 LOGIN_REDIRECT_URL = "Home:plataforma_inicio"
 LOGOUT_REDIRECT_URL = "login/"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}

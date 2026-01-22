@@ -9,16 +9,17 @@
 </head>
 <body>
     
-    <form method="post" style="text-align: center;">
+    <form method="post">
         {% csrf_token %}
+        <h1> LOGIN </h1>
+        
+        <div class="form-group">
+            {{form.as_p}}
+        </div>
 
-        <h1> Login </h1>
-
-        {{form.as_p}}
-
-        <button type="submit"> Iniciar Sesion </button> <br>
-
-        <a href="{% url 'usuario:signup' %}"> No tienes un perfil registrado </a>
+        <button type="submit"> Entrar a la Cancha </button> 
+        <br>
+        <a href="{% url 'usuario:signup' %}"> ¿No tienes cuenta? Regístrate aquí </a>
     </form>
 
 </body>

@@ -6,9 +6,13 @@ from django.views import View
 from fase_de_grupos.models import EquipoGrupo
 from django.http import JsonResponse
 from partidos.models import Partido
+from Home.models import NotificacionSolicitud
+from django.utils import timezone
 from django.db.models import Q
 
 # Create your views here.
+
+fecha_actual = timezone.localtime(timezone.now())
 
 class MiEquipo(LoginRequiredMixin,TemplateView):
     template_name = "miequipo/miequipo.html"
@@ -21,10 +25,15 @@ class MiEquipo(LoginRequiredMixin,TemplateView):
                 context["equipo"] = equipo
                 context["jugadores"] = equipo.jugadores.count()
             else:
-                context["jugadores"] = 0
+                notificacion_del_dia = NotificacionSolicitud.objects.filter(remitente=self.request.user,fecha_creacion__day=fecha_actual.day)
+                print(notificacion_del_dia)
+                if len(notificacion_del_dia) >= 2:
+                    context['cantidad_solicitud_dia_rta'] = False
+                else:
+                    context["cantidad_solicitud_dia_rta"] = True
+            return context
         except Equipo.DoesNotExist:
             context["jugadores"] = 0
-        return context
     
 class MiEquipoInfo(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):

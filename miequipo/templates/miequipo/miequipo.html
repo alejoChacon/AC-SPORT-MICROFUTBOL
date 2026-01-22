@@ -6,16 +6,22 @@
 <link rel="stylesheet" href="{% static 'css/miequipo.css' %}">
 
 <main class="app-main">
+
+    {% if request.user.equipos %}
+
     <!-- ENCABEZADO -->
     <section class="equipo-header">
         <div class="equipo-info">
-            <img src="{{equipo.escudo.url}}" alt="Logo equipo" class="equipo-logo">
+            {% if equipo.escudo.url %}
+                <img src="{{equipo.escudo.url}}" alt="Logo equipo" class="equipo-logo">
+            {% else %}
+                <img src="{% static 'img/free-player.png' %}" alt="logo equipo" class="equipo-logo">
+            {% endif %}
             <div>
-                <h1 class="equipo-nombre"> {{equipo.nombre}} </h1> <!-- Torneo Cuna de la Libertad 2025 -->
+                <h1 class="equipo-nombre"> {{equipo.nombre}} </h1>
                 <p class="equipo-torneo">Participando en torneo <strong> {{request.user.equipos.inscripciones_torneo.first.torneo.nombre|default:"No estas participando en ningun torneo"}} </strong></p>
             </div>
         </div>
-        <button class="btn-accion">Editar equipo</button>
     </section>
 
     <!-- ESTADÍSTICAS DEL EQUIPO -->
@@ -27,6 +33,7 @@
             <h2>Integrantes del Equipo</h2>
             {% if request.user == equipo.capitan %}
             <button class="btn-accion">Agregar jugador</button>
+            <button class="btn-accion">Editar equipo</button>
             {% endif %}
         </div>
 
@@ -34,7 +41,11 @@
 
             {% for jugador in equipo.jugadores.all %}
             <div class="jugador-card">
-                <img src="{{jugador.foto.url}}" alt="Jugador" class="jugador-foto">
+                {% if jugador.foto.url %}
+                    <img src="{{jugador.foto.url}}" alt="Jugador" class="jugador-foto">
+                {% else %}
+                    <img src="{% static 'img/sin-foto.jpg' %}" alt="jugador" class="jugador-foto">
+                {% endif %}
                 <h3 class="jugador-nombre"> {{jugador.get_full_name}} </h3>
                 <p class="jugador-posicion"> {{jugador.get_posicion_display}} </p>
             </div>
@@ -83,16 +94,64 @@
         <ul>
             <li><strong>Capitán:</strong> {{ equipo.capitan|default:"Sin asignar" }}</li>
             <li><strong>Jugadores:</strong> {{jugadores}} </li>
-            <li><strong>Ubicación:</strong> {{equipo.municipio|default:"You are not inscribed in any team"}} </li>
+            <li><strong>Ubicación:</strong> {{equipo.municipio|default:"You are not joined on anything team footbol"}} </li>
         </ul>
     </section>
 
     <footer class="inicio-footer">
-        © 2025 Torneo Cuna de la Libertad · Plataforma de <strong>Chacón</strong> ⚽
+        © 2025 2025 AC SPORT · <strong>CHACON</strong>
     </footer>
+
+    <script> equipo_pk = {{equipo.pk}} </script>
+
+    {% else %}
+
+        {% if cantidad_solicitud_dia_rta %}
+            <section class="no-equipo-container" style="flex-direction: column; align-items: center;">
+                <div class="message-solicitud"></div>
+                <div class="no-equipo-card">
+                
+                    <h1>¡Aún no tienes un equipo!</h1>
+                    <p>Para empezar a competir en el <strong>Torneo </strong>, necesitas formar parte de un equipo o registrar el tuyo propio.</p>
+                    <p> <strong> Nota: </strong> Recuerda que para registrar tu propio equipo debes de contactarte al 
+                        correo ac_sport@gmail.com o al número 3112074743, para brindarte toda la informacion pertinente.  
+                    </p>                    
+                    <div class="no-equipo-acciones">
+                        <button type="button" id="buscar_equipo" class="btn-principal" onclick="searchteam(event)"> Buscar equipo </button>
+                        <a href="" class="btn-secundario">Explorar torneos</a>
+                    </div>
+                    <div class="no-equipo-ayuda">
+                        <p>¿Recibiste una invitación? Revisa tu correo o contacta a tu capitán.</p>
+                    </div>
+                </div>
+                <div id="results-container" style="display: none; width: 100%; max-width: 1000px;">
+                    <div class="results-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="color: white;">Equipos disponibles</h2>
+                        <button type="button" class="btn-cancelar" onclick="cancelSearch()">← Volver / Cancelar</button>
+                    </div>
+                    <div class="show-team"></div>
+                </div>
+            </section>
+        {% else %}
+            <section class="no-equipo-container" style="flex-direction: column; align-items: center;">
+                <div class="no-equipo-card">
+                    <h1>¡Límite de Solicitudes Alcanzado!</h1>
+                    <p>Parece que hoy estás muy activo buscando equipo. Hemos pausado tus solicitudes por 24 horas.
+                        ¡Dale tiempo a los capitanes para que revisen las que ya enviaste!.</p>
+                </div>
+            </section>
+        {% endif %}
+
+    <footer class="inicio-footer">
+        © 2025 AC SPORT · <strong>CHACON</strong> 
+    </footer>
+
+    <script> equipo_pk = false </script>
+
+    {% endif %}
+
 </main>
 
-<script> equipo_pk = {{equipo.pk}} </script>
 <script src="{% static 'js/miequipo.js' %}"></script>
 
 {% endblock %}

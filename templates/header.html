@@ -1,14 +1,72 @@
+{% load static %}
+
 <header class="app-header">
     <div class="brand">
-        <div class="logo" aria-hidden="true">⚽</div>
-        <div>
-            <div class="title"> AC SPORT </div>
+        <a href="{% url 'Home:plataforma_inicio' %}" class="logo-link">
+            <img src="{% static 'img/logo_micro.jpg' %}" alt="Logo">
+        </a>
+        <div class="brand-text">
+            <div class="title">AC SPORT</div>
             <div class="subtitle">CHARALÁ · MICROFÚTBOL</div>
         </div>
     </div>
-
+        
     <div class="header-right">
-        <div class="year-badge" aria-hidden="true">2025</div>
-        <div class="role-btn">Jugador</div>
+        <div class="status-group">
+            <span class="year-badge">Temporada 2025</span>
+            <div class="role-indicator">
+                <span class="dot"></span>
+                Jugador
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="notification-container" style="position: relative;">
+                <button class="action-btn" id="notification-btn" aria-label="Notificaciones">
+                    <div class="icon-wrapper" style="position: relative;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        <span id="notif-badge" class="notif-badge" style="display: none;"></span>
+                    </div>
+                </button>
+
+                <div id="notification-panel" class="notif-panel">
+                    <div class="notif-header">
+                        <span>Notificaciones</span>
+                        <button id="clear-notifs">Limpiar</button>
+                    </div>
+                    <ul id="notif-list">
+                        {% for n in notificaciones %}
+                            <li class="notif-item" id="notif-{{ n.id }}">
+                                <h4><strong>{{ n.remitente.get_full_name }}</strong> ha solicitado unirse a tu equipo</h4>
+                                <small> Solicitud #{{n.pk}} </small>
+                                <div class="notif-actions">
+                                    <button class="btn-notif-accept" onclick="responderSolicitud({{ n.equipo.pk }},'{{ n.remitente.get_full_name }}', 'aceptar',{{ n.remitente.pk }},{{ n.pk }})">Sí</button>
+                                    <button class="btn-notif-decline" onclick="responderSolicitud({{ n.equipo.pk }},'{{ n.remitente.get_full_name }}', 'rechazar',{{ n.remitente.pk }},{{ n.pk }})">No</button>
+                                </div>
+                                <span class="time">{{ n.fecha_creacion|date:"h:i" }}</span>
+                            </li>
+                        {% empty %}
+                            <li class="empty-msg">No hay mensajes nuevos</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <form action="{% url 'usuario:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" title="Cerrar Sesión">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
+                    </svg>
+                </button>
+            </form>
+        </div>
     </div>
+
 </header>
+
+<audio id="notif-sound" preload="auto">
+    <source src="{% static 'sounds/notification-micro.wav' %}" type="audio/mpeg">
+</audio>

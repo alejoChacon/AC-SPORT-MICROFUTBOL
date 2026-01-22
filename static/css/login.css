@@ -1,124 +1,109 @@
-/* LOGIN.CSS */
-/*
+/* LOGIN.CSS - Versión Pro Microfútbol */
 body {
-    background-image: url("../img/parque_central.jpeg");
-    background-position: center;
+    /* Aquí pondremos la imagen de fondo realista */
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('../img/micro-login.jpg'); 
     background-size: cover;
-    background-repeat: no-repeat;
+    background-position: center;
     background-attachment: fixed;
-    background-color: #1a365d; 
     min-height: 100vh;
     margin: 0;
-    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-} */
-
-body {
-    background: linear-gradient(135deg, #1a365d 0%, #2d3748 50%, #2b6cb0 100%);
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
 form {
-    background-color: rgba(255, 255, 255, 0.2);
-    
+    /* Efecto Glassmorphism (Cristal) */
+    background: rgba(250, 250, 250, 0.1);
     padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
     width: 90%;
-    max-width: 400px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 380px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
 }
 
 h1 {
-    color: #1a365d;
-    margin-bottom: 30px;
-    font-size: 2.2em;
-    font-weight: 700;
+    color: #ff8c00; /* Naranja vibrante como el balón de micro */
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -1px;
 }
 
-/* Estilos para los campos del formulario */
-form p {
+form::before {
+    content: "BIENVENIDO A LA CANCHA";
+    display: block;
+    color: #ccc;
+    font-size: 0.8em;
     margin-bottom: 20px;
-    text-align: left;
+    letter-spacing: 2px;
 }
 
+/* Campos de entrada */
 label {
     display: block;
     margin-bottom: 8px;
-    color: #2d3748;
-    font-weight: 600;
+    color: #eee;
+    font-weight: 500;
+    text-align: left;
 }
 
 input[type="text"],
-input[type="password"],
-input[type="email"] {
+input[type="password"] {
     width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus {
-    outline: none;
-    border-color: #2b6cb0;
-    box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.1);
-}
-
-/* Estilo del botón */
-button {
-    background: linear-gradient(135deg, #2b6cb0, #1a365d);
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
     color: white;
-    padding: 14px 30px;
+    font-size: 1em;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff8c00;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* El Botón "Goleador" */
+button {
+    background: #ff8c00;
+    color: #000;
+    padding: 15px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 1.1em;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
-    margin-bottom: 20px;
+    text-transform: uppercase;
+    margin-top: 10px;
 }
 
 button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(43, 108, 176, 0.4);
+    background: #ffa500;
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.4);
 }
 
-/* Estilo del enlace */
 a {
-    color: #2ba9b0;
+    color: #bbb;
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    font-size: 0.9em;
+    display: inline-block;
+    margin-top: 20px;
 }
 
 a:hover {
-    color: #1a365d;
-    text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-    form {
-        padding: 30px 20px;
-        margin: 20px;
-    }
-    
-    h1 {
-        font-size: 1.8em;
-    }
+    color: #ff8c00;
 }

@@ -12,7 +12,7 @@
             {% if usuario.foto %}
                 <img src="{{ usuario.foto.url }}" alt="Foto de perfil">
             {% else %}
-                <div class="no-avatar">⚽</div>
+                <img src="{% static 'img/sin-foto.jpg' %}" alt="foto de perfil">
             {% endif %}
         </div>
 
@@ -22,10 +22,10 @@
                 {{ usuario.localidad|default:"Charalá" }} · {{ user.profile.rol|default:"Jugador" }}
             </p>
 
-            <div class="perfil-actions">
+            <!-- <div class="perfil-actions">
                 <button class="btn-main">Editar perfil</button>
                 <button class="btn-secondary">Cerrar sesión</button>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -57,12 +57,12 @@
         <h2>Detalles del jugador</h2>
         <ul class="perfil-datos">
             <li><strong>Posición:</strong> {{ usuario.get_posicion_display|default:"Sin definir" }}</li>
-            <li><strong>Número:</strong> {{ usuario.numero_camisa|default:"—" }}</li>
-            <li><strong>Equipo:</strong> {{ usuario.equipo|default:"Sin equipo" }}</li>
-            <li><strong>Documento:</strong> {{usuario.get_documento_display}} </li>
-            <li><strong>Numero del Documento:</strong> {{usuario.num_document}} </li>
-            <li><strong>Celular:</strong> {{usuario.celular}} </li>
-            <li><strong>Correo:</strong> {{ user.email }}</li>
+            <li><strong>Número:</strong> {{ usuario.numero_camisa|default:"N/A" }}</li>
+            <li><strong>Equipo:</strong> {{ usuario.equipos|default:"Sin equipo" }}</li>
+            <li><strong>Documento:</strong> {{usuario.get_documento_display|default:'N/A'}} </li>
+            <li><strong>Numero del Documento:</strong> {{usuario.num_document|default:'N/A'}} </li>
+            <li><strong>Celular:</strong> {{usuario.celular|default:'N/A'}} </li>
+            <li><strong>Correo:</strong> {{ user.email|default:'N/A' }}</li>
         </ul>
     </section>
 

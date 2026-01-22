@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path("signup/",views.SignUp.as_view(),name="signup"),
-    path("Mi-Perfil/",views.MiPerfil.as_view(),name="miperfil")
+    path("Mi-Perfil/",views.MiPerfil.as_view(),name="miperfil"),
+    path('logout/',views.Logout.as_view(),name='logout')
 ]
