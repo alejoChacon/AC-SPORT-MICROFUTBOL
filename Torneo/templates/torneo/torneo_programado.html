@@ -1,0 +1,68 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/detalletorneo.css' %}">
+
+    <div class="torneo-detalle">
+        <div class="torneo-header">
+            <div class="torneo-cover" style="background-image: url('{{ torneo.logo_torneo.url }}');">
+                <div class="overlay">
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'torneo:mistorneos' %}" class="btn btn-back"> 
+                            <i class="fa-solid fa-arrow-left"></i> Volver 
+                        </a>
+                    {% elif not request.user.i_staff %}
+                        <a href="{% url 'torneo:torneo' %}" class="btn btn-back"> 
+                            <i class="fa-solid fa-arrow-left"></i> Volver 
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="header-content">
+                    <h1 class="torneo-nombre">{{ torneo.nombre }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFORMACIÓN GENERAL -->
+    <div class="torneo-info">
+        <div class="info-block">
+            <h3> Inicio del torneo</h3>
+            <p>{{ torneo.fecha_inicio_torneo|date:"d/M/Y" }}</p>
+        </div>
+        <div class="info-block">
+            <h3> Municipio</h3>
+            <p>{{ torneo.municipio|default:"Charalá" }}</p>
+        </div>
+        <div class="info-block">
+            <h3> Fecha Inicio de Inscripcion  </h3>
+            <p>{{torneo.fecha_inicio_inscripcion}}</p>
+        </div>
+    </div>
+
+    <!-- DESCRIPCIÓN -->
+    <div class="torneo-descripcion panel">
+        <h3>📝 Descripción del torneo</h3>
+        <p>{{ torneo.descripcion|default:"Aún no se ha añadido una descripción detallada." }}</p>
+    </div>
+
+    <!-- BLOQUES EXTRA -->
+    <div class="torneo-extra">
+        <div class="panel">
+            <h4>🏁 Formato </h4>
+            <p>{{ torneo.get_formato_display }}</p>
+        </div>
+        <div class="panel">
+            <h4>🎖️ Premiación</h4>
+            <p>{{ torneo.premiacion|default:"Próximamente se anunciarán los premios. <br> Nota: Recordar que la premiación será el 70% del total recaudado" }}</p>
+        </div>
+        <div class="panel">
+            <h4>👤 Organizador</h4>
+            <p><strong> {{torneo.representante}} </strong> — {{torneo.nombre}} </p>
+        </div>
+    </div>
+
+{% endblock %}

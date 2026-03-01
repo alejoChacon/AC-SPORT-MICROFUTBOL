@@ -4,7 +4,7 @@ from fase_de_grupos.models import EquipoGrupo,Grupo
 # Create your models here.
 
 class Partido(models.Model):
-    ESTADOS_PARTIDO = [('programado', 'Programado'),('en_juego', 'En Juego'),('finalizado', 'Finalizado'),('suspendido', 'Suspendido'),('cancelado', 'Cancelado'),]
+    ESTADOS_PARTIDO = [('programado', 'Programado'),('en_juego', 'En Juego'),('finalizado', 'Finalizado'),('suspendido', 'Suspendido'),('cancelado', 'Cancelado'),('pendiente','Pendiente')]
     FASES_TORNEO = [('grupos', 'Fase de Grupos'),('octavos', 'Octavos de Final'),('cuartos', 'Cuartos de Final'),('semifinal', 'Semifinal'),('tercer_puesto', 'Tercer Puesto'),('final', 'Final'),]
     torneo = models.ForeignKey("Torneo.Torneo",on_delete=models.CASCADE,related_name="partidos")
     # Equipos participantes
@@ -17,11 +17,11 @@ class Partido(models.Model):
     jornada = models.PositiveIntegerField(help_text="Número de jornada en la fase")
 
     # Fecha y lugar
-    fecha_hora = models.DateTimeField()
-    cancha = models.CharField(max_length=100, blank=True, help_text="Nombre de la cancha")
+    fecha_hora = models.DateTimeField(blank=True,null=True)
+    cancha = models.CharField(max_length=100, null=True, blank=True, help_text="Nombre de la cancha")
 
     # Estado y resultado
-    estado = models.CharField(max_length=20, choices=ESTADOS_PARTIDO, default='programado')
+    estado = models.CharField(max_length=20, choices=ESTADOS_PARTIDO, default='pendiente')
     goles_local = models.PositiveIntegerField(default=0)
     goles_visitante = models.PositiveIntegerField(default=0)
 
@@ -29,14 +29,24 @@ class Partido(models.Model):
     persona_finalizo_partido = models.CharField(max_length=50,blank=True,null=True,help_text="Usuario que registró el resultado")
     fecha_actualizacion = models.DateTimeField(auto_now=True)
 
+    # Manejo de desempates en eliminación directa
+    goles_penaltis_local = models.PositiveIntegerField(default=0)
+    goles_penaltis_visitante = models.PositiveIntegerField(default=0)
+
     @property
     def ganador(self):
         if self.estado != "finalizado":
             return None
         if self.goles_local > self.goles_visitante:
             return self.equipo_local
-        elif self.goles_visitante > self.goles_local:
+        if self.goles_visitante > self.goles_local:
             return self.equipo_visitante
+        
+        if self.fase != 'grupos':
+            if self.goles_penaltis_local > self.goles_penaltis_visitante:
+                return self.equipo_local
+            else:
+                return self.equipo_visitante
         return None #empate
     
     @property
@@ -69,7 +79,7 @@ class Partido(models.Model):
             equipo_grupo_local.goles_contra += self.goles_visitante
 
             if self.ganador == self.equipo_local:
-                equipo_grupo_local.partidos_ganados =+ 1
+                equipo_grupo_local.partidos_ganados += 1
                 equipo_grupo_local.puntos += 3
             elif self.es_empate:
                 equipo_grupo_local.puntos += 1
@@ -103,14 +113,21 @@ class Partido(models.Model):
         ]
 
     def save(self,*args,**kwargs):
-        
-        # Si el partido se marca como finalizado, actualizar estadísticas
-        if self.estado == "finalizado" and self.pk:
-            old_partido = Partido.objects.get(pk=self.pk)
-            if old_partido.estado != "finalizado":
-                self.actualizar_estadisticas()
+        if not self.pk:
+            # Es un partido nuevo
+            super().save(*args, **kwargs)
+        else:
+            # El partido ya existe, comparamos el estado antes de guardar
+            old_instance = Partido.objects.get(pk=self.pk)
+            was_finalizado = old_instance.estado == 'finalizado'
 
-        return super().save(*args,**kwargs)
+            super().save(*args, **kwargs) # Guardamos los cambios
+            # Si antes no estaba finalizado y ahora sí
+            if not was_finalizado and self.estado == 'finalizado':
+                self.actualizar_estadisticas()
     
     def __str__(self):
-        return f'{self.equipo_local} vs {self.equipo_visitante} - {self.torneo.nombre} - Grupo {self.grupo.nombre}'
+        fase_nombre = self.get_fase_display()
+        if self.fase == 'grupos' and self.grupo:
+            return f"{fase_nombre} - {self.grupo.nombre}: {self.equipo_local} vs {self.equipo_visitante}"
+        return f"{fase_nombre}: {self.equipo_local} vs {self.equipo_visitante}"

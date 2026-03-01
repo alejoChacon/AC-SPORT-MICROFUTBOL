@@ -2,20 +2,53 @@
    ESTILOS ESPECÍFICOS — INICIO
    ===================================================== */
 
+/* Contenedor general para limitar el ancho y centrar */
+.inicio-container {
+    max-width: 1100px; /* Ancho máximo para que no se pegue a los lados en monitores grandes */
+    margin: 0 auto;    /* Centra todo el contenido */
+    padding-top: 10px; /* Ajusta este valor para controlar el espacio superior exacto */
+}
+
 .inicio-welcome {
-    text-align: center;
-    margin-bottom: 40px;
+    display: flex;
+    align-items: center; /* Centra verticalmente el texto con el modelo */
+    justify-content: space-between; /* Separa el texto a la izquierda y el modelo a la derecha */
+    gap: 40px;  /* 20px; Espacio entre el texto y el modelo */
+    padding: 20px 0 50px 0;                 /*40px 0;  */
+}
+
+/* El bloque de texto ocupa el 50-60% del ancho */
+.welcome-text {
+    flex: 1;
+    animation: fadeInSlide 0.8s ease-out;
+}
+
+/* Contenedor del modelo para controlarlo mejor */
+.welcome-model {
+    flex: 0 0 350px; /* Fijamos un ancho un poco menor para el 3D (antes era 400) */
+    display: flex;
+    justify-content: center;
+}
+
+/* El visor 3D */
+.modelo-3d {
+    width: 100%;  /* Ajusta según necesites */
+    height: 350px; /* Es vital poner una altura fija o no se verá */
+    background-color: transparent; /* Quita el fondo gris por defecto si lo tiene */
+    --poster-color: transparent;
 }
 
 .welcome-title {
-    font-size: 30px;
+    font-size: 38px;
     font-weight: 800;
     color: var(--accent);
+    margin-bottom: 10px;
 }
 
 .welcome-subtitle {
+    font-size: 18px;
     color: var(--muted);
-    margin: 10px 0 20px;
+    margin-bottom: 30px;
     line-height: 1.6;
 }
 
@@ -217,4 +250,21 @@
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin-top: 12px;
+}
+
+/* Responsivo: Si la pantalla es pequeña, se ponen uno debajo del otro */
+@media (max-width: 768px) {
+    .inicio-welcome {
+        flex-direction: column-reverse; /* El texto arriba y el balón abajo */
+        text-align: center;
+        gap: 20px;;
+    }
+    
+    .welcome-model {
+        flex: 0 0 250px;
+    }
+
+    .modelo-3d {
+        height: 250px;
+    }
 }

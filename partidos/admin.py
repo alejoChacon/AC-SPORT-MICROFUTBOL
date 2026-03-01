@@ -6,7 +6,8 @@ from Torneo.models import Torneo as Charala
 
 class EditarAdminPartido(admin.ModelAdmin):
 
-    list_display = ("grupo","jornada","equipo_local","equipo_visitante", "fecha_hora")
+    list_display = ("grupo","jornada","equipo_local",'goles_local','goles_visitante',"equipo_visitante",'estado',"fecha_hora")
+    ordering = ('-torneo',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "torneo":

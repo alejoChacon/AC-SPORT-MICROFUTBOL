@@ -15,16 +15,14 @@ class IncripcionEquipoATorneo(LoginRequiredMixin,View):
             observacion = request.POST.get("observacion")
             pago_comprobante = request.FILES.get("pago_comprobante")
             documento_identidad = request.FILES.get("documento_identidad")
-            print(torneo_nombre,equipo_nombre,observacion,pago_comprobante,documento_identidad)
             if torneo_nombre and equipo_nombre and pago_comprobante and documento_identidad:
                 print("Aqui entro al condicional")
                 torneo = Torneo.objects.get(nombre=torneo_nombre)
                 equipo = Equipo.objects.get(nombre=equipo_nombre)
-                print("Torneo:",torneo,"Equipo:",equipo)
                 inscripcion_torneo = Inscripcion.objects.create(
                     torneo = torneo,
                     equipo = equipo,
-                    estado = 'aceptado',
+                    #estado = 'aceptado',
                     pago_comprobante = pago_comprobante,
                     documento_identidad = documento_identidad
                 )

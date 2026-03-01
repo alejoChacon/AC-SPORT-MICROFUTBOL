@@ -1,11 +1,16 @@
 from django.views import View
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from fase_de_grupos.models import EquipoGrupo
-from Torneo.models import Torneo
+from fase_de_grupos.models import EquipoGrupo,Grupo
+from Torneo.models import Torneo,Equipo
 from partidos.models import Partido
 from usuarios.models import Usuario
-from django.db.models import Count
+from django.db.models import Count,Q
+from django.db import transaction
+from .services import generar_grupos_torneo,generar_fixture
+import locale
+locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8') 
 
 class CargaPosiciones(LoginRequiredMixin,View):
     def get(self,request,*args,**kwars):
@@ -34,7 +39,7 @@ class CargarResultados(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
         try:
             torneo = Torneo.objects.filter(pk=self.kwargs["torneo_pk"]).first()
-            resultados_queryset = Partido.objects.filter(estado="finalizado",torneo=torneo,grupo__nombre=self.kwargs["grupo"])
+            resultados_queryset = Partido.objects.filter(estado="finalizado",torneo=torneo,grupo__nombre=self.kwargs["grupo"],jornada=self.kwargs['fecha'])
             resultados = []
             for partido in resultados_queryset:
                 resultados.append({
@@ -50,28 +55,28 @@ class CargarResultados(LoginRequiredMixin,View):
             return JsonResponse({"error":"Torneo no fue encontrado"})
         except Exception as e:
             return JsonResponse({"error":str(e)})
-        
-import locale
-locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8')        
+          
 class CargarPartidos(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
+        print('---------------------------------------------------------------------------------------------')
+        print('Tomando datos de los partidos')
         try:
-            print("Torneo pk:",self.kwargs["torneo_pk"],"Grupo",self.kwargs["grupo"])
-            partidos = Partido.objects.filter(torneo__pk=self.kwargs["torneo_pk"],grupo__nombre=self.kwargs["grupo"],estado="programado")
+            partidos = Partido.objects.filter(Q(estado="programado")|Q(estado='finalizado')|Q(estado='pendiente'),torneo__pk=self.kwargs["torneo_pk"],grupo__nombre=self.kwargs["grupo"],jornada=self.kwargs['fecha'])
             data_partidos = []
             if partidos.exists():
                 for partido in partidos:
-                    fecha_formateada = partido.fecha_hora.strftime("%d de %B del %Y %I:%M")
+                    fecha_formateada = partido.fecha_hora.strftime("%d de %B del %Y %I:%M") if partido.fecha_hora else 'N/A'
                     data_partidos.append({
                         "localteam": partido.equipo_local.nombre,
                         'localteamlogo': partido.equipo_local.escudo.url if partido.equipo_local.escudo else "",
                         "awayteam": partido.equipo_visitante.nombre,
                         "awayteamlogo": partido.equipo_visitante.escudo.url if partido.equipo_visitante.escudo else "",
-                        "cancha": partido.cancha,
+                        "cancha": partido.cancha if partido.cancha else 'N/A',
                         "fecha_partido": fecha_formateada
                     })
                 return JsonResponse({"fixtures":data_partidos})
             else:
+                print('Hubo un error pero toca encontrarlo')
                 return JsonResponse({"error":"No hay partidos programado hasta ahora."})
         except Exception as e:
             return JsonResponse({"error":str(e)})
@@ -94,3 +99,23 @@ class Goleador(LoginRequiredMixin,View):
             return JsonResponse({"goleadores":anotadores})
         except Exception as e:
             return JsonResponse({"error":str(e)})
+        
+class EstadoTorneo(LoginRequiredMixin,View):
+    def post(self,request,*args,**kwargs):
+        try:
+            with transaction.atomic():
+                torneo_pk = request.POST.get('torneo_pk',False)
+                cantidad_grupo = int(request.POST.get('cantidad-grupo'))
+                cantidad_equipos_clasificacion = request.POST.get('cantidad_clasificacion')
+                torneo = generar_grupos_torneo(torneo_pk,cantidad_grupo)
+                generar_fixture(torneo.pk)
+                url = reverse('torneo:torneoactivo',kwargs={'pk':torneo.pk})
+                return JsonResponse({
+                    'exito':'Grupos creados correctamente',
+                    'url':url
+                })
+        except ValueError as e:
+            return JsonResponse({'error': str(e)}, status=400)
+        except Exception as e:
+            print(str(e))
+            return JsonResponse({'error':str(e)},status=500)

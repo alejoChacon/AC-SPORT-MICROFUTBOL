@@ -27,16 +27,29 @@ class MainConsumer(AsyncWebsocketConsumer):
         await self.send_notification(text)
         print('Mensaje Recibido: ',text)
         
-    
     async def send_notification(self,event):
         notificacion = event['notificacion']
         if notificacion:
-            data_to_send = {
-                'equipo_pk':event['equipo_pk'],
-                'equipo':event['equipo'],
-                'capitan':event['capitan'],
-                'jugador_send_request': event['jugador_send_request'],
-                'jugador_send_pk': event['jugador_send_pk'],
-                'notificacion_pk': event['notificacion_pk']
-            }
-            await self.send(json.dumps(data_to_send))
+            if event['informacion'] == 'capitan':
+                print(event)
+                data_to_send = {
+                    'equipo_pk': event['equipo_pk'],
+                    'equipo': event['equipo'],
+                    'capitan': event['capitan'],
+                    'capitan_pk': event['capitan'],
+                    'jugador_id': event['jugador_id'],
+                    'notificacion_pk': event['notificacion_pk'],
+                    'informacion': event['informacion']
+                }
+                await self.send(json.dumps(data_to_send))
+            elif event['informacion'] == 'jugador':
+                data_to_send = {
+                    'equipo_pk':event['equipo_pk'],
+                    'equipo':event['equipo'],
+                    'capitan':event['capitan'],
+                    'jugador_send_request': event['jugador_send_request'],
+                    'jugador_send_pk': event['jugador_send_pk'],
+                    'notificacion_pk': event['notificacion_pk'],
+                    'informacion': event['informacion']
+                }
+                await self.send(json.dumps(data_to_send))

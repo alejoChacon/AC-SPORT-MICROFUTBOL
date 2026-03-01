@@ -32,35 +32,74 @@ class ConsumerMiEquipo(AsyncWebsocketConsumer):
     
     async def receive(self, text_data = None):
         text = json.loads(text_data)
+        accion = text.get('informacion',)
         equipo_pk = text.get('equipo_id')
         equipo = await obtener_datos_equipos(equipo_pk)
-        if equipo:
-            id_notificacion = await self.save_notification(equipo)
+        if accion == 'capitan':
+            if await self.cantidadJugadores(self.user) >= 10:
+                data_to_send = {'error':"No puedes enviar más solicitudes si tiene el cupo lleno en tu equipo"}
+                await self.send(json.dumps(data_to_send))
+                print('Error: equipo no puede enviar más solicitudes si tiene el cupo lleno')
+                return
+            self.receptorId = text.get('jugador_id',)
+            id_notification = await self.save_notification(equipo)
             await self.channel_layer.group_send(
-                f"user_{equipo['capitan_pk']}",
+                f'user_{self.receptorId}',
                 {
-                    'type':'send_notification',
-                    'equipo_pk':equipo['equipo_pk'],
-                    'equipo':equipo['nombre'],
-                    'capitan':equipo['capitan'],
-                    'jugador_send_request':self.user.get_full_name(),
-                    'jugador_send_pk':self.user.pk,
-                    'notificacion_pk':id_notificacion,
-                    'notificacion':True
+                    'type': 'send_notification',
+                    'equipo_pk': equipo['equipo_pk'],
+                    'equipo': equipo['nombre'],
+                    'capitan': equipo['capitan'],
+                    'capitan_pk': equipo['capitan_pk'],
+                    'jugador_id': self.receptorId,
+                    'notificacion_pk': id_notification,
+                    'notificacion': True,
+                    'informacion': 'capitan'
                 }
-            )
-        else:
-            print('No se pudo enviar la notificacion: Equipo no encontrado')
+            ) 
+        elif accion == 'jugador':        
+            if equipo:
+                id_notificacion = await self.save_notification(equipo)
+                await self.channel_layer.group_send(
+                    f"user_{equipo['capitan_pk']}",
+                    {
+                        'type':'send_notification',
+                        'equipo_pk':equipo['equipo_pk'],
+                        'equipo':equipo['nombre'],
+                        'capitan':equipo['capitan'],
+                        'jugador_send_request':self.user.get_full_name(),
+                        'jugador_send_pk':self.user.pk,
+                        'notificacion_pk':id_notificacion,
+                        'notificacion':True,
+                        'informacion': 'jugador'
+                    }
+                )
+            else:
+                print('No se pudo enviar la notificacion: Equipo no encontrado')
     
     @database_sync_to_async
     def save_notification(self,equipo):
-        print(equipo)
         try:
-            notificacion = NotificacionSolicitud.objects.create(
-                receptor_id = equipo['capitan_pk'],
-                remitente = self.user,
-                equipo_id = equipo['equipo_pk']
-            )
-            return notificacion.pk
+            print(self.user.get_full_name())
+            if equipo['capitan_pk'] == self.user.pk:
+                notificacion = NotificacionSolicitud.objects.create(
+                    receptor_id = self.receptorId,
+                    remitente = self.user,
+                    equipo_id = equipo['equipo_pk'],
+                    informacion = 'capitan' #Quiere decir que está accion la realizó el capitan, El capitan envío solicitud de unirse al equipo
+                )
+                return notificacion.pk
+            else:
+                notificacion = NotificacionSolicitud.objects.create(
+                    receptor_id = equipo['capitan_pk'],
+                    remitente = self.user,
+                    equipo_id = equipo['equipo_pk'],
+                    informacion = 'jugador' #QUiere decir que esta accion la realizó el jugador, El jugador solicitó al capitan del equipo que lo acepte en su equipo.
+                )
+                return notificacion.pk
         except Exception as e:
             print("Hubo un error: ",str(e))
+
+    @database_sync_to_async
+    def cantidadJugadores(self,capitan):
+        return capitan.equipos.jugadores.count()

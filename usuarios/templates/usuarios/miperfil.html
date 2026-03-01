@@ -22,53 +22,52 @@
                 {{ usuario.localidad|default:"Charalá" }} · {{ user.profile.rol|default:"Jugador" }}
             </p>
 
-            <!-- <div class="perfil-actions">
-                <button class="btn-main">Editar perfil</button>
-                <button class="btn-secondary">Cerrar sesión</button>
-            </div> -->
         </div>
     </section>
 
     <!-- ESTADÍSTICAS PERSONALES -->
-    <section class="perfil-stats">
-        <h2>Estadísticas personales</h2>
-        <div class="stats-grid">
-            <div class="stat-box">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Goles</span>
+    <div class="perfil-mixto-wrapper">
+        
+        <section class="perfil-stats">
+            <h2>Estadísticas personales</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Goles</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Asistencias</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Partidos jugados</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Tarjetas</span>
+                </div>
             </div>
-            <div class="stat-box">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Asistencias</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Partidos jugados</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Tarjetas</span>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- INFORMACIÓN DE JUGADOR -->
-    <section class="perfil-detalle">
-        <h2>Detalles del jugador</h2>
-        <ul class="perfil-datos">
-            <li><strong>Posición:</strong> {{ usuario.get_posicion_display|default:"Sin definir" }}</li>
-            <li><strong>Número:</strong> {{ usuario.numero_camisa|default:"N/A" }}</li>
-            <li><strong>Equipo:</strong> {{ usuario.equipos|default:"Sin equipo" }}</li>
-            <li><strong>Documento:</strong> {{usuario.get_documento_display|default:'N/A'}} </li>
-            <li><strong>Numero del Documento:</strong> {{usuario.num_document|default:'N/A'}} </li>
-            <li><strong>Celular:</strong> {{usuario.celular|default:'N/A'}} </li>
-            <li><strong>Correo:</strong> {{ user.email|default:'N/A' }}</li>
-        </ul>
-    </section>
+        <section class="perfil-detalle">
+            <h2>Detalles del jugador</h2>
+            <ul class="perfil-datos">
+                <li><strong>Posición:</strong> <span>{{ usuario.get_posicion_display|default:"Sin definir" }}</span></li>
+                <li><strong>Número:</strong> <span>{{ usuario.numero_camisa|default:"N/A" }}</span></li>
+                <li><strong>Equipo:</strong> <span>{{ usuario.equipos|default:"Sin equipo" }}</span></li>
+                <li><strong>Documento:</strong> <span>{{ usuario.get_documento_display|default:'N/A' }}</span></li>
+                <li><strong>Documento #:</strong> <span>{{ usuario.num_document|default:'N/A' }}</span></li>
+                <li><strong>Celular:</strong> <span>{{ usuario.celular|default:'N/A' }}</span></li>
+                <li><strong>Correo:</strong> <span>{{ user.email|default:'N/A' }}</span></li>
+            </ul>
+        </section>
+        
+    </div>
 
     <!-- FOOTER -->
     <footer class="inicio-footer">
-        © 2025 Torneo Cuna de la Libertad · Desarrollado por <strong>Chacón</strong> ⚽
+        © 2026 AC SPORT · Desarrollado por <strong>Chacón</strong> ⚽
     </footer>
 </main>
 

@@ -2,110 +2,143 @@
 {% load static %}
 
 {% block content %}
-
-<link rel="stylesheet" href="{% static 'css/miequipo.css' %}">
+<link rel="stylesheet" href="{% static 'css/conjunto.css' %}"> 
 
 <main class="app-main">
-
     {% if request.user.equipos %}
-
-    <!-- ENCABEZADO -->
-    <section class="equipo-header">
-        <div class="equipo-info">
-            {% if equipo.escudo.url %}
-                <img src="{{equipo.escudo.url}}" alt="Logo equipo" class="equipo-logo">
-            {% else %}
-                <img src="{% static 'img/free-player.png' %}" alt="logo equipo" class="equipo-logo">
-            {% endif %}
-            <div>
-                <h1 class="equipo-nombre"> {{equipo.nombre}} </h1>
-                <p class="equipo-torneo">Participando en torneo <strong> {{request.user.equipos.inscripciones_torneo.first.torneo.nombre|default:"No estas participando en ningun torneo"}} </strong></p>
+        <section class="equipo-header">
+            <div class="equipo-info">
+                <img src="{{ equipo.escudo.url|default:'/static/img/free-player.png' }}" class="equipo-logo">
+                <div>
+                    <h1 class="equipo-nombre">{{ equipo.nombre }}</h1>
+                    <p class="equipo-torneo">Torneo: <strong>{{ request.user.equipos.inscripciones_torneo.first.torneo.nombre|default:"Ninguno" }}</strong></p>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ESTADÍSTICAS DEL EQUIPO -->
-    <section class="equipo-stats"></section>
-
-    <!-- INTEGRANTES DEL EQUIPO -->
-    <section class="equipo-integrantes">
-        <div class="integrantes-header">
-            <h2>Integrantes del Equipo</h2>
             {% if request.user == equipo.capitan %}
-            <button class="btn-accion">Agregar jugador</button>
-            <button class="btn-accion">Editar equipo</button>
-            {% endif %}
-        </div>
-
-        <div class="integrantes-grid">
-
-            {% for jugador in equipo.jugadores.all %}
-            <div class="jugador-card">
-                {% if jugador.foto.url %}
-                    <img src="{{jugador.foto.url}}" alt="Jugador" class="jugador-foto">
-                {% else %}
-                    <img src="{% static 'img/sin-foto.jpg' %}" alt="jugador" class="jugador-foto">
+            <div class="acciones-header">
+                {% if request.user.equipos.jugadores.count < 10 %}
+                <button class="btn-accion" id="jugadoresfree" onclick="abrirJugadoresFree()"> Agregar jugador </button>
                 {% endif %}
-                <h3 class="jugador-nombre"> {{jugador.get_full_name}} </h3>
-                <p class="jugador-posicion"> {{jugador.get_posicion_display}} </p>
+                <a href="{% url 'miequipo:editEquipo' request.user.equipos.pk %}" class="btn-accion"> Editar Equipo </a>
             </div>
-            {% empty %}
-            <p class="sin-jugadores">Aún no hay jugadores registrados en el equipo.</p>
-            {% endfor %}
+            {% endif %}
+        </section>
 
+        <div class="info-mixta-wrapper">
+            <section class="equipo-stats grid-2x2"></section>
+            
+            <section class="equipo-lateral">
+                <div class="lateral-header">
+                    <span class="icon">📋</span>
+                    <h2>Datos del Equipo</h2>
+                </div>
+                <ul class="datos-lista">
+                    <li><strong>Capitán:</strong> <span>{{ equipo.capitan|default:"Sin asignar" }}</span></li>
+                    <li><strong>Jugadores:</strong> <span>{{ jugadores }}</span></li>
+                    <li><strong>Ubicación:</strong> <span>{{ equipo.municipio|default:"Sin asignar" }}</span></li>
+                </ul>
+            </section>
         </div>
-    </section>
 
-    <!-- LISTA DE PARTIDOS -->
-    <section class="equipo-partidos">
-        <div class="partidos-header">
-            <h2>Calendario de Partidos</h2>
-            <div class="filtros">
-                <button class="filtro activo" data-filter="programado"> Próximos </button>
-                <button class="filtro" data-filter="finalizado"> Finalizados </button>
+        <section class="gestion-tactica">
+            <div class="estrategia-wrapper">
+                <div class="panel-cancha">
+                    <h2> Equipo Titular </h2> <br>
+                    <div class="cancha-micro" id="cancha">
+                        <div class="posicion pivot" data-pos="pivot"><span class="pos-label">PIVOT</span></div>
+                        <div class="posicion ala-izq" data-pos="ala-izq"><span class="pos-label">ALA IZQ</span></div>
+                        <div class="posicion ala-der" data-pos="ala-der"><span class="pos-label">ALA DER</span></div>
+                        <div class="posicion cierre" data-pos="cierre"><span class="pos-label">CIERRE</span></div>
+                        <div class="posicion portero" data-pos="portero"><span class="pos-label">PORTERO</span></div>
+                    </div>
+                </div>
+
+                <div class="panel-banquillo">
+                    <h3>Banquillo</h3>
+                    <div id="lista-suplentes" class="suplentes-grid">
+                        {% for jugador in request.user.equipos.jugadores.all %}
+                            {% if jugador.id not in titulares_ids %}
+                            <div class="ficha-tactica" draggable="true" id="jugador-{{ jugador.id }}">
+                                <div class="foto-wrapper">
+                                    {% if jugador.foto %}
+                                    <img src="{{ jugador.foto.url|default:'/static/img/sin-foto.jpg' }}">
+                                    {% else %}
+                                    <img src="{% static 'img/sin-foto.jpg' %}">
+                                    {% endif %}
+                                    <span class="dorsal">#{{ jugador.numero_camisa|default:"0" }}</span>
+                                </div>
+                                <span class="nombre-jugador">{{ jugador.first_name }}</span>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% if request.user.equipos.capitan == request.user %}
+                    <button id="guardar-alineacion" class="btn-save">💾 Guardar Alineación</button>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="equipo-partidos">
+            <div class="partidos-header">
+                <h2>Calendario</h2>
+                <div class="filtros">
+                    <button class="filtro activo" data-filter="programado">Próximos</button>
+                    <button class="filtro" data-filter="finalizado">Finalizados</button>
+                </div>
+            </div>
+            <table class="tabla-partidos">
+                <thead>
+                    <tr><th>Fecha</th><th>Rival</th><th>Resultado</th><th>Cancha</th><th>Hora</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <div id="modal-jugadores" class="modal-container">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Jugadores Disponibles</h3>
+                    <button id="cerrar-modal" class="btn-cerrar">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="filtros-wrapper">
+                        <input type="text" id="buscar-jugador" placeholder="Buscar por nombre..." class="input-busqueda">
+                        <select id="filtrar-posicion" class="select-posicion">
+                            <option value="">Todas</option>
+                            <option value="portero">Portero</option>
+                            <option value="cierre">Cierre</option>
+                            <option value="ala-izq">Ala Izq</option>
+                            <option value="ala-der">Ala Der</option>
+                            <option value="pivot">Pivot</option>
+                        </select>
+                    </div>
+                    <div id="lista-libres" class="lista-libres-grid">
+                        <p class="cargando">Cargando jugadores...</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <table class="tabla-partidos">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Rival</th>
-                    <th>Resultado</th>
-                    <th>Cancha</th>
-                    <th>Hora</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>—</td>
-                    <td>No hay partidos registrados.</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>—</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+        <div id="message-danger"></div>
 
-    <!-- BLOQUE LATERAL DE INFORMACIÓN -->
-    <section class="equipo-lateral">
-        <h2>Datos del Equipo</h2>
-        <ul>
-            <li><strong>Capitán:</strong> {{ equipo.capitan|default:"Sin asignar" }}</li>
-            <li><strong>Jugadores:</strong> {{jugadores}} </li>
-            <li><strong>Ubicación:</strong> {{equipo.municipio|default:"You are not joined on anything team footbol"}} </li>
-        </ul>
-    </section>
+        <button type="button" id="mostrar-mensaje" class="btn btn-danger"> Abandonar Equipo </button>
 
-    <footer class="inicio-footer">
-        © 2025 2025 AC SPORT · <strong>CHACON</strong>
-    </footer>
+        <script> 
+            const equipo_pk = {{ equipo.pk }};
+            // Pasamos la alineación actual a JavaScript
+            const alineacionInicial = {
+                "portero": { "id": "{{ alineacion.portero.id|default:'' }}", "nombre": "{{ alineacion.portero.first_name|default:'' }}", "foto": "{% if alineacion.portero.foto %}{{ alineacion.portero.foto.url }}{% else %}{% static 'img/sin-foto.jpg' %}{% endif %}", "dorsal": "{{ alineacion.portero.numero_camisa|default:'0' }}" },
+                "cierre": { "id": "{{ alineacion.cierre.id|default:'' }}", "nombre": "{{ alineacion.cierre.first_name|default:'' }}", "foto": "{% if alineacion.cierre.foto %}{{ alineacion.cierre.foto.url }}{% else %}{% static 'img/sin-foto.jpg' %}{% endif %}", "dorsal": "{{ alineacion.cierre.numero_camisa|default:'0' }}" },
+                "ala-izq": { "id": "{{ alineacion.ala_izq.id|default:'' }}", "nombre": "{{ alineacion.ala_izq.first_name|default:'' }}", "foto": "{% if alineacion.ala_izq.foto %}{{ alineacion.ala_izq.foto.url }}{% else %}{% static 'img/sin-foto.jpg' %}{% endif %}", "dorsal": "{{ alineacion.ala_izq.numero_camisa|default:'0' }}" },
+                "ala-der": { "id": "{{ alineacion.ala_der.id|default:'' }}", "nombre": "{{ alineacion.ala_der.first_name|default:'' }}", "foto": "{% if alineacion.ala_der.foto %}{{ alineacion.ala_der.foto.url }}{% else %}{% static 'img/sin-foto.jpg' %}{% endif %}", "dorsal": "{{ alineacion.ala_der.numero_camisa|default:'0' }}" },
+                "pivot": { "id": "{{ alineacion.pivot.id|default:'' }}", "nombre": "{{ alineacion.pivot.first_name|default:'' }}", "foto": "{% if alineacion.pivot.foto %}{{ alineacion.pivot.foto.url }}{% else %}{% static 'img/sin-foto.jpg' %}{% endif %}", "dorsal": "{{ alineacion.pivot.numero_camisa|default:'0' }}" }
+            };
 
-    <script> equipo_pk = {{equipo.pk}} </script>
+        </script>
 
     {% else %}
-
         {% if cantidad_solicitud_dia_rta %}
             <section class="no-equipo-container" style="flex-direction: column; align-items: center;">
                 <div class="message-solicitud"></div>
@@ -141,17 +174,8 @@
                 </div>
             </section>
         {% endif %}
-
-    <footer class="inicio-footer">
-        © 2025 AC SPORT · <strong>CHACON</strong> 
-    </footer>
-
-    <script> equipo_pk = false </script>
-
     {% endif %}
-
 </main>
 
-<script src="{% static 'js/miequipo.js' %}"></script>
-
+<script src="{% static 'js/conjunto.js' %}"></script>
 {% endblock %}

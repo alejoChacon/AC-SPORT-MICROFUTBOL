@@ -1,0 +1,294 @@
+/* Hereda variables de plataforma.css */
+
+.resultados-wrapper {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Header Filters */
+.filters-group {
+    display: flex;
+    gap: 10px;
+}
+
+.custom-select-simple {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text);
+    padding: 8px 15px;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* GRID */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 25px;
+}
+
+/* RESULT CARD */
+.result-card {
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: var(--transition);
+}
+
+.result-card:hover {
+    background: var(--panel-2);
+    border-color: rgba(203, 162, 65, 0.3);
+    transform: translateY(-3px);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.badge-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge-status.verified { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+.badge-status.pending { background: rgba(203, 162, 65, 0.15); color: var(--accent); }
+
+/* SCOREBOARD SECTION */
+.scoreboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.team-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    text-align: center;
+    gap: 10px;
+}
+
+.team-logo-lg {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+}
+
+.team-name {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Score Display (Static) */
+.score-display {
+    font-size: 42px;
+    font-weight: 900;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    gap: 10px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.score-val { width: 40px; text-align: center; }
+
+/* Score Inputs (Editable) */
+.score-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.big-input {
+    width: 60px;
+    height: 60px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--accent);
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    outline: none;
+    transition: var(--transition);
+}
+
+.big-input:focus {
+    border-color: var(--accent);
+    background: rgba(203, 162, 65, 0.05);
+}
+
+/* Actions */
+.btn-action-outline {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-action-outline:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+.btn-action-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.btn-action-primary:hover {
+    background: #d4ad52;
+    transform: scale(1.02);
+}
+
+/* --- MODAL LARGE --- */
+.modal-large {
+    background: #141414;
+    border: 1px solid var(--accent);
+    width: 90%;
+    max-width: 900px; /* Más ancho para el acta */
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+.modal-header-acta {
+    background: rgba(203, 162, 65, 0.1);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.header-info h3 { margin: 0; color: var(--accent); }
+.header-info span { font-size: 13px; color: var(--muted); }
+
+.modal-body-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Izquierda Stats, Derecha Foto */
+    gap: 0;
+}
+
+.stats-section {
+    padding: 25px;
+    display: flex;
+    gap: 20px;
+}
+
+.team-stats-box { flex: 1; }
+.team-stats-box h4 { margin-bottom: 15px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.stat-row label { font-size: 12px; color: var(--muted); }
+
+.stat-input {
+    width: 50px;
+    background: #000;
+    border: 1px solid #333;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.stat-input.blue-card { border-color: #2979ff; color: #2979ff; }
+.stat-input.red-card { border-color: #ff5252; color: #ff5252; }
+
+/* Evidence Section */
+.evidence-section {
+    background: rgba(0,0,0,0.3);
+    padding: 25px;
+    border-left: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.upload-zone {
+    border: 2px dashed rgba(255,255,255,0.1);
+    border-radius: 12px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.upload-zone:hover { border-color: var(--accent); color: var(--accent); background: rgba(203, 162, 65, 0.05); }
+.upload-zone i { font-size: 24px; margin-bottom: 10px; }
+
+.obs-box textarea {
+    width: 100%;
+    height: 80px;
+    background: #080808;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px;
+    resize: none;
+}
+
+.modal-footer-acta {
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    background: #101010;
+}
+
+.btn-save-acta {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-cancel {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}

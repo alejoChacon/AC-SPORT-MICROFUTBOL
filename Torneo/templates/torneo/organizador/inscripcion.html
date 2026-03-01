@@ -1,0 +1,138 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+{% load math_extra %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/inscripcion.css' %}">
+
+<div class="main-top">
+    <h1 class="page-title">Gestión de Inscripciones</h1>
+    <div class="resumen-pills">
+        <div class="pill">Pendientes: <strong>{{cantidad_pendeintes}}</strong></div>
+        <div class="pill success">Aceptados: <strong>{{ torneo.equipos_inscritos }}</strong></div>
+        <div class="pill warning">Cupos Libres: <strong>{{ torneo.max_equipos|resta:torneo.equipos_inscritos }}</strong></div>
+    </div>
+</div>
+
+<div class="gestion-inscripciones">
+    <div class="table-container">
+        <table class="tabla-validacion">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>Delegado</th>
+                    <th>Fecha</th>
+                    <th>Comprobante</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inscripcion in solicitudes_pendientes %}
+                <tr>
+                    <td>
+                        <div class="team-info">
+                            <div class="team-avatar-sm">{{ inscripcion.equipo.nombre|slice:":1" }}</div>
+                            <span>{{ inscripcion.equipo.nombre }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="delegado-info">
+                            <span>{{ inscripcion.equipo.capitan.get_full_name }}</span>
+                            <small><i class="fas fa-phone"></i> {{ inscripcion.equipo.capitan.celular }}</small>
+                        </div>
+                    </td>
+                    <td>{{ inscripcion.fecha_inscripcion|date:"d M, Y" }}</td>
+                    <td>
+                        <a href="{{inscripcion.pago_comprobante.url}}" class="btn-ver-pago" target="_blank">
+                            <i class="fas fa-file-invoice-dollar"></i> Ver Soporte
+                        </a>
+                    </td>
+                    <td class="acciones-celda">
+                        <button type="button" class="btn-check" onclick="confirmacionInscripcion({{inscripcion.pk}},'aceptar',this)">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button type="button" class="btn-cross" onclick="confirmacionInscripcion({{inscripcion.pk}},'rechazar',this)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <p class="message"></p>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-inbox" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        No hay solicitudes pendientes.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- EQUIPOS INSCRITOS -->
+<div class="equipos-inscritos">
+    <h3> Equipos inscritos</h3>
+    <div class="equipos-grid">
+    </div>
+</div>
+
+{% if tiempo_inscripcion_caducado %}
+
+<div class="footer-actions">
+    <div class="status-msg">
+        <p id="parrafito"><i class="fas fa-info-circle"></i> Una vez aceptados los equipos, puedes proceder a la configuración de grupos.</p>
+        <button type="button" class="btn-primary btn-programar">
+            <i class="fas fa-play"></i> Iniciar Configuración de Torneo
+        </button>
+    </div>
+</div>
+
+{% endif %}
+
+<form method="post" onsubmit="estadoTorneo(event)" id="formulario" class="torneo-form-card">
+    {% csrf_token %}
+    <div class="form-header">
+        <i class="fas fa-cog fa-spin" style="--fa-animation-duration: 3s;"></i>
+        <h3>Estructura del Torneo</h3>
+        <p>Define cómo se dividirán los <strong> equipos inscritos </strong> </p>
+    </div>
+
+    <input type="hidden" name="torneo_pk" value="{{torneo.pk}}">
+
+    <div class="input-group">
+        <div class="label-wrapper">
+            <label>Cantidad de Grupos</label>
+            <span class="range-value" id="val-grupos">2</span>
+        </div>
+        <input type="range" name="cantidad-grupo" id="id_cantidad-grupo" min="1" max="8" value="2" oninput="document.getElementById('val-grupos').innerText = this.value">
+    </div>
+
+    <div class="input-group">
+        <div class="label-wrapper">
+            <label>Clasificados por Grupo</label>
+            <span class="range-value" id="val-clasificados">2</span>
+        </div>
+        <input type="range" name="cantidad_clasificacion" id="id_cantidad_clasificacion" min="1" max="8" value="2" oninput="document.getElementById('val-clasificados').innerText = this.value">
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-primary" style="width: 100%;">
+            <i class="fas fa-rocket"></i> Generar Fixture y Grupos
+        </button>
+        <button type="button" onclick="cancelar()" class="btn-secondary" style="width: 100%;">
+            Cancelar
+        </button>
+    </div>
+</form>
+
+<a href="{% url 'torneo:mistorneos' %}" class="btn-secondary" id="cepillin">
+    <i class="fas fa-arrow-left"></i> Volver
+</a> <br>
+
+<div id="message-danger"></div>
+<script>
+    const torneo_id = '{{torneo.pk}}'
+</script>
+<script src="{% static 'js/inscripcion.js' %}"></script>
+{% endblock %}

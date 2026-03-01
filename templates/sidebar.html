@@ -4,13 +4,8 @@
 
 <nav class="sidebar" aria-label="Navegación principal">
     <div class="user-row">
-        <div class="avatar"> 
-            {% if request.user.foto %}
-                <img src="{{ request.user.foto.url }}" alt="Avatar" style="width:100%; border-radius:10px;">
-            {% else %}
-                <img src="{% static 'img/sin-foto.jpg' %}" alt="avatar" style="width:100%; border-radius:10px;">
-                <!-- {{ request.user.first_name|slice:":1" }}{{ request.user.last_name|slice:":1" }} -->
-            {% endif %}
+        <div class="avatar">
+             <img src="{{ request.user.get_foto_url }}" alt="Avatar" style="width:100%; border-radius:10px;">
         </div>
         <div class="user-info">
             <div class="name"> {{request.user.first_name|default:'Usuario'}} </div>

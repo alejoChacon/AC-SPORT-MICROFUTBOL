@@ -26,29 +26,45 @@ mainWebsocket.onmessage = function(e){
     li.className = 'notif-item';
     li.id = `notif-${data.notificacion_pk}`
     
-    // Ajusta 'data.message' según como lo envíe tu backend
-    li.innerHTML = `
-        <h4><strong>${data.jugador_send_request}</strong> ha solicitado unirse a tu equipo ${data.equipo}</h4>
-        <small> Número de solicitud ${data.notificacion_pk} </small>
-        <p style="font-size: 11px; color: var(--muted);">¿Te gustaría recibirlo?</p>
-        <div class="notif-actions">
-            <button type="button" class="btn-notif-accept" onclick="responderSolicitud(${data.equipo_pk},'${data.jugador_send_request}','aceptar',${data.jugador_send_pk},${data.notificacion_pk})">Sí</button>
-            <button type="button" class="btn-notif-decline" onclick="responderSolicitud(${data.equipo_pk},'${data.jugador_send_request}','rechazar',${data.jugador_send_pk},${data.notificacion_pk})">No</button>
-        </div>
-        <span class="time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-    `;
+    if (data.informacion === 'jugador'){
+        // Ajusta 'data.message' según como lo envíe tu backend
+        li.innerHTML = `
+            <h4><strong>${data.jugador_send_request}</strong> ha solicitado unirse a tu equipo ${data.equipo}</h4>
+            <small> Número de solicitud ${data.notificacion_pk} </small>
+            <p style="font-size: 11px; color: var(--muted);">¿Te gustaría recibirlo?</p>
+            <div class="notif-actions">
+                <button type="button" class="btn-notif-accept" onclick="responderSolicitud(${data.equipo_pk},'aceptar',${data.jugador_send_pk},${data.notificacion_pk})">Sí</button>
+                <button type="button" class="btn-notif-decline" onclick="responderSolicitud(${data.equipo_pk},'rechazar',${data.jugador_send_pk},${data.notificacion_pk})">No</button>
+            </div>
+            <span class="time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+        `;
+    } else if(data.informacion === 'capitan'){
+        console.log(data);
+        // Ajusta 'data.message' según como lo envíe tu backend
+        li.innerHTML = `
+            <h4><strong>${data.capitan}</strong> quiere que tú hagas parte del equipo ${data.equipo}</h4>
+            <small> Número de solicitud ${data.notificacion_pk} </small>
+            <p style="font-size: 11px; color: var(--muted);">¿Te gustaría aceptar la invitación?</p>
+            <div class="notif-actions">
+                <button type="button" class="btn-notif-accept" onclick="responderSolicitud(${data.equipo_pk},'aceptar',${data.jugador_id},${data.notificacion_pk})"> Sí </button>
+                <button type="button" class="btn-notif-decline" onclick="responderSolicitud(${data.equipo_pk},'rechazar',${data.jugador_id},${data.notificacion_pk})"> No </button>
+            </div>
+            <span class="time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+        `;
+    }
 
     // 3. Insertar al principio de la lista
     notifList.prepend(li);
     
     if(badge) badge.style.display = 'block';
-    if(notifSound){
-        // Reiniciamos el sonido por si llega otro mensaje rápido
-        notifSound.currentTime = 0;
-        // Intentamos reproducir
-        notifSound.play().catch(error => console.log("El audio no pudo reproducirse automáticamente debido a políticas del navegador."));
-    }
-    document.title = '(1) Nuevo mensaje - AC Sport';
+
+    window.requestAnimationFrame(() => {
+        if(notifSound) {
+            notifSound.currentTime = 0;
+            notifSound.play().catch(e => console.log("El audio no pudo reproducirse automáticamente debido a políticas del navegador.") );
+        }
+        document.title = '(1) Nuevo mensaje - AC Sport';
+    });
 }
 
 // Abrir/Cerrar panel
@@ -80,8 +96,8 @@ document.getElementById('notification-btn').addEventListener('click',function(){
     document.title = "AC Sport - Plataforma";
 });
 
-async function responderSolicitud(equipo_id,usuario,accion,jugador_pk,notificacion_pk=null) {
-    console.log(notificacion_pk)
+async function responderSolicitud(equipo_id,accion,jugador_pk,notificacion_pk=null) {
+    console.log(`Equipo id: ${equipo_id}, Accion: ${accion}, Jugador id: ${jugador_pk}, Notificacion id: ${notificacion_pk}`)
     try{
         const response = await fetch(`/solicitud-equipo/`,{
             method: 'POST',
@@ -91,7 +107,7 @@ async function responderSolicitud(equipo_id,usuario,accion,jugador_pk,notificaci
             },
             body: JSON.stringify({
                 'equipo_pk':equipo_id,
-                'usuario':usuario,
+                //'usuario':usuario,
                 'usuario_pk':jugador_pk,
                 'accion':accion,
                 'notificaion_pk':notificacion_pk

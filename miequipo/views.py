@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from Torneo.models import Equipo
+from usuarios.models import Usuario
+from Torneo.forms import EquipoForms
 from django.views import View
 from fase_de_grupos.models import EquipoGrupo
 from django.http import JsonResponse
@@ -9,10 +11,11 @@ from partidos.models import Partido
 from Home.models import NotificacionSolicitud
 from django.utils import timezone
 from django.db.models import Q
+from django.urls import reverse_lazy
 
 # Create your views here.
 
-fecha_actual = timezone.localtime(timezone.now())
+fecha_actual = timezone.now()
 
 class MiEquipo(LoginRequiredMixin,TemplateView):
     template_name = "miequipo/miequipo.html"
@@ -22,9 +25,19 @@ class MiEquipo(LoginRequiredMixin,TemplateView):
         try:
             if self.request.user.equipos:
                 equipo = Equipo.objects.filter(jugadores__pk = self.request.user.pk).first()
+                alineacion = getattr(equipo,'titular_equipo',None)
+                titulares_ids = []
+                if alineacion:
+                    titulares_ids = [
+                        alineacion.portero.id, alineacion.cierre.id, alineacion.ala_izq_id,
+                        alineacion.ala_der_id, alineacion.pivot.id
+                    ]
+                context['alineacion'] = alineacion
+                context['titulares_ids'] = titulares_ids
                 context["equipo"] = equipo
                 context["jugadores"] = equipo.jugadores.count()
             else:
+                print("Está entrando aquí")
                 notificacion_del_dia = NotificacionSolicitud.objects.filter(remitente=self.request.user,fecha_creacion__day=fecha_actual.day)
                 print(notificacion_del_dia)
                 if len(notificacion_del_dia) >= 2:
@@ -75,3 +88,15 @@ class CalendarioPartidos(LoginRequiredMixin,View):
             return JsonResponse({"calendario_partidos":data_calendar})
         except Exception as e:
             return JsonResponse({"error":str(e)})
+
+class ActualizarEquipo(LoginRequiredMixin,UpdateView):
+    model = Equipo
+    template_name = 'miequipo/actualizarEquipo.html'
+    queryset = Equipo.objects.all()
+    form_class = EquipoForms
+    success_url = reverse_lazy('miequipo:miequipo')
+
+    def get_form(self, form_class = None):
+        form = super().get_form(form_class)
+        form.fields['capitan'].queryset = Usuario.objects.filter(equipos=self.get_object())
+        return form

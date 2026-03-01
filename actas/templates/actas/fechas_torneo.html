@@ -1,0 +1,114 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/fechas_torneo.css' %}">
+
+    <div class="main-top">
+        <h1 class="page-title">{{ torneo.nombre }}</h1>
+        <div class="filter-row">
+            <span class="year-badge">Paso 2: Seleccione la Fecha</span>
+        </div>
+    </div>
+
+    <div class="fechas-container">
+        {% for jornada in jornadas %}
+            {% if jornada.estado == 'En Curso' %}
+                
+                <div class="fecha-card active">
+                    <div class="fecha-header">
+                        <span class="numero-fecha">Fecha {{jornada.jornada}} </span>
+                        <span class="estado-tag"> {{jornada.estado}} </span>
+                    </div>
+                    <div class="fecha-body">
+                        <p><i class="fa-solid fa-calendar"></i> {{jornada.fecha|date:'d \d\e F, Y'}} </p>
+                        <p><i class="fa-solid fa-gamepad"></i> {{jornada.partidos_programados}} Partidos programados</p>
+                    </div>
+                    <a href="{% url 'vista_general:registrarmarcador' torneo.pk jornada.jornada %}" class="btn-secondary unica">Registrar Marcadores</a>
+                </div>
+
+            {% elif jornada.estado == 'Finalizado' %}
+                
+                <div class="fecha-card completed">
+                    <div class="fecha-header">
+                        <span class="numero-fecha">Fecha {{jornada.jornada}} </span>
+                        <span class="estado-tag"><i class="fa-solid fa-check"></i> {{jornada.estado}} </span>
+                    </div>
+                    <div class="fecha-body">
+                        <p><i class="fa-solid fa-calendar"></i> {{jornada.fecha|date:'d \d\e F, Y'}} </p>
+                        <p><i class="fa-solid fa-circle-check"></i> Resultados cargados</p>
+                    </div>
+                    <a href="{% url 'vista_general:registrarmarcador' torneo.pk jornada.jornada %}" class="btn-secondary unica">Ver Jornada</a>
+                </div>
+
+            {% else %}
+
+                <div class="fecha-card future">
+                    <div class="fecha-header">
+                        <span class="numero-fecha">Fecha {{jornada.jornada}} </span>
+                        <span class="estado-tag"> {{jornada.estado}} </span>
+                    </div>
+                    <div class="fecha-body">
+                        <p><i class="fa-solid fa-calendar"></i> {{jornada.fecha|date:'d \d\e F, Y'|default:'N/A'}} </p>
+                        <p><i class="fa-solid fa-clock"></i> Sin programación aún</p>
+                    </div>
+                    <button class="btn-secondary" disabled>No disponible</button>
+                </div>
+
+            {% endif %}
+
+        {% empty %}
+            <p> No hay jornadas todavía </p>
+        {% endfor %}
+
+    </div>
+
+    {% if partidos_hoy %}
+
+        <div class="today-section">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fa-solid fa-bolt-lightning"></i> En Vivo / Hoy</h2>
+                <div class="live-pulse-container">
+                    <span class="pulse-dot"></span>
+                    <span class="live-text">ACCESO RÁPIDO</span>
+                </div>
+            </div>
+            
+            <div class="today-grid">
+                {% for partido in partidos_hoy %}
+                <div class="match-today-card">
+                    <div class="match-top-info">
+                        <span class="match-hour">{{ partido.fecha_hora|time:"H:i" }}</span>
+                        {% if partido.esta_cerca %}
+                            <span class="badge-near">Pitazo Inminente</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="match-teams-row">
+                        <div class="team-block">
+                            <span class="t-name">{{ partido.equipo_local.nombre }}</span>
+                        </div>
+                        <span class="vs-text">vs</span>
+                        <div class="team-block">
+                            <span class="t-name">{{ partido.equipo_visitante.nombre }}</span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'vista_general:partidoenvivo' partido.pk %}" class="btn-direct-live">
+                        <i class="fa-solid fa-clipboard-check"></i> Abrir Mesa Técnica
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endif %}
+
+    <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: 15px; margin-bottom: 15px;">
+        <a href="{% url 'vista_general:resultadosactas' %}" class="btn-secondary micro">
+            <i class="fa-solid fa-arrow-left"></i> Volver a Torneos
+        </a>
+    </div>
+
+{% endblock %}

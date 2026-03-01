@@ -26,4 +26,4 @@ class Inscripcion(models.Model):
         ordering = ["fecha_inscripcion"]
 
     def __str__(self):
-        return f"{self.equipo.nombre} {self.torneo.nombre}"
+        return f"{self.equipo.nombre} en proceso de solicitud de inscripcion {self.torneo.nombre}"

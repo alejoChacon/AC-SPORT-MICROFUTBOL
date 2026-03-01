@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'inscripcion',
     'fase_de_grupos',
     'partidos',
-    'GOLEADOR'
+    'GOLEADOR',
+    'actas'
 ]
 
 MIDDLEWARE = [
@@ -118,8 +119,9 @@ LANGUAGE_CODE = 'es-co'
 TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
+USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False # <--- Al poner esto en False, Django guarda la hora "tal cual" la recibe (6:00 PM)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -138,9 +140,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
-LOGIN_URL = "login/"
+#LOGIN_URL = "login/"
 LOGIN_REDIRECT_URL = "Home:plataforma_inicio"
-LOGOUT_REDIRECT_URL = "login/"
+#LOGOUT_REDIRECT_URL = "login/"
 
 CHANNEL_LAYERS = {
     'default': {

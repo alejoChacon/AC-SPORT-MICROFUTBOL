@@ -1,0 +1,343 @@
+/* Marcador Gigante */
+.live-scoreboard {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(203, 162, 65, 0.1) 0%, rgba(0,0,0,0.4) 100%);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(203, 162, 65, 0.2);
+    margin-bottom: 30px;
+}
+
+.main-score {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.score-box {
+    background: #000;
+    color: var(--accent);
+    font-size: 60px;
+    font-weight: 900;
+    padding: 10px 25px;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(203, 162, 65, 0.3);
+}
+
+.match-time-live {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.timer {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    animation: blink 1s infinite;
+}
+
+/* Paneles de Jugadores */
+.events-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px 1fr;
+    gap: 20px;
+}
+
+.team-panel {
+    background: rgba(255,255,255,0.03);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.player-row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 10px;
+}
+
+.dorsal {
+    background: var(--panel-2);
+    color: var(--accent);
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.player-name { flex: 1; font-size: 14px; font-weight: 600; }
+
+/* Botones de Eventos */
+.player-controls { display: flex; gap: 5px; }
+
+.btn-event {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-event.goal { background: #fff; color: #000; }
+.btn-event.yellow { background: #f1c40f; }
+.btn-event.blue {background: blue;}
+.btn-event.red { background: #e74c3c; }
+
+.btn-event:hover { transform: scale(1.15); filter: brightness(1.2); }
+
+/* Timeline */
+.match-timeline {
+    background: rgba(0,0,0,0.4);
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.event-record {
+    font-size: 12px;
+    padding: 8px;
+    background: rgba(255,255,255,0.05);
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-record {
+    border-left: 3px solid transparent; /* Base */
+}
+/* En el HTML podrías añadir clases dinámicas */
+.event-record.gol { border-left-color: var(--accent); }
+.event-record.amarilla { border-left-color: #f1c40f; }
+
+.card-mini { width: 10px; height: 14px; border-radius: 2px; }
+.card-mini.yellow { background: #f1c40f; }
+.card-mini.blue { background: blue; }
+.card-mini.red { background: #e74c3c; }
+
+@keyframes blink {
+    50% { opacity: 0.5; }
+}
+
+
+/* Estilo para los escudos grandes en el marcador */
+.shield-lg {
+    width: 80px;          /* Tamaño fijo para mantener simetría */
+    height: 80px;         /* Tamaño fijo */
+    object-fit: contain;  /* Evita que la imagen se estire o deforme */
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); /* Sombra para dar profundidad */
+    transition: transform 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutil si el logo es transparente */
+    padding: 5px;
+    border-radius: 50%;   /* Opcional: hace que el área de fondo sea circular */
+}
+
+.shield-lg:hover {
+    transform: scale(1.05); /* Pequeño efecto al pasar el mouse */
+}
+
+/* Ajuste para los nombres de los equipos para que no choquen con el escudo */
+.team-header h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Asegurar que el header del equipo alinee todo al centro */
+.team-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px; /* Ancho fijo para que el marcador central no se mueva */
+}
+
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.timer {
+    font-size: 3rem !important; /* Más grande y digital */
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow: 0 0 15px rgba(203, 162, 65, 0.5);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-timer-ctrl {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-timer-ctrl:hover {
+    background: var(--accent);
+    color: black;
+    transform: scale(1.1);
+}
+
+.timer.paused {
+    animation: blink 1s infinite;
+    color: #ff4444;
+}
+
+@keyframes blink {
+    50% { opacity: 0.3; }
+}
+
+#message-guardar-acta {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #4CAF50; /* Color verde para éxito */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: sans-serif;
+    z-index: 1001;
+    
+    /* Estado inicial: oculto y desplazado */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    pointer-events: none; /* No interfiere si está oculto */
+}
+
+/* Clase para mostrar la notificación */
+#message-guardar-acta.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Modificado para que no se solape */
+#message-alerta {
+    position: fixed;
+    bottom: 90px; /* Se sube para dejar espacio al otro mensaje abajo */
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #2c3e50; /* Cambiado a un azul oscuro para diferenciarlo */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-family: sans-serif;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateX(20px); /* Animación lateral para variar */
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+#message-alerta.show {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.btn-confirm-acta {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px; /* Bordes redondeados modernos */
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre icono y texto */
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    transition: all 0.3s ease;
+    margin: 10px 10px;
+}
+
+.btn-confirm-acta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-confirm-acta:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(46, 204, 113, 0.2);
+}
+
+.btn-confirm-acta i {
+    font-size: 1.1rem;
+}
+
+.auxiliar {
+    margin: 12px 12px;
+}
+
+.empty-state {
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.timeline-box {
+    max-height: auto;
+    overflow-y: auto;
+}
+
+/* Contenedor del VS */
+.match-vs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    position: relative;
+}
+
+/* El texto VS */
+.vs-text {
+    font-family: 'Orbitron', sans-serif; /* O una fuente sans-serif gruesa */
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3); /* Color tenue para que resalten los números */
+    letter-spacing: 2px;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+/* Línea decorativa debajo del VS */
+.vs-line {
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 2px;
+    opacity: 0.6;
+}

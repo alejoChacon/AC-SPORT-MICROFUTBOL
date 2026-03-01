@@ -1,4 +1,5 @@
 async function tabla(equipo_pk,estado) {
+    console.log(equipo_pk,estado);
     try{
         const response = await fetch(`api/calendario-partidos/${equipo_pk}/${estado}/`);
         const data = await response.json();
@@ -8,7 +9,6 @@ async function tabla(equipo_pk,estado) {
             return;
         }
         const tabla = document.querySelector(".tabla-partidos");
-        
         let html = ``;
         html += `
             <thead>
@@ -36,13 +36,13 @@ async function tabla(equipo_pk,estado) {
         html += `</tbody> </table> `;
         tabla.innerHTML = html;
     }catch(error){
-        console.error("Ha habido un error al mostrar la info:",error)
+        console.error("Ha habido un error al mostrar la info:",error);
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     if (equipo_pk){
-        console.log(equipo_pk);
+        console.log('Equipo_pk: ',equipo_pk);
         tabla(equipo_pk,"programado");
         estadisticas(equipo_pk);
     
@@ -56,10 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 tabla(equipo_pk,estado);
             })
         })
-    } 
+    }
 })
 
 async function estadisticas(equipo_pk) {
+    
     try{
         const response = await fetch(`/mi-equipo/api/equipo_info/${equipo_pk}/`);
         const data = await response.json();

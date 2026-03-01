@@ -1,0 +1,385 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.gestion-inscripciones {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* --- PILLS DE RESUMEN --- */
+.resumen-pills {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.pill {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    backdrop-filter: blur(5px);
+}
+
+.pill strong { color: var(--text); font-size: 1.1rem; }
+.pill.success { border-color: rgba(34, 197, 94, 0.4); color: #4ade80; }
+.pill.warning { border-color: rgba(203, 162, 65, 0.4); color: var(--accent); }
+
+/* --- TABLA PRO --- */
+.table-container {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.tabla-validacion {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tabla-validacion th {
+    background: rgba(203, 162, 65, 0.05);
+    padding: 18px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tabla-validacion td {
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    vertical-align: middle;
+    color: var(--muted);
+}
+
+/* Info del Equipo */
+.team-info { display: flex; align-items: center; gap: 12px; }
+.team-avatar-sm {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--accent), #8a6d29);
+    color: #000;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.delegado-info small {
+    display: block;
+    color: #666;
+    font-size: 0.75rem;
+}
+
+/* Botones de Acción */
+.btn-ver-pago {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: var(--transition);
+}
+
+.btn-ver-pago:hover { background: var(--accent); color: #000; }
+
+.btn-check, .btn-cross {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.btn-check { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+.btn-check:hover { background: #22c55e; color: #fff; transform: scale(1.1); }
+
+.acciones-celda {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+}
+
+.btn-cross { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+.btn-cross:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
+
+.btn-back {
+    display: inline-block; /* Hace que se comporte como un boton */
+    padding: 10px 20px;  /* Espacio interno: (arriba, abajo = 10px) | (lados derecho e izquierdo = 20px) */
+    margin-top: 20px; /* Espacio arriba, separa el botón de la tabla */
+    text-decoration: none; /* Le quita lo subrayado a las etiquetas a */
+    color: white; /* Texto en blanco */
+    background-color: #ef4444; /* Este es el color del fondo */
+    border-radius: 6px; /* Esquinas redondass */
+    font-weight: 600px;
+    transition: background 0.3s; /* Animacion suave al pasar el mouse */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* Sombrita para que se vea profesional */
+    float: right;
+}
+
+.btn-back:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+.btn-programar {
+    display: inline-block;
+    background-color: #10c053;
+    color: #e2e8f0;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-programar:hover {
+    background-color: #166534;
+    transform: translateY(-4px);
+}
+
+/* --- FORMULARIO DE CONFIGURACIÓN --- */
+.torneo-form-card {
+    display: none;
+    max-width: 550px;
+    margin: 40px auto;
+    background: rgba(15, 15, 15, 0.9);
+    border: 1px solid var(--accent);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    backdrop-filter: blur(20px);
+}
+
+.form-header i { color: var(--accent); text-shadow: 0 0 15px var(--accent); }
+
+/* --- BOTONES FLOTANTES / INFERIORES --- */
+.footer-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.input-group {
+    margin-bottom: 2rem;
+}
+
+.label-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.label-wrapper label {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.range-value {
+    background: #00ff88;
+    color: #000;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Estilo para el Input Range */
+input[type=range] {
+    width: 100%;
+    accent-color: #00ff88; /* Color del deslizador */
+    cursor: pointer;
+}
+
+/* Botones */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-cancelar {
+    background: transparent;
+    padding: 10px 20px;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+}
+
+.btn-cancelar:hover {
+    background: #ff4444;
+    color: white;
+}
+
+#message-danger {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Estilo del Toast */
+.toast-error {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    min-width: 250px;
+    /* Animación de entrada */
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.toast-exito {
+    background-color: #2ac119;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    min-width: 250px;
+    /* Animación de entrada */
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+/*
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+} */
+
+/* Animación de salida */
+.toast-fade-out {
+    animation: slideOut 0.5s ease-in forwards;
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+#parrafito { color: var(--muted); font-style: italic; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge de estado dentro de la fila */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.badge-status.success {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-status.error {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Animación de carga para el botón */
+.fa-spin {
+    animation: fa-spin 1s infinite linear;
+}
+
+/* ================================
+⚽ Equipos inscritos
+================================ */
+.equipos-inscritos h3 {
+  margin-bottom: 10px;
+  margin-top: 25px;
+  color: var(--accent);
+}
+
+a {
+    text-decoration: none;
+}
+
+.equipos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.equipo-mini {
+  background: var(--panel-2);
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.2s ease;
+}
+
+.equipo-mini:hover {
+  transform: scale(1.05);
+}
+
+.equipo-mini img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 6px;
+}
+
+.equipo-mini p {
+  font-weight: 600;
+  color: var(--text);
+}
+
+#cepillin {
+    float: inline-end;
+    margin-bottom: 25px;
+}

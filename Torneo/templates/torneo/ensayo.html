@@ -1,0 +1,168 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block title %} AC Sport — Resultados y Actas {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/ensayo.css' %}">
+
+<div class="resultados-wrapper">
+
+    <div class="prog-header">
+        <div class="title-group">
+            <h1 class="page-title">Centro de Resultados</h1>
+            <p class="subtitle">Gestiona marcadores, faltas y actas arbitrales</p>
+        </div>
+        
+        <div class="filters-group">
+            <select class="custom-select-simple">
+                <option>Torneo Relámpago 2026</option>
+            </select>
+            <select class="custom-select-simple">
+                <option>Jornada 5 (Actual)</option>
+                <option>Jornada 4</option>
+                <option>Jornada 3</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="results-grid">
+
+        <div class="result-card finished">
+            <div class="match-header">
+                <span class="match-date">Hoy, 18:00</span>
+                <span class="badge-status verified"><i class="fa-solid fa-check-circle"></i> Acta Verificada</span>
+            </div>
+
+            <div class="scoreboard">
+                <div class="team-col">
+                    <img src="{% static 'img/escudo-default.png' %}" class="team-logo-lg">
+                    <span class="team-name">Pumas FC</span>
+                </div>
+                
+                <div class="score-display">
+                    <span class="score-val">5</span>
+                    <span class="divider">-</span>
+                    <span class="score-val">2</span>
+                </div>
+
+                <div class="team-col">
+                    <img src="{% static 'img/escudo-default.png' %}" class="team-logo-lg">
+                    <span class="team-name">Real Charalá</span>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <button class="btn-action-outline" onclick="verActa(1)">
+                    <i class="fa-solid fa-file-invoice"></i> Ver Acta
+                </button>
+            </div>
+        </div>
+
+        <div class="result-card active-input">
+            <div class="match-header">
+                <span class="match-date">En juego / Finalizando...</span>
+                <span class="badge-status pending"><i class="fa-solid fa-clock"></i> Esperando Resultados</span>
+            </div>
+
+            <div class="scoreboard">
+                <div class="team-col">
+                    <img src="{% static 'img/escudo-default.png' %}" class="team-logo-lg">
+                    <span class="team-name">Los Galácticos</span>
+                </div>
+                
+                <div class="score-inputs">
+                    <input type="number" class="big-input" placeholder="0" id="goles-local-2">
+                    <span class="divider">:</span>
+                    <input type="number" class="big-input" placeholder="0" id="goles-visita-2">
+                </div>
+
+                <div class="team-col">
+                    <img src="{% static 'img/escudo-default.png' %}" class="team-logo-lg">
+                    <span class="team-name">Dinamo</span>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <button class="btn-action-primary" onclick="abrirCargaActa(2)">
+                    <i class="fa-solid fa-pen-to-square"></i> Cargar Datos y Acta
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal-acta" class="modal-overlay">
+    <div class="modal-large">
+        <div class="modal-header-acta">
+            <div class="header-info">
+                <h3>Acta de Partido #204</h3>
+                <span>Los Galácticos vs Dinamo</span>
+            </div>
+            <button class="close-btn" onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="modal-body-grid">
+            
+            <div class="stats-section">
+                <div class="team-stats-box">
+                    <h4><i class="fa-solid fa-shirt"></i> Galácticos</h4>
+                    <div class="stat-row">
+                        <label>Faltas Acumuladas</label>
+                        <input type="number" class="stat-input" value="3">
+                    </div>
+                    <div class="stat-row">
+                        <label>Tarjetas Azules</label>
+                        <input type="number" class="stat-input blue-card" value="0">
+                    </div>
+                    <div class="stat-row">
+                        <label>Tarjetas Rojas</label>
+                        <input type="number" class="stat-input red-card" value="0">
+                    </div>
+                </div>
+
+                <div class="vs-divider-vertical"></div>
+
+                <div class="team-stats-box">
+                    <h4><i class="fa-solid fa-shirt"></i> Dinamo</h4>
+                    <div class="stat-row">
+                        <label>Faltas Acumuladas</label>
+                        <input type="number" class="stat-input" value="5">
+                    </div>
+                    <div class="stat-row">
+                        <label>Tarjetas Azules</label>
+                        <input type="number" class="stat-input blue-card" value="1">
+                    </div>
+                    <div class="stat-row">
+                        <label>Tarjetas Rojas</label>
+                        <input type="number" class="stat-input red-card" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="evidence-section">
+                <h4><i class="fa-solid fa-camera"></i> Foto del Acta Física</h4>
+                <div class="upload-zone" id="drop-zone">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Arrastra la foto aquí o haz clic para subir</p>
+                    <input type="file" hidden id="file-upload">
+                </div>
+                
+                <div class="obs-box">
+                    <label>Observaciones del Juez</label>
+                    <textarea placeholder="Ej: Partido suspendido 5 min por lluvia..."></textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer-acta">
+            <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+            <button class="btn-save-acta">Guardar y Cerrar Partido</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/ensayo.js' %}"></script>
+{% endblock %}

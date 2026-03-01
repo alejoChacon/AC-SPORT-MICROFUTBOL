@@ -1,0 +1,148 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/ejemplo100.css' %}">
+
+<form action="{% url 'vista_general:gestioActaPost' %}" method="POST" id="form-acta-maestro">
+    {% csrf_token %}
+
+    <input type="hidden" name="jornada" value="{{partido.jornada}}">
+    <input type="hidden" name="torneo_pk" value="{{partido.torneo.pk}}">
+    <input type="hidden" name="partido_id" value="{{partido.pk}}">
+    
+    <div class="acta-wrapper">
+        <div class="header-minimal">
+            <div class="team-mini">
+                <img src="{{ partido.equipo_local.escudo.url }}" class="s-mini">
+                <span>{{ partido.equipo_local.nombre }}</span>
+                <input type="number" min="0" name="goles_local" value="{{ partido.goles_local }}" class="score-main">
+            </div>
+            <div class="vs-divider">VS</div>
+            <div class="team-mini">
+                <input type="number" min="0" name="goles_visitante" value="{{ partido.goles_visitante }}" class="score-main">
+                <span>{{ partido.equipo_visitante.nombre }}</span>
+                <img src="{{ partido.equipo_visitante.escudo.url }}" class="s-mini">
+            </div>
+        </div>
+
+        <button type="button" class="btn-add-line" id="mostrarBoton"> Mostrar Registro De Incidencias </button>
+
+        <div class="incidencias-section" style="display: none;">
+            <div class="section-header">
+                <h3><i class="fa-solid fa-list-check"></i> Registro de Incidencias</h3>
+                <button type="button" class="btn-add-line" onclick="agregarFila()">
+                    <i class="fa-solid fa-plus"></i> Agregar Suceso
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table class="tabla-dinamica" id="tabla-incidencias">
+                    <thead>
+                        <tr>
+                            <th>Periodo</th>
+                            <th>Minuto</th>
+                            <th>Tipo de Acción</th>
+                            <th>Jugador</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-incidencias"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-save-bar">
+        <p class="helper-text">Registra goles, tarjetas y faltas según el acta física.</p>
+        <div class="btns">
+            <button type="button" class="btn-secondary" onclick="history.back()">Cancelar</button>
+            <button type="submit" class="btn-primary">Finalizar Registro</button>
+        </div>
+    </div>
+</form>
+
+<template id="fila-template">
+    <tr class="fila-incidencia">
+        <td>
+            <select name="periodo[]" class="in-table">
+                <option value="1">1er Tiempo</option>
+                <option value="2">2do Tiempo</option>
+            </select>
+        </td>
+        <td>
+            <input type="number" name="minuto[]" class="in-table" placeholder="0'" min="0" max="40">
+        </td>
+        <td>
+            <select name="tipo[]" class="in-table select-tipo">
+                <option value="gol">⚽ Gol</option>
+                <option value="amarilla">🟨 Tarjeta Amarilla</option>
+                <option value="azul">🟦 Tarjeta Azul</option>
+                <option value="roja">🟥 Tarjeta Roja</option>
+                <option value="falta">⚠️ Falta Técnica</option>
+            </select>
+        </td>
+        <td>
+            <select name="jugador[]" class="in-table select-jugador">
+                <optgroup label="{{ partido.equipo_local.nombre }}">
+                    {% for j in partido.equipo_local.jugadores.all %}
+                        <option value="{{ j.id }}">{{ j.numero_camisa }} - {{ j.get_full_name }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="{{ partido.equipo_visitante.nombre }}">
+                    {% for j in partido.equipo_visitante.jugadores.all %}
+                        <option value="{{ j.id }}">{{ j.numero_camisa }} - {{ j.get_full_name }}</option>
+                    {% endfor %}
+                </optgroup>
+            </select>
+        </td>
+        <td>
+            <button type="button" class="btn-remove" onclick="eliminarFila(this)">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+</template>
+
+<script>
+
+    const botonMostrarRegistro = document.getElementById('mostrarBoton');
+    const formularioRegistroIncidencias = document.querySelector('.incidencias-section');
+
+    botonMostrarRegistro.addEventListener('click',()=>{
+        formularioRegistroIncidencias.style.display = 'block';
+        botonMostrarRegistro.style.display = 'none';
+
+        // Buscar todos los inputs/selects dentro de la sección y ponerles required
+        formularioRegistroIncidencias.querySelectorAll('input','select').forEach(el => {
+            el.required = true;
+        });
+
+        agregarFila();
+    })
+
+    function agregarFila() {
+    const tableBody = document.getElementById('body-incidencias');
+    const template = document.getElementById('fila-template');
+    
+    // Clonar el contenido del template
+    const nuevaFila = template.content.cloneNode(true);
+    
+    // Agregar a la tabla con una pequeña animación
+    tableBody.appendChild(nuevaFila);
+}
+
+function eliminarFila(btn) {
+    // Eliminar la fila (tr) que contiene el botón
+    const fila = btn.closest('tr');
+    fila.style.opacity = '0';
+    setTimeout(() => fila.remove(), 200);
+}
+
+// Agregar una fila por defecto al cargar
+document.addEventListener('DOMContentLoaded', () => {
+    //agregarFila(); 
+});
+</script>
+
+{% endblock %}

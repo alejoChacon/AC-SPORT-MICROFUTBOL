@@ -65,6 +65,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 14px;
+  margin-bottom: 10px;
 }
 
 .info-block {
@@ -88,6 +89,7 @@
   background: var(--panel-2);
   padding: 18px;
   border-radius: 12px;
+  margin-bottom: 10px;
 }
 
 .torneo-descripcion p {
@@ -230,6 +232,27 @@
 
 .btn-cancelar:hover {
   transform: scale(1.05);
+}
+
+.btn-back {
+  display: inline-block;
+  color: white;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  /* box-shadow: #ffe47a; */
+  cursor: pointer;
+  border-radius: 6px;
+  float: right;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-back:hover {
+  background: black;
+  transform: translateY(-3px);
 }
 
 @keyframes fadeIn {

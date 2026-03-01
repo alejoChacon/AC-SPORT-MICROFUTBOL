@@ -1,0 +1,11 @@
+Model Information:
+* title:	FUTBOL
+* source:	https://sketchfab.com/3d-models/futbol-098f7b89c460408585ff3fdb03626ce5
+* author:	viniciocunalata1997 (https://sketchfab.com/viniciocunalata1997)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "FUTBOL" (https://sketchfab.com/3d-models/futbol-098f7b89c460408585ff3fdb03626ce5) by viniciocunalata1997 (https://sketchfab.com/viniciocunalata1997) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

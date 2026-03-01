@@ -1,0 +1,49 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/actualizarequipo.css' %}">
+
+    <div class="editform">
+
+        <h2> Actualizar Datos </h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="escudo-container">
+                <label>Escudo actual:</label>
+                {% if object.escudo %}
+                    <img src="{{object.escudo.url}}" alt="{{object.nombre}}" class="escudo-preview">
+                {% else %}
+                    <img src="{% static 'img/sin-foto.jpg' %}" alt="Sin foto" class="escudo-preview">
+                {% endif %}
+                
+                <label for="id_escudo">Cambiar escudo:</label>
+                {{form.escudo}}
+            </div>
+
+            <label for="id_nombre"> Nombre: </label>
+            {{form.nombre}}
+            {{form.nombre.errors}}
+
+            <label for="id_municipio"> Municipio: </label>
+            {{form.municipio}}
+            {{form.municipio.errors}}
+
+            <label for=""> Capitan: </label>
+            {% if form.capitan %}
+                {{form.capitan}}
+            {% endif %}
+
+            <button type="submit"> Actualizan Equipo </button>
+
+            <a href="{% url 'miequipo:miequipo' %}">Volver</a>
+
+        </form>
+
+    </div>
+
+{% endblock %}

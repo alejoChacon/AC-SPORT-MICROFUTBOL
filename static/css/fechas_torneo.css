@@ -1,0 +1,268 @@
+.fechas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.fecha-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius);
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.fecha-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+/* Diferenciación de estados */
+.fecha-card.active {
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 20px rgba(203, 162, 65, 0.1);
+}
+
+.fecha-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.numero-fecha {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.estado-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.active .estado-tag {
+    background: var(--accent);
+    color: #000;
+}
+
+.completed .estado-tag {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.fecha-body p {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 5px 0;
+    margin-bottom: 15px; 
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fecha-body i {
+    color: var(--accent);
+    font-size: 14px;
+}
+
+.micro {
+    text-decoration: none;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.main-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    background: rgba(0, 0, 0, 0.4); /* Fondo sutil para separar del contenido */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 30px;
+    backdrop-filter: blur(5px);
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    /* Efecto de brillo sutil en el texto */
+    text-shadow: 0 0 15px rgba(203, 162, 65, 0.3);
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+}
+
+.year-badge {
+    background: linear-gradient(135deg, rgba(203, 162, 65, 0.2), rgba(203, 162, 65, 0.1));
+    color: var(--accent);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid rgba(203, 162, 65, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unica {
+    text-decoration: none;
+    /* margin: 15px 15px;  */
+    margin: auto;
+    /* padding: 10px 10px; */
+}
+
+.unica:hover {
+    background-color: var(--muted);
+}
+
+
+
+/* Second part */
+
+/* Estilos para la sección de Hoy al final */
+.today-section {
+    margin-top: 50px;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    border: 1px dashed rgba(203, 162, 65, 0.3); /* Borde punteado para indicar zona especial */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    color: var(--text);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* Animación de Punto Vivo */
+.live-pulse-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #e74c3c;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #e74c3c;
+    animation: pulse-red 1.5s infinite;
+}
+
+.live-text {
+    color: #e74c3c;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Grid de Tarjetas de Hoy */
+.today-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.match-today-card {
+    background: var(--panel-2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.match-top-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+}
+
+.match-hour { color: var(--accent); font-weight: 800; }
+
+.badge-near {
+    background: #2ecc71;
+    color: #000;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 900;
+}
+
+.match-teams-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 5px 0;
+}
+
+.t-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+}
+
+.vs-text {
+    color: var(--muted);
+    font-size: 10px;
+    font-style: italic;
+}
+
+.btn-direct-live {
+    background: var(--accent);
+    color: #000 !important;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-direct-live:hover {
+    background: #fff;
+    transform: scale(1.02);
+}
+
+.footer-back {
+    margin-top: 40px;
+    padding-bottom: 20px;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(0.95); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(0.95); opacity: 1; }
+}

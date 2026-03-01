@@ -87,9 +87,11 @@ header.app-header {
     padding: 12px 24px;
     height: 70px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.4) !important; /* Casi invisible, solo sombra */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.8) !important; /* Casi invisible, solo sombra */
+    /*backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); */
+    backdrop-filter: none; /* Elimina el desenfoque en páginas con 3D */
+    -webkit-backdrop-filter: none;
     z-index: 100;
 }
 
@@ -605,11 +607,13 @@ main.app-main {
     border: none;
     cursor: pointer;
     transition: var(--transition);
+    text-decoration: none;
 }
 
 .btn-primary:hover {
     background: #d4ad52;
     box-shadow: 0 0 10px rgba(203, 162, 65, 0.4);
+    transform: translateY(-2px);
 }
 
 .btn-secondary {

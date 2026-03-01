@@ -1,48 +1,45 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView,DetailView
+from django.views.generic import DetailView,ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Torneo as Charala
-from fase_de_grupos.models import EquipoGrupo
-from partidos.models import Partido
+from .models import Torneo
 from django.utils import timezone
-from GOLEADOR.models import Goleador
-from usuarios.models import Usuario
-from django.db.models import Count
+from .services import obtener_estado_incripcion
 
 # Create your views here.
 
 hoy = timezone.now()
 
-class Torneo(LoginRequiredMixin,TemplateView):
-    template_name = 'torneo/torneo2.html'
+class Torneos(LoginRequiredMixin,ListView):
+    model = Torneo
+    queryset = Torneo.objects.all()
+    template_name = 'torneo/torneos.html'
+    context_object_name = 'torneos'
+
+class TorneoEtapaInscripcion(LoginRequiredMixin,DetailView):
+    model = Torneo
+    template_name = 'torneo/torneo_inscripcion.html'
+    context_object_name = 'torneo'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["torneos"] = Charala.objects.all()
+        context.update(obtener_estado_incripcion(self.request.user,self.get_object()))
         return context
 
-class TorneoEtapaInscripcion(LoginRequiredMixin,DetailView):
-    model = Charala
-    template_name = 'torneo/detalletorneo.html'
+class TorneoActivo(LoginRequiredMixin,DetailView):
+    model = Torneo
+    template_name = 'torneo/torneo_en_curso.html'
     context_object_name = 'torneo'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         torneo = self.get_object()
-        user_equipo = getattr(self.request.user, 'equipos', None)
-        if user_equipo:
-            esta_inscrito = torneo.inscripciones.filter(equipo=user_equipo).exists()
-            context["esta_inscrito"] = esta_inscrito
-        else:
-            context["esta_inscrito"] = False
+        context["grupos"] = torneo.grupo_set.all()
+        context['fechas'] = torneo.partidos.all().values_list('jornada',flat=True).order_by('jornada').distinct()
+        context['fechas2'] = torneo.partidos.filter(estado='finalizado').values_list('jornada',flat=True).order_by('jornada').distinct()
         return context
     
-class TorneoActivo(LoginRequiredMixin,DetailView):
-    model = Charala
-    template_name = 'torneo/auxiliar.html'
+class TorneoEtapaProgramado(LoginRequiredMixin,DetailView):
+    model = Torneo
+    queryset = Torneo.objects.all()
+    template_name = 'torneo/torneo_programado.html'
     context_object_name = 'torneo'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["grupos"] = self.get_object().grupo_set.all()
-        return context

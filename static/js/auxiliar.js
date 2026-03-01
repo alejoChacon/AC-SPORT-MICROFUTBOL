@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     tablaposicion(torneo_pk,'A');
-    //CargarResultados(torneo_pk,"A");
-    //CargarPartidos(torneo_pk,"A");
-    //CargarJugadores(torneo_pk);
 
     // Control del submenu
     const submenuBtns = document.querySelectorAll('.submenu-btn'); //Toma todas las pestañas del submenu
@@ -26,10 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     tablaposicion(torneo_pk,grupo);
                     break;
                 case 'resultados':
-                    CargarResultados(torneo_pk,grupo);
+                    const fecha1 = document.getElementById('fechas1').value;
+                    console.log("Fecha: ",fecha1);
+                    CargarResultados(torneo_pk,grupo,fecha1);
                     break;
                 case 'partidos':
-                    CargarPartidos(torneo_pk,grupo);
+                    const fecha2 = document.getElementById('fechas2').value;
+                    console.log("Fechas: ",fecha2);
+                    CargarPartidos(torneo_pk,grupo,fecha2);
                     break;
                 case 'goleadores':
                     CargarJugadores(torneo_pk);
@@ -56,10 +57,12 @@ grupoBtns.forEach(btn => {
                 tablaposicion(torneo_pk,btn.dataset.grupo);
                 break;
             case 'resultados':
-                CargarResultados(torneo_pk,btn.dataset.grupo);
+                const fecha1 = document.getElementById('fechas1').value;
+                CargarResultados(torneo_pk,btn.dataset.grupo,fecha1);
                 break;
             case 'partidos':
-                CargarPartidos(torneo_pk,btn.dataset.grupo);
+                const fecha2 = document.getElementById('fechas2').value;
+                CargarPartidos(torneo_pk,btn.dataset.grupo,fecha2);
                 break;
             case 'goleadores':
                 CargarJugadores(torneo_pk);
@@ -67,6 +70,22 @@ grupoBtns.forEach(btn => {
         }
     });
 });
+
+//Control de fechas
+const selectFechas = document.querySelectorAll('.torneo-select');
+
+selectFechas.forEach(select => {
+    select.addEventListener('change', () => {
+        const fechaSeleccionada = select.value; // Obtiene el número de la fecha (o "" si es "Cualquier Fecha")
+        const grupo_activo = document.querySelector('.grupo-btn.active')?.dataset.grupo || 'A';
+        const pestañaActiva = document.querySelector('.submenu-btn.active')?.dataset.tab;
+        if (pestañaActiva === 'partidos'){
+            CargarPartidos(torneo_pk,grupo_activo,fechaSeleccionada);
+        } else if(pestañaActiva === 'resultados'){
+            CargarResultados(torneo_pk,grupo_activo,fechaSeleccionada);
+        }
+    })
+})
 
 async function tablaposicion(torneo_pk,grupo) {
     try {
@@ -126,14 +145,31 @@ async function tablaposicion(torneo_pk,grupo) {
     }
 }
 
-async function CargarResultados(torneo_pk,grupo) {
+async function CargarResultados(torneo_pk,grupo,fecha=null) {
     try{
-        const response = await fetch(`/torneo/api/resultados/${torneo_pk}/${grupo}/`);
+        const div = document.getElementById("ajax-resultados");
+        console.log("Tipo de fecha: ",typeof fecha, "Valor: ",fecha);
+        if (fecha === '' || !fecha){
+            div.innerHTML = `
+                <p style='text-align:center; color:red'>
+                    No se han jugado las primeras fechas del torneo. !Recuerda que ya están póoximas a jugarse!
+                </p>     
+            `;
+            return;
+        };
+        
+        const response = await fetch(`/torneo/api/resultados/${torneo_pk}/${grupo}/${fecha}/`);
         const data = await response.json();
 
         console.log("Resultados:",data.resultados);
-        const div = document.getElementById("ajax-resultados");
+
+
         if (data.error) {
+            div.innerHTML = `
+                <p style='text-align:center; color:red'>
+                    ${data.error} 
+                </p>
+            `;
             console.error(data.error);
             return;
         }
@@ -168,15 +204,21 @@ async function CargarResultados(torneo_pk,grupo) {
     }
 }
 
-async function CargarPartidos(torneo_pk,grupo) {
+async function CargarPartidos(torneo_pk,grupo,fecha=null) {
     try{
-        const response = await fetch(`/torneo/api/fixture/${torneo_pk}/${grupo}`);
+        const response = await fetch(`/torneo/api/fixture/${torneo_pk}/${grupo}/${fecha}/`);
         const data = await response.json();
 
-        console.log("Partidos:",data.fixtures);
+        console.table(data.fixtures);
+
         const div = document.getElementById("ajax-partidos");
+
         if (data.error){
-            console.error(data.error);
+            div.innerHTML = `
+                <p style='text-align:center; color:red'> 
+                    ${data.error} 
+                </p>
+            `;
             return;
         }
 
@@ -221,7 +263,11 @@ async function CargarJugadores(torneo_pk) {
         }
 
         if (!data.goleadores || data.goleadores.length === 0) {
-            div.innerHTML = `<p>No hay goleadores registrados.</p>`;
+            div.innerHTML = `
+                <p style='text-align:center; color:red'>
+                    No hay goleadores registrados.
+                </p>
+            `;
             return;
         }
 

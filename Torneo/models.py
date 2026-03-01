@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator,MaxValueValidator
 
 # Create your models here.
 
@@ -18,48 +19,38 @@ class Equipo(models.Model):
     def __str__(self):
         return self.nombre
     
-
-from django.core.validators import MinValueValidator,MaxValueValidator
-
 class Torneo(models.Model):
-
     # Estados posibles del torneo
     ESTADOS_TORNEO = [
-        ('inscripcion', 'En Inscripción'),
+        ('inscripcion', 'Inscripción'),
         ('programado', 'Programado'),
         ('en_curso', 'En Curso'),
         ('finalizado', 'Finalizado'),
         ('cancelado', 'Cancelado'),
     ]
-    
     # Formatos de torneo
     FORMATOS_TORNEO = [
         ('liga', 'Liga Todos contra Todos'),
         ('eliminacion', 'Eliminación Directa'),
         ('grupos', 'Fase de Grupos + Eliminación'),
     ]
-
     #campos basicos
     logo_torneo = models.ImageField(upload_to="LogoTorneo/")
     nombre = models.CharField(max_length=100,unique=True)
     descripcion = models.TextField(blank=True)
-
     # Información de organización
     representante = models.CharField(max_length=100)
     celular_contacto = models.CharField(max_length=10)
     email_contacto = models.EmailField(blank=True,default='agudelochacon@gmail.com')
-
     #Configuracion del torneo
     formato = models.CharField(max_length=50,choices=FORMATOS_TORNEO,default='grupos')
     estado = models.CharField(max_length=50,choices=ESTADOS_TORNEO,default='inscripcion')
     max_equipos = models.PositiveIntegerField(default=30,validators=[MinValueValidator(15),MaxValueValidator(30)])
-
     #fechas importantes
     fecha_inicio_inscripcion = models.DateField()
     fecha_fin_inscripcion = models.DateField()
     fecha_inicio_torneo = models.DateField(null=True,blank=True)
     fecha_fin_torneo = models.DateField(null=True,blank=True)
-
     #Campos Automaticos
     fecha_creacion = models.DateField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)

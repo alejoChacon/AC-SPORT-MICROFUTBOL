@@ -29,7 +29,9 @@ urlpatterns = [
     path("torneo/",include(("Torneo.urls","torneo"))),
     path("mi-equipo/",include(("miequipo.urls","miequipo"))),
     path("",include(("configuracion.urls","configuracion"))),
-    path("",include(("inscripcion.urls","inscripcion")))
+    path("",include(("inscripcion.urls","inscripcion"))),
+    path('',include(('partidos.urls','partidos'))),
+    path('',include(('actas.urls','vista_general')))
 ]
 
 if settings.DEBUG:

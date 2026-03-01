@@ -1,0 +1,46 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/general_view.css' %}">
+
+    <div class="main-top">
+        <h1 class="page-title">Registrar Resultados</h1>
+        <div class="filter-row">
+            <span class="year-badge">Paso 1: Seleccione el Torneo</span>
+        </div>
+    </div>
+
+    <div class="cards">
+        {% for torneo in torneos_activos %}
+            <div class="tcard">
+                <div class="cover" 
+                style="background-image: url('{% if torneo.logo_torneo %}{{ torneo.logo_torneo.url }}{% endif %}');">
+                </div>
+                
+                <div class="body">
+                    <h3>{{ torneo.nombre }}</h3>
+                    <p>
+                        <i class="fa-solid fa-calendar-day"></i> Temporada: {{ torneo.temporada|default:"2026" }} <br>
+                        <i class="fa-solid fa-users"></i> Categoría: {{ torneo.categoria }}
+                    </p>
+                    
+                    <div class="actions">
+                        <a href="{% url 'vista_general:fechas_torneo' torneo.pk %}" class="btn-primary">
+                            Gestionar Partidos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="panel" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <i class="fa-solid fa-circle-info" style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                <h4>No tienes torneos activos en este momento</h4>
+                <p>Crea un nuevo torneo en la sección "Mis Torneos" para empezar a registrar resultados.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

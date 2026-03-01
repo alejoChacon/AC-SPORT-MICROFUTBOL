@@ -1,0 +1,140 @@
+/* Contenedor principal con fondo cristal (Glassmorphism) */
+.editform {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto desenfoque */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+
+.editform h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Estructura del Formulario */
+.editform form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado automático entre elementos */
+}
+
+/* Manejo del Escudo */
+.editform img {
+    display: block;
+    margin: 10px auto;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* Escudo circular */
+    border: 3px solid #2ecc71;
+    background: #f0f0f0;
+}
+
+/* Etiquetas */
+.editform label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    text-transform: uppercase;
+    color: #bdc3c7;
+}
+
+/* Inputs y Selects */
+.editform input[type="text"],
+.editform select,
+.editform input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box; /* Asegura que el padding no desborde */
+}
+
+/* Estilo especial para el input de archivo */
+.editform input[type="file"] {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 0.8rem;
+    padding: 8px;
+    border: 1px dashed #666;
+}
+
+/* Errores de validación */
+.errorlist {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+}
+
+/* Botones */
+.editform button[type="submit"] {
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.editform button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+}
+
+.editform a {
+    text-align: center;
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.editform a:hover {
+    color: white;
+}
+
+/* Contenedor del escudo para centrarlo */
+.escudo-container {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.escudo-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    margin: 10px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Estilo para que el input de archivo no se vea "crudo" */
+input[type="file"] {
+    font-size: 0.8rem;
+    color: #ddd;
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

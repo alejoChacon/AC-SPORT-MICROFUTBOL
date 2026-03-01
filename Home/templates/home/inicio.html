@@ -5,15 +5,32 @@
 
 <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
 
-<main class="app-main">
-  <!-- SECCIÓN DE BIENVENIDA -->
+<!-- <main class="app-main">
+ SECCIÓN DE BIENVENIDA -->
+
+<div class="inicio-container">
+
   <section class="inicio-welcome">
+    <div class="welcome-text">
     <h1 class="welcome-title">¡Bienvenido, {{ usuario.first_name|default:"Jugador" }}!</h1>
     <p class="welcome-subtitle">
       Plataforma oficial de <strong>Torneos Charaleños</strong><br>
       Prepárate para hacer historia en la cancha. <strong> AC SPORT </strong>
     </p>
     <button class="btn-main">Explorar torneos</button>
+    </div>
+    <div class="welcome-model">
+      <model-viewer 
+        src="{% static 'futbol/scene.gltf' %}" 
+        auto-rotate 
+        camera-controls 
+        shadow-intensity="0" 
+        powerPreference="low-power"
+        interaction-prompt="none"
+        loading="lazy"
+        class="modelo-3d">
+      </model-viewer>
+    </div>
   </section>
 
   <!-- SECCIÓN DE RESUMEN -->
@@ -95,5 +112,12 @@
   <footer class="inicio-footer">
     © 2025 Torneo Cuna de la Libertad · Desarrollado por <strong>Chacón</strong> ⚽
   </footer>
-</main>
+ 
+</div>
+
+<!--  
+</main> -->
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
 {% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/partidos_de_la_jornada.css' %}">
+
+<div class="main-top">
+    <h1 class="page-title">Jornada {{jornada}} — {{ torneo|default:'Torneo Charaleño' }}</h1>
+    <div class="filter-row">
+        <span class="year-badge">Paso 3: Selección de Encuentro</span>
+    </div>
+</div>
+
+{% if messages %}
+    <div class="messages-container" style="padding: 10px; border: 1px solid #c3e6cb; text-align: center;">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="jornada-stats">
+    <div class="stat-item"><span>Total Partidos:</span> <strong> {{total_partidos}} </strong></div>
+    <div class="stat-item"><span>Pendientes:</span> <strong style="color: var(--accent);"> {{pendientes}} </strong></div>
+    <div class="stat-item"><span>Finalizados:</span> <strong style="color: #2ecc71;"> {{finalizados}} </strong></div>
+</div>
+
+<div class="partidos-lista">
+
+    {% for partido in partidos %}
+        <div class="match-card-simple">
+            <div class="match-time">
+                <span class="hour"> {{partido.fecha_hora|time:'h:i A'}} </span>
+                <span class="label"> {{partido.get_estado_display}} </span>
+            </div>
+            {% if partido.estado == 'programado' %}
+                <div class="match-teams-display">
+                    <div class="t-name local"> {{partido.equipo_local.nombre}} </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="t-name visitor"> {{partido.equipo_visitante.nombre}} </div>
+                </div>
+
+                <div class="match-cta">
+                    <a href="{% url 'vista_general:gestionActa' partido.pk %}" class="btn-manage">
+                        <i class="fa-solid fa-file-pen"></i> Gestionar Acta
+                    </a>
+                </div>
+            {% elif partido.estado == 'finalizado' %}
+
+                <div class="match-teams-display">
+                    <div class="t-name local"> {{partido.equipo_local.nombre}} </div>
+                    <div class="final-score"> {{partido.goles_local}} - {{partido.goles_visitante}} </div>
+                    <div class="t-name visitor"> {{partido.equipo_visitante.nombre}} </div>
+                </div>
+
+                <div class="match-cta">
+                    <a href="{% url 'vista_general:detallepartido' partido.pk %}" class="btn-view-only">
+                        <i class="fa-solid fa-eye"></i> Ver Detalle
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <div>
+            <p> No hay partidos programados para esta fecha </p>
+        </div>
+    {% endfor %}
+
+</div>
+
+<div class="footer-actions">
+    <a href="{% url 'vista_general:fechas_torneo' partidos.first.torneo.pk %}" class="btn-secondary poli"><i class="fa-solid fa-chevron-left"></i> Volver a Fechas</a>
+</div>
+
+{% endblock %}

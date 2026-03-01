@@ -9,6 +9,7 @@ class NotificacionSolicitud(models.Model):
     accion = models.BooleanField(default=False)
     leida = models.BooleanField(default=False)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    informacion = models.CharField(max_length=50,null=True)
 
     class Meta:
         ordering = ['-fecha_creacion']

@@ -1,0 +1,138 @@
+/* Contenedor Principal */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+/* Grid de Torneos */
+.torneos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card del Torneo */
+.torneo-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.torneo-card .logo-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.torneo-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Badges de Estado */
+.card-status {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-online { background: #dcfce7; color: var(--success); }
+.status-paused { background: #fef3c7; color: var(--warning); }
+
+
+/* Colores de estado basados en tu modelo */
+.status-inscripcion { background: #dbeafe; color: #1e40af; } /* Azul */
+.status-programado { background: #fef3c7; color: #92400e; }  /* Ámbar */
+.status-en_curso { background: #dcfce7; color: #166534; }    /* Verde */
+.status-finalizado { background: #f1f5f9; color: #475569; }  /* Gris */
+.status-cancelado { background: #fee2e2; color: #991b1b; }   /* Rojo */
+
+/* Estadísticas rápidas */
+.stats-row {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat .label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.stat .value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* Barra de Progreso */
+.progress-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* Botones y Acciones */
+.card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.btn-manage {
+    grid-column: span 2;
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 0.5rem;
+}
+
+.btn-outline {
+    border: 1px solid #cbd5e1;
+    color: var(--text-main);
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    transform: translateY(-3px);
+}

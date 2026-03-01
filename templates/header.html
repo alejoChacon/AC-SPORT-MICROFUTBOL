@@ -13,10 +13,10 @@
         
     <div class="header-right">
         <div class="status-group">
-            <span class="year-badge">Temporada 2025</span>
+            <span class="year-badge">Temporada 2026</span>
             <div class="role-indicator">
                 <span class="dot"></span>
-                Jugador
+                {% if request.user.is_staff %} Organizador {% else %} Jugador {% endif %}
             </div>
         </div>
 
@@ -38,15 +38,28 @@
                     </div>
                     <ul id="notif-list">
                         {% for n in notificaciones %}
+                            {% if n.informacion == 'jugador' %}
                             <li class="notif-item" id="notif-{{ n.id }}">
                                 <h4><strong>{{ n.remitente.get_full_name }}</strong> ha solicitado unirse a tu equipo</h4>
                                 <small> Solicitud #{{n.pk}} </small>
                                 <div class="notif-actions">
-                                    <button class="btn-notif-accept" onclick="responderSolicitud({{ n.equipo.pk }},'{{ n.remitente.get_full_name }}', 'aceptar',{{ n.remitente.pk }},{{ n.pk }})">Sí</button>
-                                    <button class="btn-notif-decline" onclick="responderSolicitud({{ n.equipo.pk }},'{{ n.remitente.get_full_name }}', 'rechazar',{{ n.remitente.pk }},{{ n.pk }})">No</button>
+                                    <button class="btn-notif-accept" onclick="responderSolicitud({{ n.equipo.pk }},'aceptar',{{ n.remitente.pk }},{{ n.pk }})">Sí</button>
+                                    <button class="btn-notif-decline" onclick="responderSolicitud({{ n.equipo.pk }},'rechazar',{{ n.remitente.pk }},{{ n.pk }})">No</button>
                                 </div>
                                 <span class="time">{{ n.fecha_creacion|date:"h:i" }}</span>
                             </li>
+                            {% elif n.informacion == 'capitan' %}
+                            <li class="notif-item" id="notif-{{ n.id }}">
+                                <h4><strong>{{ n.remitente.get_full_name }}</strong> quiere que tú hagas parte del equipo {{n.equipo.nombre}} </h4>
+                                <small> Solicitud #{{n.pk}} </small>
+                                <p style="font-size: 11px; color: var(--muted);">¿Te gustaría aceptar la invitación?</p>
+                                <div class="notif-actions">
+                                    <button class="btn-notif-accept" onclick="responderSolicitud({{ n.equipo.pk }},'aceptar',{{ n.receptor.pk }},{{ n.pk }})"> Sí </button>
+                                    <button class="btn-notif-decline" onclick="responderSolicitud({{ n.equipo.pk }},'rechazar',{{ n.receptor.pk }},{{ n.pk }})"> No </button>
+                                </div>
+                                <span class="time">{{ n.fecha_creacion|date:"h:i" }}</span>
+                            </li>
+                            {% endif %}
                         {% empty %}
                             <li class="empty-msg">No hay mensajes nuevos</li>
                         {% endfor %}

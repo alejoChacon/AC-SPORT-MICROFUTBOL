@@ -1,0 +1,87 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/acta_detalles.css' %}">
+
+    <div class="live-scoreboard">
+        <div class="team-header local">
+            <img src="{{ partido.equipo_local.escudo.url }}" class="shield-lg">
+            <h2> {{partido.equipo_local.nombre}} </h2>
+        </div>
+
+        <div class="main-score">
+            <div class="score-box gol-local" id="score-local"> {{partido.goles_local}} </div>
+
+            <div class="match-vs">
+                <span class="vs-text">VS</span>
+                <div class="vs-line"></div>
+            </div>
+
+            <div class="score-box gol-visitante" id="score-visitante"> {{partido.goles_visitante}} </div>
+        </div>
+
+        <div class="team-header visitor">
+            <img src="{{ partido.equipo_visitante.escudo.url }}" class="shield-lg">
+            <h2> {{partido.equipo_visitante.nombre}} </h2>
+        </div>
+    </div>
+
+    <div class="events-grid">
+        <div class="team-panel">
+            <h3 class="panel-label"> Nómina Local Actual </h3>
+            {% for jugador in partido.equipo_local.jugadores.all %}
+            <div class="player-list">
+                <div class="player-row">
+                    <span class="dorsal"> {{jugador.numero_camisa}} </span>
+                    <span class="player-name"> {{jugador.get_full_name}} </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="match-timeline">
+            <h3 class="panel-label">Sucesos del Partido</h3>
+            <div class="timeline-box">
+                {% for suceso in incidenciasdelpartido %}
+                    {% if suceso.tipo == 'gol' %}
+                        <div class="event-record">
+                            <span class="evt-min">{{suceso.minuto}}</span>
+                            <i class="fa-solid fa-futbol" style="color: var(--accent);"></i>
+                            <span class="evt-desc">Gol de <b> {{suceso.jugador}} </b> ({{suceso.equipo}})</span>
+                        </div>
+                    {% else %}
+                        <div class="event-record">
+                            <span class="evt-min"> {{suceso.minuto}}' </span>
+                            <div class="card-mini {% if suceso.tipo == 'amarilla' %} yellow {% elif suceso.tipo == 'azul' %} blue {% elif suceso.tipo == 'roja' %} red {% endif %} "> </div>
+                            <span class="evt-desc"> Tarjeta {{suceso.tipo}} para <b> {{suceso.jugador}} </b></span>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <p class="empty-state">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Esperando eventos del encuentro...
+                    </p>
+                {% endfor %}
+            </div> 
+        </div>
+
+        <div class="team-panel">
+            <h3 class="panel-label"> Nómina Visitante Actual </h3>
+            {% for jugador in partido.equipo_visitante.jugadores.all %}
+            <div class="player-list">
+                <div class="player-row">
+                    <span class="dorsal"> {{jugador.numero_camisa|default:'N/A'}} </span>
+                    <span class="player-name"> {{jugador.get_full_name}} </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="footer-actions-fixed">
+        <button class="btn-secondary auxiliar" onclick="history.back()"> Volver </button>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block title %} AC Sport — Programación {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/programacion.css' %}">
+
+<div class="programacion-wrapper">
+
+    <div class="prog-header">
+        <div class="title-group">
+            <h1 class="page-title">Programación de Partidos</h1>
+            <p class="subtitle">Gestiona fechas, horarios y canchas</p>
+        </div>
+
+        <div class="tournament-select-wrapper"></div>
+
+    </div>
+
+    <div id="toast-container">
+        <!-- Aqui va los mensajes de exito o error -->
+    </div>
+
+    <div class="rounds-tabs-container">
+        <!-- Aqui van los botones de las jornadas a seleccionar (Ejem.... Jornada 1) -->
+    </div>
+
+    <div class="matches-grid" id="matches-container">
+        <!-- Aqui van las tarjetas de los partidos -->
+    </div>
+
+</div>
+
+<div id="modal-programacion" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Agendar Encuentro</h3>
+            <button class="close-btn" onclick="cerrarModal()"><i class="fa-solid fa-times"></i></button>
+        </div>
+        
+        <div class="modal-body">
+
+            <div class="match-preview-modal">
+                <span id="modal-team-a">Equipo A</span>
+                <span class="vs-mini">VS</span>
+                <span id="modal-team-b">Equipo B</span>
+            </div>
+
+            <form id="form-agendar" method="POST" onsubmit="AgendarPartido(event)">
+                {% csrf_token %}
+                <input type="hidden" name="match_id" id="modal-match-id">
+                
+                <div class="form-group">
+                    <label for="id_fecha"> Fecha del Partido </label>
+                    <input type="date" class="input-dark" name="fecha" id="id_fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_hora"> Hora </label>
+                    <input type="time" class="input-dark" name="hora" id="id_hora" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_cancha"> Lugar / Cancha </label>
+                    <select class="input-dark" name="cancha" id="id_cancha">
+                        <option value="Polideportivo Central"> Polideportivo Central </option>
+                        <option value="Cancha Coliseo (Picola)"> Cancha Coliseo (Picola) </option>
+                        <option value="Polideportivo Siberia"> Polideportivo Siberia </option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Programación</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'js/programacion.js' %}"></script>
+{% endblock %}

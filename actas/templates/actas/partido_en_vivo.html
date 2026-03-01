@@ -1,0 +1,106 @@
+{% extends 'plataforma.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/acta_detalles.css' %}">
+
+<div class="main-top">
+    <h1 class="page-title">Partido de {{partido.get_fase_display}}</h1>
+    <div class="filter-row">
+        <span class="year-badge">Evento en Vivo</span>
+    </div>
+</div>
+
+<div class="live-scoreboard">
+    <div class="team-header local">
+        <img src="{{ partido.equipo_local.escudo.url }}" class="shield-lg">
+        <h2> {{partido.equipo_local.nombre}} </h2>
+    </div>
+
+    <div class="main-score">
+        <div class="score-box gol-local" id="score-local"> {{partido.goles_local}} </div>
+
+        <div class="match-time-live">
+            <span class="period">1er Tiempo</span>
+            <div class="timer-container">
+                <span class="timer" id="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="btn-play-pause" class="btn-timer-ctrl">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button id="btn-reset-period" class="btn-timer-ctrl" title="Reiniciar Tiempo">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="score-box gol-visitante" id="score-visitante"> {{partido.goles_visitante}} </div>
+    </div>
+
+    <div class="team-header visitor">
+        <img src="{{ partido.equipo_visitante.escudo.url }}" class="shield-lg">
+        <h2> {{partido.equipo_visitante.nombre}} </h2>
+    </div>
+</div>
+
+<div id="message-alerta"></div>
+
+<div class="events-grid">
+    <div class="team-panel">
+        <h3 class="panel-label">Nómina Local</h3>
+        {% for jugador in partido.equipo_local.jugadores.all %}
+        <div class="player-list">
+            <div class="player-row">
+                <span class="dorsal"> {{jugador.numero_camisa}} </span>
+                <span class="player-name"> {{jugador.get_full_name}} </span>
+                <div class="player-controls">
+                    <button class="btn-event goal" title="Añadir Gol" onclick="accion('{{jugador.pk}}','gol','equipo_casa')"> <i class="fa-solid fa-futbol"></i> </button>
+                    <button class="btn-event blue" title="Tarjeta Azul" onclick="accion('{{jugador.pk}}','azul','equipo_casa')"></button>
+                    <button class="btn-event yellow" title="Tarjeta Amarilla" onclick="accion('{{jugador.pk}}','amarilla','equipo_casa')"></button>
+                    <button class="btn-event red" title="Tarjeta Roja" onclick="accion('{{jugador.pk}}','roja','equipo_casa')"></button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="match-timeline">
+        <h3 class="panel-label">Sucesos del Partido</h3>
+        <div class="timeline-box">
+        </div> 
+    </div>
+
+    <div class="team-panel">
+        <h3 class="panel-label">Nómina Visitante</h3>
+        {% for jugador in partido.equipo_visitante.jugadores.all %}
+        <div class="player-list">
+            <div class="player-row">
+                <span class="dorsal"> {{jugador.numero_camisa|default:'N/A'}} </span>
+                <span class="player-name"> {{jugador.get_full_name}} </span>
+                <div class="player-controls">
+                    <button class="btn-event goal" onclick="accion('{{jugador.pk}}','gol','equipo_visitante')"> <i class="fa-solid fa-futbol"></i></button>
+                    <button class="btn-event blue" title="Tarjeta Azul" onclick="accion('{{jugador.pk}}','azul','equipo_visitante')"></button>
+                    <button class="btn-event yellow" onclick="accion('{{jugador.pk}}','amarilla','equipo_visitante')"></button>
+                    <button class="btn-event red" onclick="accion('{{jugador.pk}}','roja','equipo_visitante')"> </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="footer-actions-fixed">
+    <button class="btn-secondary auxiliar" onclick="history.back()">Pausar Registro</button>
+    <button type="button" id="btn-finalizar" class="btn-confirm-acta" onclick="guardarActa()"> 
+        <i class="fa-solid fa-check-double"> </i> Finalizar y Guardar Acta
+    </button>
+</div>
+
+<div id="message-guardar-acta"></div>
+
+<audio src="{% static 'sounds/arbitro-foull.mp3' %}" id="arbitro-falta"></audio>
+<script> const partido_id = "{{partido.pk}}" </script>
+<script src="{% static 'js/partido_en_vivo.js' %}"></script>
+
+{% endblock %}

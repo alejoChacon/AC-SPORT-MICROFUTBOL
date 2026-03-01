@@ -1,0 +1,79 @@
+{% extends 'plataforma.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/mistorneos.css' %}">
+
+    <div class="section-header">
+        <h2>Mis Torneos</h2>
+        <button class="btn-primary">+ Crear Nuevo Torneo</button>
+    </div>
+
+    <div class="torneos-grid">
+        {% for torneo in torneos %}
+        <div class="torneo-card">
+                <div class="card-header" style="display: flex; justify-content: space-between;">
+                    <img src="{{ torneo.logo_torneo.url }}" class="logo-container" alt="Logo">
+                    <span class="card-status status-{{ torneo.estado }}">
+                        {{ torneo.get_estado_display }}
+                    </span>
+                </div>
+
+                <h3>{{ torneo.nombre }}</h3>
+                <p class="text-muted" style="font-size: 0.85rem;">{{ torneo.get_formato_display }}</p>
+
+            <div class="stats-row">
+                {% if torneo.estado == 'inscripcion' %}
+                    <div class="stat">
+                        <span class="label">Cupos</span>
+                        <span class="value">{{ torneo.equipos_inscritos }} / {{ torneo.max_equipos }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Cierre</span>
+                        <span class="value">{{ torneo.fecha_fin_inscripcion|date:"d M" }}</span>
+                    </div>
+
+                {% elif torneo.estado == 'programado' %}
+                    <div class="stat">
+                        <span class="label">Fecha Inicio de Inscripcion</span>
+                        <span class="value">{{ torneo.fecha_inicio_inscripcion }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Fecha Inicio del Torneo</span>
+                        <span class="value">{{ torneo.fecha_inicio_torneo }}</span>
+                    </div>
+
+                {% elif torneo.estado == 'en_curso' %}
+                    <div class="stat">
+                        <span class="label">Progreso</span>
+                        <span class="value">Etapa 1</span> </div>
+                    <div class="stat">
+                        <span class="label">Próxima Fecha</span>
+                        <span class="value">Sábado</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="card-actions">
+                {% if torneo.estado == 'inscripcion' %}
+                    <a href="{% url 'torneo:inscripcion' torneo.pk %}" class="btn-manage">Validar Inscripciones</a>
+                    <a href="#" class="btn-outline">Editar Fechas</a>
+                
+                {% elif torneo.estado == 'programado' %}
+                    <a href="{% url 'torneo:torneoprogramado' torneo.pk %}" class="btn-outline">Ver Detalles</a>
+
+                {% elif torneo.estado == 'en_curso' %}
+                    <a href="#" class="btn-manage">Cargar Resultados</a>
+                    <a href="{% url 'torneo:torneoactivo' torneo.pk %}" class="btn-outline">Ver Tablas</a>
+
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+            <p> No hay torneos </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}

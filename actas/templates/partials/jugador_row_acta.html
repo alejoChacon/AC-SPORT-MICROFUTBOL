@@ -1,0 +1,13 @@
+<div class="player-card-input">
+    <div class="player-info">
+        <span class="p-dorsal">{{ jugador.numero_camisa|default:'0' }}</span>
+        <span class="p-name">{{ jugador.get_full_name }}</span>
+    </div>
+    <div class="inputs-group">
+        <input type="number" name="gol_{{ jugador.id }}" class="in-mini goal" placeholder="G" title="Goles">
+        <input type="number" name="ama_{{ jugador.id }}" class="in-mini yellow" placeholder="A" title="Amarilla">
+        <input type="number" name="azu_{{ jugador.id }}" class="in-mini blue" placeholder="Az" title="Azul">
+        <input type="number" name="roj_{{ jugador.id }}" class="in-mini red" placeholder="R" title="Roja">
+        <input type="number" name="min_{{ jugador.id }}" class="in-mini" placeholder="Min" title="Minuto último suceso">
+    </div>
+</div>

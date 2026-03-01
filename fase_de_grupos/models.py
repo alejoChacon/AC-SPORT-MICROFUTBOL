@@ -5,7 +5,6 @@ from django.db import models
 class Grupo(models.Model):
     torneo = models.ForeignKey('Torneo.Torneo',on_delete=models.CASCADE)
     nombre = models.CharField(max_length=1,help_text="A,B,C etc...")
-    equipos = models.ManyToManyField('Torneo.Equipo')
 
     class Meta:
         verbose_name = 'Grupo'
@@ -36,10 +35,10 @@ class EquipoGrupo(models.Model):
     
     class Meta:
         unique_together = ['grupo','equipo']
-        ordering = ["-puntos"]
+        ordering = ["-puntos",'grupo__torneo']
 
     def __str__(self):
-        return f'Tabla de poscicion del equipo {self.equipo} para el grupo {self.grupo.nombre}'
+        return f'Tabla de poscicion del equipo {self.equipo} para el grupo {self.grupo.nombre} ({self.grupo.torneo})'
 
     
     

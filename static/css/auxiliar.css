@@ -104,7 +104,7 @@
 .grupo-selector {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 
 .grupo-btn {
@@ -115,6 +115,8 @@
   padding: 6px 14px;
   cursor: pointer;
   transition: 0.3s;
+  /* Asegúrate de que los botones no se encojan si hay poco espacio */
+  flex-shrink: 0;
 }
 
 .grupo-btn.active {
@@ -281,4 +283,50 @@ tbody tr:hover {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--color-acento);
+}
+
+/* Estilo general para el selector de fechas/grupos */
+.torneo-select {
+  /* Usamos el color de fondo secundario para la base */
+  background-color: var(--color-secundario); 
+  /* Color del texto principal */
+  color: var(--color-texto);
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-borde); /* Borde sutil del acento */
+  font-size: 1em;
+  cursor: pointer;
+  /* Elimina la apariencia nativa para un control total del estilo */
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  appearance: none;
+  /* Añade un icono de flecha personalizado (usando FontAwesome si está disponible, si no es una flecha básica) */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org' viewBox='0 0 24 24' fill='%23f1f1f1'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 16px 16px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  margin-bottom: 15px; /* Mantiene la separación con el contenido de abajo */
+}
+
+/* Estado de foco (cuando se selecciona) */
+.torneo-select:focus {
+  outline: none; /* Elimina el foco nativo del navegador */
+  border-color: var(--color-acento-secundario); /* Cambia el borde a color acento */
+  box-shadow: 0 0 8px rgba(0, 201, 255, 0.3); /* Añade un brillo sutil */
+}
+
+/* Estilo para las opciones dentro del select (limitaciones de estilo nativas) */
+.torneo-select option {
+    background-color: var(--color-fondo); /* Fondo oscuro para las opciones */
+    color: var(--color-texto);
+}
+
+/* Contenedor principal que usa flexbox para alinear elementos horizontalmente */
+.selector-barra {
+    display: flex;
+    justify-content: space-between; /* Esto empuja los elementos a los extremos (izquierda y derecha) */
+    align-items: center; /* Centra verticalmente los botones y el select */
+    margin-bottom: 15px; /* Espacio debajo de la barra */
+    gap: 20px; /* Un poco de espacio si la pantalla se vuelve pequeña */
 }

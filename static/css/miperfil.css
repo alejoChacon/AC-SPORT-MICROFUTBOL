@@ -23,6 +23,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.04);
+    flex-shrink: 0;
 }
 
 .perfil-avatar img {
@@ -40,11 +41,19 @@
     font-size: 24px;
     font-weight: 800;
     color: var(--accent);
+    margin: 0;
 }
 
 .perfil-meta {
     color: var(--muted);
     margin-top: 6px;
+}
+
+/* NUEVA ESTRUCTURA MIXTA */
+.perfil-mixto-wrapper {
+    display: flex;
+    gap: 25px;
+    align-items: stretch;
 }
 
 .perfil-actions {
@@ -55,25 +64,27 @@
 
 /* STATS */
 .perfil-stats {
-    margin-top: 30px;
+    flex: 0 0 60%;
 }
 
-.perfil-stats h2 {
+.perfil-stats h2, .perfil-detalle h2 {
     color: var(--accent);
-    margin-bottom: 14px;
+    font-size: 18px;
+    margin-bottom: 15px;
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr); /* Fuerza 2 columnas */
+    grid-template-rows: repeat(2, 1fr);    /* Fuerza 2 filas */
+    gap: 15px;
 }
 
 .stat-box {
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius);
     text-align: center;
-    padding: 18px;
+    padding: 25px 15px;
     border: 1px solid rgba(255, 255, 255, 0.04);
     transition: var(--transition);
 }
@@ -84,42 +95,60 @@
 }
 
 .stat-value {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
     color: var(--accent);
+    line-height: 1;
 }
 
 .stat-label {
     display: block;
     color: var(--muted);
     font-size: 13px;
-    margin-top: 6px;
+    margin-top: 8px;
+    text-transform: uppercase;
 }
 
 /* DETALLE */
 .perfil-detalle {
-    margin-top: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.perfil-detalle h2 {
+/* .perfil-detalle h2 {
     color: var(--accent);
     margin-bottom: 10px;
-}
+} */
 
 .perfil-datos {
     list-style: none;
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius);
-    padding: 18px;
+    padding: 20px;
     border: 1px solid rgba(255, 255, 255, 0.04);
+    height: 100%; /* Para que iguale la altura de los stats */
 }
 
 .perfil-datos li {
-    padding: 8px 0;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
-    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    color: #efefef;
+    font-size: 14px;
 }
 
 .perfil-datos li strong {
     color: var(--accent);
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .perfil-mixto-wrapper {
+        flex-direction: column;
+    }
+    .perfil-stats {
+        flex: 1;
+    }
 }

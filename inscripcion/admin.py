@@ -6,7 +6,7 @@ from Torneo.models import Torneo,Equipo
 
 class UptomizaInscription(admin.ModelAdmin):
 
-    list_display = ("id","torneo","equipo") 
+    list_display = ("id","torneo","equipo",'estado') 
     
     def formfield_for_foreignkey(self,db_field,request,**kwargs):
         if db_field.name == "torneo":
