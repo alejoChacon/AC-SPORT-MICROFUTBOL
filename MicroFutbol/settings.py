@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ljj-fo1wfd3zg_%ohn_2s7*g01)jh8!45gu^+kfg8vx0l809gc'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -140,8 +144,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
-#LOGIN_URL = "login/"
-LOGIN_REDIRECT_URL = "Home:plataforma_inicio"
+LOGIN_URL = "login" # A dónde va el usuario si intenta entrar sin loguearse (Tu solución)
+LOGIN_REDIRECT_URL = "Home:plataforma_inicio" # A dónde va el usuario después de iniciar sesión
 #LOGOUT_REDIRECT_URL = "login/"
 
 CHANNEL_LAYERS = {

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.views import View
 from django.utils import timezone
@@ -28,7 +29,7 @@ class PageStart(TemplateView):
 class Plataforma(TemplateView):
     template_name = 'plataforma.html'
 
-class Inicio(TemplateView):
+class Inicio(LoginRequiredMixin,TemplateView):
     template_name = 'home/inicio.html'
 
     def get_context_data(self, **kwargs):
