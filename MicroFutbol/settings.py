@@ -157,6 +157,9 @@ CHANNEL_LAYERS = {
 
 # Para que Render pueda servir tus archivos CSS/JS de forma eficiente sin fallar
 STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
