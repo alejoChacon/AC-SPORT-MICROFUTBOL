@@ -9,8 +9,8 @@ from usuarios.models import Usuario
 from django.db.models import Count,Q
 from django.db import transaction
 from .services import generar_grupos_torneo,generar_fixture
-import locale
-locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8') 
+#import locale
+#locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8') 
 
 class CargaPosiciones(LoginRequiredMixin,View):
     def get(self,request,*args,**kwars):
